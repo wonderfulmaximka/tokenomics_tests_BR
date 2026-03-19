@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coinstruct — Tokenomics Reports</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #f8f9fc;
+    background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: #1a202c;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-mark {
+    width: 32px; height: 32px; background: #1a56db; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px; font-weight: 700; letter-spacing: -0.5px;
+  }
+  .logo-name { font-size: 15px; font-weight: 700; color: #1a202c; letter-spacing: -0.3px; }
+  .header-right { font-size: 12px; color: #a0aec0; }
+
+  /* ── Main ── */
+  main { flex: 1; max-width: 720px; margin: 0 auto; width: 100%; padding: 56px 24px 80px; }
+
+  .greeting { margin-bottom: 40px; }
+  .greeting-eyebrow { font-size: 12px; font-weight: 600; color: #1a56db; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .greeting-title { font-size: 26px; font-weight: 700; letter-spacing: -0.4px; color: #1a202c; margin-bottom: 8px; }
+  .greeting-sub { font-size: 14px; color: #718096; line-height: 1.65; max-width: 460px; }
+
+  /* ── Report cards ── */
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.1px;
+    text-transform: uppercase; color: #a0aec0;
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .report-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .report-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.15s, border-color 0.15s, transform 0.1s;
+    cursor: pointer;
+  }
+  .report-card:hover {
+    box-shadow: 0 6px 24px rgba(26,86,219,0.09);
+    border-color: #bfdbfe;
+    transform: translateY(-1px);
+  }
+
+  .token-badge {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+    font-family: 'Courier New', monospace;
+  }
+  .badge-orange { background: #fff3e0; color: #dd6b20; }
+  .badge-blue { background: #eff6ff; color: #1a56db; }
+  .badge-green { background: #f0fdf4; color: #38a169; }
+
+  .report-info { flex: 1; }
+  .report-name { font-size: 16px; font-weight: 600; color: #1a202c; margin-bottom: 3px; }
+  .report-meta { font-size: 12px; color: #718096; }
+  .report-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 10px; font-weight: 600; padding: 2px 7px;
+    border-radius: 4px; letter-spacing: 0.2px;
+  }
+  .tag-orange { background: #fff3e0; color: #c05621; }
+  .tag-blue { background: #eff6ff; color: #1a56db; }
+  .tag-red { background: #fff5f5; color: #c53030; }
+  .tag-green { background: #f0fdf4; color: #276749; }
+
+  .report-score { text-align: right; flex-shrink: 0; }
+  .score-number { font-family: 'Courier New', monospace; font-size: 24px; font-weight: 500; line-height: 1; margin-bottom: 5px; }
+  .score-badge {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    padding: 2px 9px; border-radius: 5px; color: white;
+  }
+  .sb-orange { background: #dd6b20; }
+  .sb-blue { background: #1a56db; }
+  .sb-green { background: #38a169; }
+  .sb-red { background: #e53e3e; }
+
+  .score-orange { color: #dd6b20; }
+  .score-blue { color: #1a56db; }
+  .score-green { color: #38a169; }
+
+  .arrow-icon { color: #cbd5e0; font-size: 20px; flex-shrink: 0; }
+
+  /* ── Empty state (for future) ── */
+  .empty-state {
+    text-align: center; padding: 48px 24px;
+    color: #a0aec0; font-size: 14px; line-height: 1.6;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid #e2e8f0;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #a0aec0;
+    background: white;
+  }
+  footer a { color: #1a56db; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .disclaimer { max-width: 460px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">C</div>
+    <span class="logo-name">Coinstruct</span>
+  </a>
+  <div class="header-right">Tokenomics Research · Confidential</div>
+</header>
+
+<main>
+  <div class="greeting">
+    <div class="greeting-eyebrow">Your Reports</div>
+    <h1 class="greeting-title">Tokenomics Audits</h1>
+    <p class="greeting-sub">Independent token economics reports prepared for your review. Each report scores a project across six verticals and includes risk insights and a price performance simulation.</p>
+  </div>
+
+  <div class="section-label">Available Reports — 1</div>
+  <div class="report-list">
+
+    <a class="report-card" href="./time/">
+      <div class="token-badge badge-orange">$T</div>
+      <div class="report-info">
+        <div class="report-name">$TIME — TIME Universe</div>
+        <div class="report-meta">Web3 Creator Economy &nbsp;·&nbsp; BNB Smart Chain &nbsp;·&nbsp; March 2026</div>
+        <div class="report-tags">
+          <span class="tag tag-red">⚠ 95.7% Year-1 Inflation</span>
+          <span class="tag tag-orange">⚠ 49% KOL TGE Unlock</span>
+          <span class="tag tag-blue">1B Supply</span>
+        </div>
+      </div>
+      <div class="report-score">
+        <div class="score-number score-orange">47.0</div>
+        <div class="score-badge sb-orange">BBB-</div>
+      </div>
+      <div class="arrow-icon">›</div>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <div class="disclaimer">Reports are prepared by Coinstruct for informational purposes only and do not constitute financial or investment advice.</div>
+  <div>© 2026 <a href="https://coinstruct.io" target="_blank">Coinstruct</a></div>
+</footer>
+
+</body>
+</html>
