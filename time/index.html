@@ -18,106 +18,114 @@ body {
   color: var(--text);
   padding: 28px 24px;
 }
-.page { max-width: 960px; margin: 0 auto; }
+.page { max-width: 980px; margin: 0 auto; }
 
-/* ── HEADER ── */
-.page-title { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+/* HEADER */
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
 .page-title span { color: var(--blue); }
 .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; }
-.badge-red { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-red  { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
 .badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
 .badge-blue { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
-.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
 
-/* ── CARDS ── */
+/* CARDS */
 .card { background:var(--card); border:1px solid var(--border); border-radius:12px; }
 .section-label { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); padding:10px 0 8px; }
 
-/* ── TOP ROW: gauge + radar + donut ── */
-.top-row { display:grid; grid-template-columns:210px 1fr 1fr; gap:14px; margin-bottom:14px; }
+/* TOP ROW */
+.top-row { display:grid; grid-template-columns:200px 1fr 220px; gap:14px; margin-bottom:14px; }
 
-/* Gauge */
-.score-card { padding:20px 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+/* GAUGE */
+.score-card { padding:20px 12px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
 .score-title { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px; }
-.gauge-wrap { position:relative; width:180px; height:100px; }
-.gauge-score { position:absolute; bottom:2px; left:50%; transform:translateX(-50%); text-align:center; white-space:nowrap; }
-.gauge-number { font-family:'Courier New',monospace; font-size:34px; font-weight:500; color:#dd6b20; line-height:1; display:block; }
-.gauge-number sup { font-size:15px; }
-.rating-badge { display:inline-block; background:#dd6b20; color:white; font-size:12px; font-weight:700; padding:2px 12px; border-radius:5px; margin-top:5px; }
-.gauge-labels { display:flex; justify-content:space-between; width:180px; margin-top:4px; font-size:10px; color:var(--muted); font-family:'Courier New',monospace; }
+.gauge-wrap { position:relative; width:170px; height:95px; }
+.gauge-score { position:absolute; bottom:0px; left:50%; transform:translateX(-50%); text-align:center; white-space:nowrap; }
+.gauge-number { font-family:'Courier New',monospace; font-size:32px; font-weight:500; color:#dd6b20; line-height:1; display:block; }
+.gauge-number sup { font-size:14px; }
+.rating-badge { display:inline-block; background:#dd6b20; color:white; font-size:12px; font-weight:700; padding:2px 12px; border-radius:5px; margin-top:4px; }
+.gauge-labels { display:flex; justify-content:space-between; width:170px; margin-top:4px; font-size:10px; color:var(--muted); font-family:'Courier New',monospace; }
 
-/* Radar & donut */
-.radar-card { padding:14px; display:flex; align-items:center; justify-content:center; }
-.donut-card { padding:16px; display:flex; gap:14px; align-items:center; }
-.alloc-legend { flex:1; display:flex; flex-direction:column; gap:4px; }
-.alloc-item { display:flex; align-items:center; gap:6px; font-size:11px; }
+/* RADAR */
+.radar-card { padding:10px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+
+/* DONUT */
+.donut-card { padding:14px; display:flex; gap:12px; align-items:center; }
+.alloc-legend { flex:1; display:flex; flex-direction:column; gap:4px; min-width:0; }
+.alloc-item { display:flex; align-items:center; gap:6px; font-size:11px; min-width:0; }
 .alloc-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.alloc-label { flex:1; color:var(--muted); }
-.alloc-pct { font-family:'Courier New',monospace; font-weight:600; color:var(--text); }
+.alloc-label { flex:1; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.alloc-pct { font-family:'Courier New',monospace; font-weight:600; color:var(--text); flex-shrink:0; }
 
-/* ── UNLOCK BAR ── */
+/* UNLOCK BAR */
 .unlock-card { padding:16px 20px; margin-bottom:14px; }
 .unlock-title { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px; }
-.unlock-bar-wrap { position:relative; height:28px; background:#f1f5f9; border-radius:6px; overflow:hidden; margin-bottom:6px; }
-.unlock-segment { position:absolute; top:0; height:100%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:600; color:white; overflow:hidden; }
+.unlock-bar-wrap { position:relative; height:32px; background:#f1f5f9; border-radius:6px; overflow:hidden; margin-bottom:8px; }
+.unlock-segment {
+  position:absolute; top:0; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700; color:white;
+  overflow:hidden; white-space:nowrap;
+}
 .unlock-bar-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
-.unlock-legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-.ul-item { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--muted); }
+.unlock-legend { display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:10px; }
+.ul-item { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--muted); white-space:nowrap; }
 .ul-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
 
-/* ── SCORE PILLS ── */
+/* SCORE PILLS */
 .scores-row { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:14px; }
-.score-pill { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 8px; text-align:center; }
-.score-pill-label { font-size:10px; color:var(--muted); font-weight:500; line-height:1.3; margin-bottom:4px; }
+.score-pill { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 6px; text-align:center; }
+.score-pill-label { font-size:9.5px; color:var(--muted); font-weight:500; line-height:1.3; margin-bottom:4px; }
 .score-pill-value { font-family:'Courier New',monospace; font-size:16px; font-weight:500; }
 .c-red{color:var(--red)} .c-orange{color:var(--orange)} .c-green{color:var(--green)} .c-blue{color:var(--blue)}
 
-/* ── INSIGHTS ── */
+/* INSIGHTS */
 .insights-card { padding:0; overflow:hidden; margin-bottom:14px; }
 .insight-item { border-bottom:1px solid var(--border); cursor:pointer; }
 .insight-item:last-child { border-bottom:none; }
 .insight-item:hover { background:#f7faff; }
-.insight-header { display:flex; align-items:center; gap:10px; padding:13px 18px; user-select:none; }
-.insight-icon { width:16px; flex-shrink:0; font-size:11px; }
+.insight-header { display:flex; align-items:flex-start; gap:10px; padding:13px 18px; user-select:none; }
+.insight-icon { width:16px; flex-shrink:0; font-size:11px; padding-top:2px; }
 .icon-red{color:var(--red)} .icon-orange{color:var(--orange)} .icon-green{color:var(--green)}
-.insight-title { font-size:13.5px; font-weight:500; flex:1; }
-.insight-summary { font-size:12.5px; font-weight:400; margin-left:2px; }
+.insight-title { font-size:13px; font-weight:500; flex:1; line-height:1.4; }
+.insight-summary { font-size:12px; font-weight:400; }
 .s-red{color:var(--red)} .s-orange{color:var(--orange)} .s-green{color:var(--green)}
-.chevron { color:var(--muted); font-size:11px; transition:transform .2s; flex-shrink:0; }
+.chevron { color:var(--muted); font-size:11px; transition:transform .2s; flex-shrink:0; padding-top:3px; }
 .chevron.open { transform:rotate(180deg); }
 .insight-body { display:none; padding:0 18px 14px 44px; font-size:13px; line-height:1.75; color:#4a5568; }
 .insight-body.open { display:block; }
 
-/* ── BOTTOM ROW: sell pressure + token flow ── */
+/* BOTTOM ROW */
 .bottom-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
 
-/* Sell pressure */
-.sp-card { padding:20px; }
-.sp-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
-.sp-sub { font-size:11px; color:var(--muted); margin-bottom:16px; }
-.sp-stats { display:flex; gap:10px; margin-bottom:16px; }
-.sp-stat { flex:1; background:#f8f9fc; border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
-.sp-stat-label { font-size:10px; color:var(--muted); font-weight:500; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
-.sp-stat-value { font-family:'Courier New',monospace; font-size:15px; font-weight:600; color:var(--text); }
+/* SELL PRESSURE */
+.sp-card { padding:18px; }
+.sp-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.sp-sub { font-size:11px; color:var(--muted); margin-bottom:14px; line-height:1.4; }
+.sp-stats { display:flex; gap:8px; margin-bottom:14px; }
+.sp-stat { flex:1; background:#f8f9fc; border:1px solid var(--border); border-radius:8px; padding:10px 10px; min-width:0; }
+.sp-stat-label { font-size:9px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp-stat-value { font-family:'Courier New',monospace; font-size:14px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .sp-stat-value.danger { color:var(--red); }
 .sp-bar-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px; }
-.sp-bar-wrap { height:32px; background:#f1f5f9; border-radius:6px; overflow:hidden; display:flex; margin-bottom:10px; }
-.sp-seg { height:100%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:white; overflow:hidden; transition:opacity .15s; cursor:default; }
+.sp-bar-wrap { height:28px; background:#f1f5f9; border-radius:6px; overflow:hidden; display:flex; margin-bottom:12px; }
+.sp-seg { height:100%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:white; overflow:hidden; white-space:nowrap; transition:opacity .15s; cursor:default; }
 .sp-seg:hover { opacity:.8; }
 .sp-legend { display:flex; flex-direction:column; gap:5px; }
 .sp-leg-item { display:flex; align-items:center; gap:7px; font-size:11px; }
 .sp-leg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
 .sp-leg-label { flex:1; color:var(--muted); }
-.sp-leg-pct { font-family:'Courier New',monospace; font-weight:600; color:var(--text); min-width:34px; text-align:right; }
-.sp-leg-usd { font-family:'Courier New',monospace; font-size:10px; color:var(--muted); min-width:70px; text-align:right; }
-.sp-note { margin-top:12px; font-size:10px; color:var(--muted); line-height:1.5; border-top:1px solid var(--border); padding-top:10px; }
+.sp-leg-pct { font-family:'Courier New',monospace; font-weight:600; color:var(--text); min-width:32px; text-align:right; }
+.sp-leg-usd { font-family:'Courier New',monospace; font-size:10px; color:var(--muted); min-width:52px; text-align:right; }
+.sp-note { margin-top:12px; font-size:10px; color:var(--muted); line-height:1.55; border-top:1px solid var(--border); padding-top:10px; }
 
-/* Token flow */
+/* TOKEN FLOW */
 .flow-card { padding:18px; display:flex; flex-direction:column; }
-.flow-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
-.flow-sub { font-size:11px; color:var(--muted); margin-bottom:12px; }
+.flow-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.flow-sub { font-size:11px; color:var(--muted); margin-bottom:10px; }
 
+/* ASSUMPTIONS */
 .assumptions { margin-top:14px; padding:12px 16px; background:#fffbeb; border:1px solid #f6e05e; border-radius:8px; font-size:12px; color:#744210; line-height:1.65; }
 .assumptions strong { font-weight:600; }
 </style>
@@ -125,7 +133,7 @@ body {
 <body>
 <div class="page">
 
-<!-- ══════════ BLOCK 1: HEADER + SCORING ══════════ -->
+<!-- BLOCK 1: HEADER + SCORING -->
 <h1 class="page-title">Tokenomics Test: <span>$TIME</span></h1>
 <div class="badge-row">
   <span class="badge badge-red">⚠ 95.7% Year-1 Inflation</span>
@@ -139,13 +147,14 @@ body {
   <div class="card score-card">
     <div class="score-title">Tokenomics Rating</div>
     <div class="gauge-wrap">
-      <svg viewBox="0 0 180 100" width="180" height="100">
+      <svg viewBox="0 0 170 95" width="170" height="95">
         <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:#e07b39"/>
           <stop offset="100%" style="stop-color:#f0a060"/>
         </linearGradient></defs>
-        <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#e8efff" stroke-width="13" stroke-linecap="round"/>
-        <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="url(#ggrad)" stroke-width="13" stroke-linecap="round"
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <!-- score=47, dashoffset=251.2*(1-0.47)=133.1 -->
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
           stroke-dasharray="251.2" stroke-dashoffset="133.1"/>
       </svg>
       <div class="gauge-score">
@@ -156,14 +165,14 @@ body {
     <div class="gauge-labels"><span>0</span><span>100</span></div>
   </div>
 
-  <!-- Radar -->
+  <!-- Radar — larger viewBox with padding for labels -->
   <div class="card radar-card">
-    <svg id="radarSvg" viewBox="0 0 290 240" width="290" height="240"></svg>
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
   </div>
 
   <!-- Donut -->
   <div class="card donut-card">
-    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 130 130" width="130" height="130"></svg></div>
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
     <div class="alloc-legend">
       <div class="alloc-item"><div class="alloc-dot" style="background:#6366f1"></div><div class="alloc-label">Seed</div><div class="alloc-pct">15%</div></div>
       <div class="alloc-item"><div class="alloc-dot" style="background:#8b5cf6"></div><div class="alloc-label">Pre-Sale</div><div class="alloc-pct">10%</div></div>
@@ -181,7 +190,9 @@ body {
 <div class="card unlock-card">
   <div class="unlock-title">Cumulative Unlock Schedule — 21 Quarters (Q1–Q21)</div>
   <div id="unlockBar" class="unlock-bar-wrap"></div>
-  <div class="unlock-bar-labels"><span>TGE (Q1)</span><span>Year 1 (Q4)</span><span>Year 2 (Q8)</span><span>Year 3 (Q12)</span><span>Year 4 (Q16)</span><span>Full (Q21)</span></div>
+  <div class="unlock-bar-labels">
+    <span>TGE (Q1)</span><span>Year 1 (Q4)</span><span>Year 2 (Q8)</span><span>Year 3 (Q12)</span><span>Year 4 (Q16)</span><span>Full (Q21)</span>
+  </div>
   <div class="unlock-legend">
     <div class="ul-item"><div class="ul-dot" style="background:#6366f1"></div>Seed 15%</div>
     <div class="ul-item"><div class="ul-dot" style="background:#8b5cf6"></div>Pre-Sale 10%</div>
@@ -199,12 +210,12 @@ body {
   <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-orange">52.0</div></div>
   <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-red">32.0</div></div>
   <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-orange">44.0</div></div>
-  <div class="score-pill"><div class="score-pill-label">Valuation & VDV</div><div class="score-pill-value c-orange">48.0</div></div>
-  <div class="score-pill"><div class="score-pill-label">Listing & Liquidity</div><div class="score-pill-value c-orange">58.0</div></div>
-  <div class="score-pill"><div class="score-pill-label">Utility & Value Flow</div><div class="score-pill-value c-green">66.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-orange">48.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-orange">58.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-green">66.0</div></div>
 </div>
 
-<!-- ══════════ BLOCK 2: INSIGHTS ══════════ -->
+<!-- BLOCK 2: INSIGHTS -->
 <div class="section-label">INSIGHTS</div>
 <div class="card insights-card">
 
@@ -214,7 +225,7 @@ body {
       <div class="insight-title">95.7% Year-1 Supply Inflation — Extreme Dilution Risk<span class="insight-summary s-red"> — Supply nearly doubles in 4 quarters</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">Circulating supply grows from 227.8M at TGE to 445.7M by Q4 — a 95.7% increase in one year. Driven by Seed unlocking 20M/quarter, KOL releasing 4.2M/quarter, Pre-Sale completing by Q7, and Community releasing 18–22M/quarter. Sustaining price under this supply expansion requires extraordinary demand growth. Active demand-side management (staking, burning, product adoption) is essential to offset this structural inflation pressure in year one.</div>
+    <div class="insight-body">Circulating supply grows from 227.8M at TGE to 445.7M by Q4 — a 95.7% increase in one year. Driven by Seed unlocking ~20M/quarter, KOL releasing ~4.2M/quarter, Pre-Sale completing by Q7, and Community releasing 18–22M/quarter. Sustaining price under this supply expansion requires extraordinary demand growth. Active demand-side management — staking lockups, fee burns, and real product adoption — is essential to offset structural inflation pressure in year one.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
@@ -223,7 +234,7 @@ body {
       <div class="insight-title">KOL Sale: 49.1% Unlocked at TGE — $9.9M Day-1 Sell Risk<span class="insight-summary s-red"> — 44.2M tokens liquid immediately</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">The KOL allocation (90M tokens, 9%) begins with 44.17M unlocked at TGE — 49.1% of the full KOL bucket on day one. With a propensity to sell of 0.901 (driven by the 66/100 utility score), this implies 39.8M tokens, or ~$9.95M, entering the market immediately from KOLs. Influencers with high-ROI positions typically sell aggressively at launch to lock in gains. A cliff-then-linear structure would be far more appropriate for this cohort. Combined with Seed, total day-one insider sell pressure reaches ~$13.4M.</div>
+    <div class="insight-body">The KOL allocation (90M tokens, 9%) begins with 44.17M unlocked at TGE — 49.1% of the full KOL bucket on day one. With a propensity to sell of 0.901 (driven by the 66/100 utility score), this implies 39.8M tokens (~$9.95M) entering the market on launch day from influencers. A cliff-then-linear structure would be far more appropriate for this cohort. Combined with Seed, total day-one insider sell pressure is estimated at ~$13.4M, representing significant opening-day price risk.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
@@ -232,7 +243,7 @@ body {
       <div class="insight-title">Seed: No Cliff, 20% at TGE — $5.5M Immediate Sell Pressure<span class="insight-summary s-red"> — 30M unlocked day one, linear through Q7</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">Seed investors (150M tokens, 15%) receive 30M tokens at TGE — a 20% immediate unlock with no cliff. With propensity to sell at 0.736, estimated sell volume is 22.1M tokens = $5.52M on day one. Industry standard for seed investors requires a 6–12 month cliff before any unlock begins. The absence of a cliff removes the lock-up incentive for seed investors to support the token post-launch. Combined with the fast linear schedule (fully unlocked by Q7, under 2 years), this represents a structurally weak vesting design for the Seed bucket.</div>
+    <div class="insight-body">Seed investors (150M tokens, 15%) receive 30M tokens at TGE with no cliff period. With propensity to sell at 0.736, estimated sell volume is 22.1M tokens = $5.52M on day one. Industry standard requires a 6–12 month cliff before any unlock begins. The absence of a cliff removes the holding incentive for seed investors to stay supportive post-launch. Combined with a fast linear schedule completing by Q7 (under 2 years), this is a structurally weak vesting design for the Seed bucket.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
@@ -241,22 +252,22 @@ body {
       <div class="insight-title">Whitepaper Allocations Don't Match Spreadsheet<span class="insight-summary s-red"> — Material discrepancy across documents</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">The whitepaper states: Seed 20%, Pre-Sale 4%, KOL 5%, Advisors 10%, Team 10%. The finalized tokenomics spreadsheet shows: Seed 15%, Pre-Sale 10%, KOL 9%, Advisors 7.5%, Team 7.5%. These are material differences — Pre-Sale and KOL are more than double what's in the whitepaper. Investors who rely solely on the whitepaper are reading materially inaccurate terms. The whitepaper must be updated immediately to reflect final tokenomics, and version control applied to all public documentation.</div>
+    <div class="insight-body">The whitepaper states: Seed 20%, Pre-Sale 4%, KOL 5%, Advisors 10%, Team 10%. The finalized spreadsheet shows: Seed 15%, Pre-Sale 10%, KOL 9%, Advisors 7.5%, Team 7.5%. Pre-Sale and KOL are more than double what the whitepaper shows. Investors relying solely on the whitepaper are reading materially inaccurate terms. The whitepaper must be updated immediately to reflect final tokenomics, with version control applied to all public documents.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">Listing Price & FDV Undisclosed — No Valuation Anchor<span class="insight-summary s-orange"> — Cannot benchmark against peers</span></div>
+      <div class="insight-title">$250M FDV at $0.25 Listing — Aggressive vs. Peers<span class="insight-summary s-orange"> — No revenue data to support valuation</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">No official listing price or FDV has been disclosed. At the assumed listing price of $0.25, FDV = $250M and initial market cap = $56.9M. For a pre-revenue Web3 social/creator economy project, $250M FDV is aggressive relative to peers — Friend.tech peaked at ~$50–80M FDV, Stars Arena below $30M. Without confirmed traction or revenue, a $250M FDV requires exceptionally strong narrative execution and celebrity-driven demand to sustain post-TGE.</div>
+    <div class="insight-body">At the confirmed listing price of $0.25, FDV = $250M with TGE market cap of $56.9M. For a pre-revenue Web3 social/creator economy project, this is aggressive relative to peers — Friend.tech peaked at ~$50–80M FDV, Stars Arena below $30M. Without confirmed provider contracts, exchange listings, or active users, a $250M FDV requires exceptionally strong celebrity-driven narrative and launch momentum to sustain post-TGE. The project needs to clearly articulate the valuation basis in its investor materials.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">No Staking APY or Burn Rate Disclosed<span class="insight-summary s-orange"> — Demand-side mechanics absent</span></div>
+      <div class="insight-title">No Staking APY or Burn Rate Disclosed<span class="insight-summary s-orange"> — Demand-side mechanics absent from documentation</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">The whitepaper mentions "multiple staking tiers with variable APY" but provides no specifics: no APY rates, lockup durations, or minimum stake amounts. No burn mechanism or fee routing is described. Without these figures, it is impossible to model whether demand-side mechanics can offset the 95.7% year-1 supply inflation. Publishing concrete staking parameters before TGE is critical for exchange due diligence and community confidence.</div>
@@ -265,19 +276,19 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">Liquidity Lock Duration Unconfirmed<span class="insight-summary s-orange"> — 90M tokens fully liquid at TGE, no lock confirmed</span></div>
+      <div class="insight-title">Liquidity Lock Duration Unconfirmed<span class="insight-summary s-orange"> — 90M tokens fully liquid at TGE, no lock published</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">The full 90M Liquidity allocation (9%) is available from Q1 — appropriate for market making, but no lock duration, custodian, or wallet address has been published. Without a confirmed LP token lock (minimum 12 months recommended), on-chain analytics tools will flag the project as a rug-pull risk, deterring institutional participation and CEX listing applications. A public lock via PinkLock or Team Finance, with the transaction hash shared, should be announced at or before TGE.</div>
+    <div class="insight-body">The full 90M Liquidity allocation (9%) is available from Q1. No lock duration, custodian, or wallet address has been published. Without a confirmed LP token lock (minimum 12 months), on-chain analytics tools will flag rug-pull risk, deterring institutional participation and CEX listing applications. A public lock via PinkLock or Team Finance, with transaction hash, should be announced at or before TGE.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-green">✓</div>
-      <div class="insight-title">Team Has Clean 4-Quarter Cliff — Strong Alignment Signal<span class="insight-summary s-green"> — Zero tokens at TGE, 4-year effective vesting</span></div>
+      <div class="insight-title">Team Has Clean 4-Quarter Cliff — Strong Alignment Signal<span class="insight-summary s-green"> — Zero tokens at TGE, ~4-year effective vesting</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">Team tokens (75M, 7.5%) have a full 1-year (4-quarter) cliff with zero tokens at TGE, followed by linear unlock through Q20 — an effective 4-year vesting schedule. Advisors (75M, 7.5%) have a 3-quarter cliff starting Q4. These are institutional-grade vesting structures that directly align team and advisor incentives with long-term ecosystem success. This is one of the strongest elements in the $TIME tokenomics design and signals the core team is not positioned for an early exit.</div>
+    <div class="insight-body">Team tokens (75M, 7.5%) have a full 1-year cliff with zero tokens at TGE, followed by linear unlock through Q20 — an effective 4-year schedule. Advisors (75M, 7.5%) carry a 3-quarter cliff starting Q4. These are institutional-grade structures that align team and advisor incentives with long-term success. This is the strongest element in the $TIME tokenomics design and signals the core team is not positioned for an early exit.</div>
   </div>
 
   <div class="insight-item" onclick="tog(this)">
@@ -286,44 +297,40 @@ body {
       <div class="insight-title">Multi-Product Ecosystem Creates Genuine Token Demand<span class="insight-summary s-green"> — $TIME mandatory across 3 products</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">The Time of Heroes, MEEET, and TIME Network all use $TIME as their exclusive payment currency — creating real, non-optional demand tied to product usage. Booking celebrity sessions, purchasing NFT tier passes, paying platform fees, and accessing premium content all require tokens. If celebrity partnerships (Andrew Tate, Gary Vee, Joe Rogan) drive even modest adoption at launch, token velocity could partially offset supply inflation. The multi-product utility architecture is meaningfully stronger than single-use tokens.</div>
+    <div class="insight-body">The Time of Heroes, MEEET, and TIME Network all use $TIME as their exclusive payment currency — creating real, non-optional demand tied to product usage. If celebrity partnerships (Andrew Tate, Gary Vee, Joe Rogan) drive even modest adoption at launch, token velocity could partially offset supply inflation. The multi-product utility architecture is meaningfully stronger than single-use tokens in the SocialFi category.</div>
   </div>
 
 </div>
 
-<!-- ══════════ BLOCK 3+4: SELL PRESSURE + TOKEN FLOW ══════════ -->
-<div class="section-label">TGE SELL PRESSURE & TOKEN ECONOMY</div>
+<!-- BLOCK 3: SELL PRESSURE + TOKEN FLOW -->
+<div class="section-label">TGE SELL PRESSURE &amp; TOKEN ECONOMY</div>
 <div class="bottom-row">
 
   <!-- Sell Pressure -->
   <div class="card sp-card">
     <div class="sp-title">TGE Day Sell Pressure Estimate</div>
-    <div class="sp-sub">Based on Propensity to Sell model · Listing price: $0.25 · Utility score: 66/100</div>
-
+    <div class="sp-sub">Propensity to Sell model · Listing $0.25 · Utility score 66/100</div>
     <div class="sp-stats">
       <div class="sp-stat">
         <div class="sp-stat-label">TGE Circulating</div>
         <div class="sp-stat-value">227.8M</div>
       </div>
       <div class="sp-stat">
-        <div class="sp-stat-label">Estimated Sell Vol.</div>
-        <div class="sp-stat-value danger">111.7M <span style="font-size:11px;color:var(--muted)">(49%)</span></div>
+        <div class="sp-stat-label">Est. Sell Volume</div>
+        <div class="sp-stat-value danger">111.7M (49%)</div>
       </div>
       <div class="sp-stat">
         <div class="sp-stat-label">Sell Pressure USD</div>
         <div class="sp-stat-value danger">$27.9M</div>
       </div>
     </div>
-
-    <div class="sp-bar-label">Sell Pressure by Allocation — USD Contribution</div>
+    <div class="sp-bar-label">USD Contribution by Allocation</div>
     <div class="sp-bar-wrap" id="spBar"></div>
-
     <div class="sp-legend" id="spLegend"></div>
-
     <div class="sp-note">
-      <strong>Propensity to Sell</strong> = allocation-specific coefficient adjusted by Utility & Value Flow score (66/100).
-      Higher utility score → lower propensity. Liquidity/Market Making excluded (propensity = 0).
-      Advisors & Team excluded (0 tokens at TGE). Formula: propensity = max − (utility/100) × (max − min).
+      <strong>Method:</strong> propensity = max − (utility/100) × (max − min) per bucket.
+      Higher utility → lower propensity to sell. Sell pressure = TGE tokens × propensity × listing price.
+      Liquidity/Market Making excluded (propensity = 0). Advisors &amp; Team have 0 TGE tokens.
     </div>
   </div>
 
@@ -331,128 +338,207 @@ body {
   <div class="card flow-card">
     <div class="flow-title">Token Economy Flow</div>
     <div class="flow-sub">How $TIME circulates through the TIME Universe ecosystem</div>
-    <svg id="flowSvg" viewBox="0 0 400 340" style="width:100%;flex:1"></svg>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
   </div>
 
 </div>
 
 <div class="assumptions">
-  <strong>⚠️ Audit Notes:</strong> Total supply confirmed at <strong>1,000,000,000 $TIME</strong> from tokenomics spreadsheet. Whitepaper allocation figures differ from spreadsheet — spreadsheet used as authoritative source. Listing price <strong>$0.25</strong> as provided by the project. At $0.25: FDV = $250M, TGE market cap = $56.9M. Staking APY, burn rate, fee routing and liquidity lock not yet published. Round prices undisclosed — Investor Conditions score penalized. Confidence: <strong>Medium</strong>.
+  <strong>⚠️ Audit Notes:</strong> Total supply confirmed at <strong>1,000,000,000 $TIME</strong> from tokenomics spreadsheet. Whitepaper allocation figures differ — spreadsheet used as authoritative source. Listing price <strong>$0.25</strong> as confirmed by project. FDV = $250M · TGE market cap = $56.9M. Staking APY, burn rate, fee routing and liquidity lock not yet published. Round prices undisclosed — Investor Conditions penalized. Confidence: <strong>Medium</strong>.
 </div>
 </div>
 
 <script>
 // ── Radar ─────────────────────────────────────────────────────────────────────
 (function(){
-  const svg=document.getElementById('radarSvg'), ns='http://www.w3.org/2000/svg';
-  const cx=145,cy=120,maxR=88,n=5;
-  const labels=['Inflation /\nEmissions','Supply\nShock Risk','Dilution &\nInvestor','Distribution\nFairness','Liquidity\n& Utility'];
-  const scores=[32,38,44,52,62];
-  function pt(i,r){const a=(Math.PI*2*i/n)-Math.PI/2;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
-  [25,50,75,100].forEach(p=>{
-    const el=document.createElementNS(ns,'polygon');
-    el.setAttribute('points',Array.from({length:n},(_,i)=>pt(i,maxR*p/100).join(',')).join(' '));
-    el.setAttribute('fill','none');el.setAttribute('stroke','rgba(0,0,0,0.07)');el.setAttribute('stroke-width','1');
+  const svg = document.getElementById('radarSvg');
+  const ns = 'http://www.w3.org/2000/svg';
+  // Centre and radius sized to leave room for labels in the 340×270 viewBox
+  const cx = 170, cy = 138, maxR = 90, n = 5;
+  const labels = ['Inflation /\nEmissions', 'Supply\nShock Risk', 'Dilution &\nInvestor', 'Distribution\nFairness', 'Liquidity\n& Utility'];
+  const scores = [32, 38, 44, 52, 62];
+
+  function pt(i, r) {
+    const a = (Math.PI * 2 * i / n) - Math.PI / 2;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  }
+
+  // Grid rings
+  [25, 50, 75, 100].forEach(p => {
+    const el = document.createElementNS(ns, 'polygon');
+    el.setAttribute('points', Array.from({length:n}, (_, i) => pt(i, maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill', 'none');
+    el.setAttribute('stroke', 'rgba(0,0,0,0.07)');
+    el.setAttribute('stroke-width', '1');
     svg.appendChild(el);
   });
-  for(let i=0;i<n;i++){
-    const[x2,y2]=pt(i,maxR),l=document.createElementNS(ns,'line');
-    l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
-    l.setAttribute('stroke','rgba(0,0,0,0.08)');l.setAttribute('stroke-width','1');svg.appendChild(l);
+
+  // Axis lines
+  for (let i = 0; i < n; i++) {
+    const [x2, y2] = pt(i, maxR);
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1', cx); l.setAttribute('y1', cy);
+    l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', 'rgba(0,0,0,0.08)'); l.setAttribute('stroke-width', '1');
+    svg.appendChild(l);
   }
-  const dp=document.createElementNS(ns,'polygon');
-  dp.setAttribute('points',scores.map((s,i)=>pt(i,maxR*s/100).join(',')).join(' '));
-  dp.setAttribute('fill','rgba(221,107,32,0.16)');dp.setAttribute('stroke','rgba(221,107,32,0.65)');dp.setAttribute('stroke-width','2');
+
+  // Data area
+  const dp = document.createElementNS(ns, 'polygon');
+  dp.setAttribute('points', scores.map((s,i) => pt(i, maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill', 'rgba(221,107,32,0.16)');
+  dp.setAttribute('stroke', 'rgba(221,107,32,0.65)');
+  dp.setAttribute('stroke-width', '2');
   svg.appendChild(dp);
-  scores.forEach((s,i)=>{
-    const[px,py]=pt(i,maxR*s/100),c=document.createElementNS(ns,'circle');
-    c.setAttribute('cx',px);c.setAttribute('cy',py);c.setAttribute('r',4);c.setAttribute('fill','rgba(221,107,32,0.9)');svg.appendChild(c);
+
+  // Dots
+  scores.forEach((s, i) => {
+    const [px, py] = pt(i, maxR*s/100);
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', px); c.setAttribute('cy', py);
+    c.setAttribute('r', '4'); c.setAttribute('fill', 'rgba(221,107,32,0.9)');
+    svg.appendChild(c);
   });
-  labels.forEach((lbl,i)=>{
-    const[lx,ly]=pt(i,maxR+26),lines=lbl.split('\n');
-    const t=document.createElementNS(ns,'text');
-    t.setAttribute('x',lx);t.setAttribute('y',ly);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
-    t.setAttribute('font-size','9.5');t.setAttribute('font-family','-apple-system,sans-serif');t.setAttribute('font-weight','500');t.setAttribute('fill','#4a5568');
-    lines.forEach((line,li)=>{const ts=document.createElementNS(ns,'tspan');ts.setAttribute('x',lx);ts.setAttribute('dy',li===0?(lines.length>1?'-0.5em':'0'):'1.2em');ts.textContent=line;t.appendChild(ts);});
+
+  // Labels — placed at maxR + generous offset, with smart anchor based on angle
+  labels.forEach((lbl, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const labelR = maxR + 32;
+    const lx = cx + labelR * Math.cos(angle);
+    const ly = cy + labelR * Math.sin(angle);
+    const lines = lbl.split('\n');
+
+    // Determine anchor from angle position
+    const anchor = Math.cos(angle) > 0.3 ? 'start' : Math.cos(angle) < -0.3 ? 'end' : 'middle';
+
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', lx);
+    t.setAttribute('y', ly);
+    t.setAttribute('text-anchor', anchor);
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', '10');
+    t.setAttribute('font-family', '-apple-system,sans-serif');
+    t.setAttribute('font-weight', '500');
+    t.setAttribute('fill', '#4a5568');
+    lines.forEach((line, li) => {
+      const ts = document.createElementNS(ns, 'tspan');
+      ts.setAttribute('x', lx);
+      ts.setAttribute('dy', li === 0 ? (lines.length > 1 ? '-0.6em' : '0') : '1.3em');
+      ts.textContent = line;
+      t.appendChild(ts);
+    });
     svg.appendChild(t);
-    const[sx,sy]=pt(i,maxR*scores[i]/100);
-    const st=document.createElementNS(ns,'text');
-    st.setAttribute('x',sx+(sx>cx+5?9:sx<cx-5?-9:0));st.setAttribute('y',sy+(sy>cy+5?9:sy<cy-5?-9:0));
-    st.setAttribute('text-anchor',sx>cx+5?'start':sx<cx-5?'end':'middle');st.setAttribute('dominant-baseline','middle');
-    st.setAttribute('font-size','9');st.setAttribute('font-family','Courier New,monospace');st.setAttribute('font-weight','600');st.setAttribute('fill','#dd6b20');
-    st.textContent=scores[i];svg.appendChild(st);
+
+    // Score value next to dot — offset away from centre
+    const [sx, sy] = pt(i, maxR * scores[i] / 100);
+    const offX = Math.cos(angle) * 13;
+    const offY = Math.sin(angle) * 13;
+    const st = document.createElementNS(ns, 'text');
+    st.setAttribute('x', sx + offX);
+    st.setAttribute('y', sy + offY);
+    st.setAttribute('text-anchor', anchor);
+    st.setAttribute('dominant-baseline', 'middle');
+    st.setAttribute('font-size', '9');
+    st.setAttribute('font-family', 'Courier New,monospace');
+    st.setAttribute('font-weight', '700');
+    st.setAttribute('fill', '#dd6b20');
+    st.textContent = scores[i];
+    svg.appendChild(st);
   });
 })();
 
 // ── Donut ─────────────────────────────────────────────────────────────────────
 (function(){
-  const svg=document.getElementById('donutSvg'),ns='http://www.w3.org/2000/svg';
-  const cx=65,cy=65,R=52,r=34;
-  const slices=[{p:.15,c:'#6366f1'},{p:.10,c:'#8b5cf6'},{p:.075,c:'#a78bfa'},{p:.075,c:'#7c3aed'},{p:.09,c:'#38bdf8'},{p:.09,c:'#f59e0b'},{p:.25,c:'#34d399'},{p:.17,c:'#1a56db'}];
-  let a=-Math.PI/2;
-  slices.forEach(s=>{
-    const ea=a+s.p*2*Math.PI;
-    const x1=cx+R*Math.cos(a),y1=cy+R*Math.sin(a),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea);
-    const xi1=cx+r*Math.cos(ea),yi1=cy+r*Math.sin(ea),xi2=cx+r*Math.cos(a),yi2=cy+r*Math.sin(a);
-    const lg=s.p>.5?1:0;
-    const path=document.createElementNS(ns,'path');
-    path.setAttribute('d',`M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
-    path.setAttribute('fill',s.c);path.setAttribute('stroke','#fff');path.setAttribute('stroke-width','1.5');
-    svg.appendChild(path);a=ea;
+  const svg = document.getElementById('donutSvg'), ns = 'http://www.w3.org/2000/svg';
+  const cx = 55, cy = 55, R = 46, r = 30;
+  const slices = [
+    {p:.15,c:'#6366f1'},{p:.10,c:'#8b5cf6'},{p:.075,c:'#a78bfa'},{p:.075,c:'#7c3aed'},
+    {p:.09,c:'#38bdf8'},{p:.09,c:'#f59e0b'},{p:.25,c:'#34d399'},{p:.17,c:'#1a56db'}
+  ];
+  let a = -Math.PI / 2;
+  slices.forEach(s => {
+    const ea = a + s.p * 2 * Math.PI;
+    const x1=cx+R*Math.cos(a), y1=cy+R*Math.sin(a);
+    const x2=cx+R*Math.cos(ea), y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea), yi1=cy+r*Math.sin(ea);
+    const xi2=cx+r*Math.cos(a), yi2=cy+r*Math.sin(a);
+    const lg = s.p > 0.5 ? 1 : 0;
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', `M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill', s.c); path.setAttribute('stroke', '#fff'); path.setAttribute('stroke-width', '1.5');
+    svg.appendChild(path);
+    a = ea;
   });
-  ['1B','SUPPLY'].forEach((txt,i)=>{
-    const t=document.createElementNS(ns,'text');
-    t.setAttribute('x',cx);t.setAttribute('y',cy+(i===0?-6:8));t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-size',i===0?'12':'9');t.setAttribute('font-family',i===0?'Courier New,monospace':'-apple-system,sans-serif');
-    t.setAttribute('font-weight',i===0?'700':'400');t.setAttribute('fill',i===0?'#1a202c':'#718096');
-    t.textContent=txt;svg.appendChild(t);
+  [['1B', '12', 'Courier New,monospace', '700', '#1a202c', cx, cy-5],
+   ['SUPPLY', '8', '-apple-system,sans-serif', '400', '#718096', cx, cy+8]
+  ].forEach(([txt, fs, ff, fw, fill, x, y]) => {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', fs); t.setAttribute('font-family', ff);
+    t.setAttribute('font-weight', fw); t.setAttribute('fill', fill);
+    t.textContent = txt; svg.appendChild(t);
   });
 })();
 
-// ── Unlock bar ────────────────────────────────────────────────────────────────
+// ── Unlock bar ─────────────────────────────────────────────────────────────────
 (function(){
-  const c=document.getElementById('unlockBar');
-  const segs=[{v:30,col:'#6366f1'},{v:8.125,col:'#8b5cf6'},{v:0,col:'#a78bfa'},{v:0,col:'#7c3aed'},{v:90,col:'#38bdf8'},{v:44.17,col:'#f59e0b'},{v:47.25,col:'#34d399'},{v:8.23,col:'#1a56db'}];
-  const names=['Seed','Pre-Sale','Advisors','Team','Liq','KOL','Community','Ecosystem'];
-  let left=0;
-  segs.forEach((s,i)=>{
-    if(s.v<=0)return;
-    const pct=s.v/1000*100;
-    const el=document.createElement('div');
-    el.className='unlock-segment';
-    el.style.cssText=`left:${left}%;width:${pct}%;background:${s.col}`;
-    el.title=`${names[i]}: ${s.v.toFixed(1)}M (${pct.toFixed(1)}%)`;
-    if(pct>3)el.textContent=pct.toFixed(0)+'%';
-    c.appendChild(el);left+=pct;
+  const c = document.getElementById('unlockBar');
+  const segs = [
+    {v:30,    col:'#6366f1', name:'Seed'},
+    {v:8.125, col:'#8b5cf6', name:'Pre-Sale'},
+    {v:0,     col:'#a78bfa', name:'Advisors'},
+    {v:0,     col:'#7c3aed', name:'Team'},
+    {v:90,    col:'#38bdf8', name:'Liquidity'},
+    {v:44.17, col:'#f59e0b', name:'KOL'},
+    {v:47.25, col:'#34d399', name:'Community'},
+    {v:8.23,  col:'#1a56db', name:'Ecosystem'},
+  ];
+  let left = 0;
+  segs.forEach(s => {
+    if (s.v <= 0) return;
+    const pct = s.v / 1000 * 100;
+    const el = document.createElement('div');
+    el.className = 'unlock-segment';
+    el.style.cssText = `left:${left}%;width:${pct}%;background:${s.col}`;
+    el.title = `${s.name}: ${s.v.toFixed(1)}M (${pct.toFixed(1)}%)`;
+    // Only show text if segment is wide enough to fit it without overflow
+    if (pct >= 5) el.textContent = pct.toFixed(0) + '%';
+    c.appendChild(el);
+    left += pct;
   });
-  const rem=document.createElement('div');
-  rem.className='unlock-segment';
-  rem.style.cssText=`left:${left}%;width:${100-left}%;background:#e2e8f0;color:#718096`;
-  rem.textContent=(100-left).toFixed(0)+'% locked';
+  // Locked remainder
+  const rem = document.createElement('div');
+  rem.className = 'unlock-segment';
+  rem.style.cssText = `left:${left}%;width:${(100-left).toFixed(2)}%;background:#e2e8f0;color:#718096;font-size:10px`;
+  rem.textContent = (100 - left).toFixed(0) + '% locked';
   c.appendChild(rem);
 })();
 
 // ── Sell Pressure ─────────────────────────────────────────────────────────────
 (function(){
-  const data=[
-    {name:'KOL Sale',    usd:9948617,  pct:35.6, col:'#f59e0b', prop:'0.901'},
-    {name:'Community',   usd:9863438,  pct:35.3, col:'#34d399', prop:'0.835'},
-    {name:'Seed',        usd:5520000,  pct:19.8, col:'#6366f1', prop:'0.736'},
-    {name:'Pre-Sale',    usd:1763125,  pct:6.3,  col:'#8b5cf6', prop:'0.868'},
-    {name:'Ecosystem',   usd:830826,   pct:3.0,  col:'#1a56db', prop:'0.404'},
+  const data = [
+    {name:'KOL Sale',  usd:9948617,  pct:35.6, col:'#f59e0b', prop:'0.901'},
+    {name:'Community', usd:9863438,  pct:35.3, col:'#34d399', prop:'0.835'},
+    {name:'Seed',      usd:5520000,  pct:19.8, col:'#6366f1', prop:'0.736'},
+    {name:'Pre-Sale',  usd:1763125,  pct:6.3,  col:'#8b5cf6', prop:'0.868'},
+    {name:'Ecosystem', usd:830826,   pct:3.0,  col:'#1a56db', prop:'0.404'},
   ];
-  const bar=document.getElementById('spBar'), legend=document.getElementById('spLegend');
-  data.forEach(d=>{
-    const seg=document.createElement('div');
-    seg.className='sp-seg';
-    seg.style.cssText=`width:${d.pct}%;background:${d.col}`;
-    seg.title=`${d.name}: $${(d.usd/1e6).toFixed(2)}M (${d.pct}%) · propensity ${d.prop}`;
-    if(d.pct>8)seg.textContent=d.pct.toFixed(0)+'%';
+  const bar = document.getElementById('spBar');
+  const legend = document.getElementById('spLegend');
+  data.forEach(d => {
+    // Bar segment — only show label if wide enough
+    const seg = document.createElement('div');
+    seg.className = 'sp-seg';
+    seg.style.cssText = `width:${d.pct}%;background:${d.col}`;
+    seg.title = `${d.name}: $${(d.usd/1e6).toFixed(2)}M (${d.pct}%) · propensity ${d.prop}`;
+    if (d.pct >= 10) seg.textContent = d.pct.toFixed(0) + '%';
     bar.appendChild(seg);
-
-    const item=document.createElement('div');
-    item.className='sp-leg-item';
-    item.innerHTML=`<div class="sp-leg-dot" style="background:${d.col}"></div>
+    // Legend row
+    const item = document.createElement('div');
+    item.className = 'sp-leg-item';
+    item.innerHTML = `
+      <div class="sp-leg-dot" style="background:${d.col}"></div>
       <span class="sp-leg-label">${d.name}</span>
       <span class="sp-leg-pct">${d.pct}%</span>
       <span class="sp-leg-usd">$${(d.usd/1e6).toFixed(2)}M</span>`;
@@ -460,95 +546,122 @@ body {
   });
 })();
 
-// ── Token Economy Flowchart (pure SVG) ────────────────────────────────────────
+// ── Token Economy Flow ────────────────────────────────────────────────────────
 (function(){
-  const svg=document.getElementById('flowSvg'), ns='http://www.w3.org/2000/svg';
-
-  const nodes=[
-    {id:'user',    x:200, y:30,  label:'User',          sub:'buys $TIME',       col:'#1a56db', light:'#eff6ff'},
-    {id:'toh',     x:60,  y:120, label:'Time of Heroes', sub:'celebrity sessions',col:'#7c3aed', light:'#f5f3ff'},
-    {id:'meeet',   x:200, y:120, label:'MEEET',          sub:'offline networking',col:'#7c3aed', light:'#f5f3ff'},
-    {id:'network', x:340, y:120, label:'TIME Network',   sub:'creator content',  col:'#7c3aed', light:'#f5f3ff'},
-    {id:'fee',     x:200, y:215, label:'Platform Fee',   sub:'collected in $TIME',col:'#dd6b20',light:'#fff7ed'},
-    {id:'stake',   x:60,  y:310, label:'Staking',        sub:'lock & earn',      col:'#38a169', light:'#f0fff4'},
-    {id:'burn',    x:200, y:310, label:'Burn / Treasury',sub:'deflationary sink', col:'#e53e3e', light:'#fff5f5'},
-    {id:'rewards', x:340, y:310, label:'Staking Rewards',sub:'yield to stakers', col:'#38a169', light:'#f0fff4'},
-  ];
-
-  const edges=[
-    {from:'user',to:'toh',   label:'pays'},
-    {from:'user',to:'meeet', label:'pays'},
-    {from:'user',to:'network',label:'pays'},
-    {from:'user',to:'stake', label:'stakes'},
-    {from:'toh',  to:'fee',  label:'fee'},
-    {from:'meeet',to:'fee',  label:'fee'},
-    {from:'network',to:'fee',label:'fee'},
-    {from:'fee',  to:'burn', label:'partial burn'},
-    {from:'fee',  to:'rewards',label:'staker yield'},
-    {from:'stake',to:'rewards',label:'earns'},
-  ];
-
-  function nodeById(id){return nodes.find(n=>n.id===id);}
-
-  // Draw edges first
-  edges.forEach(e=>{
-    const s=nodeById(e.from), t=nodeById(e.to);
-    const dx=t.x-s.x, dy=t.y-s.y;
-    const len=Math.sqrt(dx*dx+dy*dy);
-    const nr=32; // node radius
-    const sx=s.x+dx/len*nr, sy=s.y+dy/len*nr;
-    const tx=t.x-dx/len*nr, ty=t.y-dy/len*nr;
-    // midpoint for label
-    const mx=(sx+tx)/2, my=(sy+ty)/2;
-
-    const line=document.createElementNS(ns,'line');
-    line.setAttribute('x1',sx);line.setAttribute('y1',sy);line.setAttribute('x2',tx);line.setAttribute('y2',ty);
-    line.setAttribute('stroke','#cbd5e0');line.setAttribute('stroke-width','1.5');
-    line.setAttribute('marker-end','url(#arrow)');
-    svg.appendChild(line);
-
-    const lt=document.createElementNS(ns,'text');
-    lt.setAttribute('x',mx);lt.setAttribute('y',my-4);lt.setAttribute('text-anchor','middle');
-    lt.setAttribute('font-size','8');lt.setAttribute('font-family','-apple-system,sans-serif');lt.setAttribute('fill','#a0aec0');
-    lt.textContent=e.label;svg.appendChild(lt);
-  });
+  const svg = document.getElementById('flowSvg');
+  const ns = 'http://www.w3.org/2000/svg';
 
   // Arrow marker
-  const defs=document.createElementNS(ns,'defs');
-  const marker=document.createElementNS(ns,'marker');
-  marker.setAttribute('id','arrow');marker.setAttribute('markerWidth','8');marker.setAttribute('markerHeight','8');
-  marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
-  const mpath=document.createElementNS(ns,'path');
-  mpath.setAttribute('d','M0,0 L0,6 L8,3 z');mpath.setAttribute('fill','#cbd5e0');
-  marker.appendChild(mpath);defs.appendChild(marker);svg.insertBefore(defs,svg.firstChild);
+  const defs = document.createElementNS(ns, 'defs');
+  const marker = document.createElementNS(ns, 'marker');
+  marker.setAttribute('id', 'arr');
+  marker.setAttribute('markerWidth', '7'); marker.setAttribute('markerHeight', '7');
+  marker.setAttribute('refX', '6'); marker.setAttribute('refY', '3');
+  marker.setAttribute('orient', 'auto');
+  const mp = document.createElementNS(ns, 'path');
+  mp.setAttribute('d', 'M0,0 L0,6 L7,3 z'); mp.setAttribute('fill', '#b0bec5');
+  marker.appendChild(mp); defs.appendChild(marker); svg.appendChild(defs);
 
-  // Draw nodes
-  nodes.forEach(n=>{
-    const g=document.createElementNS(ns,'g');
+  // Node layout — generous spacing, node radius 36px
+  // viewBox: 420 × 370
+  const R = 36;
+  const nodes = [
+    {id:'user',    x:210, y:46,  label:['User'],              sub:'buys $TIME',        col:'#1a56db', bg:'#eff6ff'},
+    {id:'toh',     x:70,  y:148, label:['Time of','Heroes'],  sub:'sessions',          col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'meeet',   x:210, y:148, label:['MEEET'],             sub:'networking',        col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'network', x:350, y:148, label:['TIME','Network'],    sub:'content',           col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'fee',     x:210, y:248, label:['Platform','Fee'],    sub:'collected in $TIME',col:'#dd6b20', bg:'#fff7ed'},
+    {id:'stake',   x:70,  y:334, label:['Staking'],           sub:'lock & earn APY',   col:'#38a169', bg:'#f0fff4'},
+    {id:'burn',    x:210, y:334, label:['Burn /','Treasury'], sub:'deflationary sink', col:'#e53e3e', bg:'#fff5f5'},
+    {id:'rewards', x:350, y:334, label:['Staking','Rewards'], sub:'yield to stakers',  col:'#38a169', bg:'#f0fff4'},
+  ];
 
-    const circle=document.createElementNS(ns,'circle');
-    circle.setAttribute('cx',n.x);circle.setAttribute('cy',n.y);circle.setAttribute('r',30);
-    circle.setAttribute('fill',n.light);circle.setAttribute('stroke',n.col);circle.setAttribute('stroke-width','1.5');
+  function nodeById(id) { return nodes.find(n => n.id === id); }
+
+  // Edges
+  const edges = [
+    {from:'user',to:'toh',      lbl:'pays'},
+    {from:'user',to:'meeet',    lbl:'pays'},
+    {from:'user',to:'network',  lbl:'pays'},
+    {from:'user',to:'stake',    lbl:'stakes'},
+    {from:'toh', to:'fee',      lbl:'fee'},
+    {from:'meeet',to:'fee',     lbl:'fee'},
+    {from:'network',to:'fee',   lbl:'fee'},
+    {from:'fee', to:'burn',     lbl:'partial burn'},
+    {from:'fee', to:'rewards',  lbl:'yield'},
+    {from:'stake',to:'rewards', lbl:'earns'},
+  ];
+
+  edges.forEach(e => {
+    const s = nodeById(e.from), t = nodeById(e.to);
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const sx = s.x + dx/len * (R+2), sy = s.y + dy/len * (R+2);
+    const tx = t.x - dx/len * (R+4), ty = t.y - dy/len * (R+4);
+    const mx = (sx+tx)/2, my = (sy+ty)/2;
+
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', sx); line.setAttribute('y1', sy);
+    line.setAttribute('x2', tx); line.setAttribute('y2', ty);
+    line.setAttribute('stroke', '#b0bec5'); line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('marker-end', 'url(#arr)');
+    svg.appendChild(line);
+
+    // Edge label on white pill background
+    const tw = e.lbl.length * 5.5 + 8;
+    const rect = document.createElementNS(ns, 'rect');
+    rect.setAttribute('x', mx - tw/2); rect.setAttribute('y', my - 8);
+    rect.setAttribute('width', tw); rect.setAttribute('height', 13);
+    rect.setAttribute('rx', '3'); rect.setAttribute('fill', 'white');
+    rect.setAttribute('opacity', '0.85');
+    svg.appendChild(rect);
+
+    const lt = document.createElementNS(ns, 'text');
+    lt.setAttribute('x', mx); lt.setAttribute('y', my + 1);
+    lt.setAttribute('text-anchor', 'middle'); lt.setAttribute('dominant-baseline', 'middle');
+    lt.setAttribute('font-size', '8'); lt.setAttribute('font-family', '-apple-system,sans-serif');
+    lt.setAttribute('fill', '#90a4ae');
+    lt.textContent = e.lbl;
+    svg.appendChild(lt);
+  });
+
+  // Nodes
+  nodes.forEach(n => {
+    const g = document.createElementNS(ns, 'g');
+
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
+    circle.setAttribute('r', R);
+    circle.setAttribute('fill', n.bg); circle.setAttribute('stroke', n.col); circle.setAttribute('stroke-width', '1.5');
     g.appendChild(circle);
 
-    const t1=document.createElementNS(ns,'text');
-    t1.setAttribute('x',n.x);t1.setAttribute('y',n.y-5);t1.setAttribute('text-anchor','middle');
-    t1.setAttribute('dominant-baseline','middle');t1.setAttribute('font-size','8.5');
-    t1.setAttribute('font-family','-apple-system,sans-serif');t1.setAttribute('font-weight','700');t1.setAttribute('fill',n.col);
-    // word wrap label
-    const words=n.label.split(' ');
-    if(words.length<=2){t1.textContent=n.label;}
-    else{
-      const ts1=document.createElementNS(ns,'tspan');ts1.setAttribute('x',n.x);ts1.setAttribute('dy','0');ts1.textContent=words.slice(0,2).join(' ');t1.appendChild(ts1);
-      const ts2=document.createElementNS(ns,'tspan');ts2.setAttribute('x',n.x);ts2.setAttribute('dy','10');ts2.textContent=words.slice(2).join(' ');t1.appendChild(ts2);
-    }
-    g.appendChild(t1);
+    // Main label (1 or 2 lines), centred in circle
+    const lineCount = n.label.length;
+    const lineH = 11;
+    const totalH = lineCount * lineH;
+    const startY = n.y - totalH/2 + lineH/2 - (n.sub ? 4 : 0);
 
-    const t2=document.createElementNS(ns,'text');
-    t2.setAttribute('x',n.x);t2.setAttribute('y',n.y+10);t2.setAttribute('text-anchor','middle');
-    t2.setAttribute('dominant-baseline','middle');t2.setAttribute('font-size','7');
-    t2.setAttribute('font-family','-apple-system,sans-serif');t2.setAttribute('fill','#718096');
-    t2.textContent=n.sub;g.appendChild(t2);
+    n.label.forEach((line, li) => {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', n.x); t.setAttribute('y', startY + li * lineH);
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+      t.setAttribute('font-size', '9'); t.setAttribute('font-family', '-apple-system,sans-serif');
+      t.setAttribute('font-weight', '700'); t.setAttribute('fill', n.col);
+      t.textContent = line;
+      g.appendChild(t);
+    });
+
+    // Subtitle — only if it fits (below label, before bottom of circle)
+    const subY = startY + lineCount * lineH + 3;
+    if (subY < n.y + R - 6) {
+      const ts = document.createElementNS(ns, 'text');
+      ts.setAttribute('x', n.x); ts.setAttribute('y', subY);
+      ts.setAttribute('text-anchor', 'middle'); ts.setAttribute('dominant-baseline', 'middle');
+      ts.setAttribute('font-size', '7.5'); ts.setAttribute('font-family', '-apple-system,sans-serif');
+      ts.setAttribute('fill', '#718096');
+      ts.textContent = n.sub;
+      g.appendChild(ts);
+    }
 
     svg.appendChild(g);
   });
