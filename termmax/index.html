@@ -36,7 +36,7 @@ body {
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
 
 /* TOP ROW */
-.top-row { display: grid; grid-template-columns: 200px 1fr 220px; gap: 14px; margin-bottom: 14px; }
+.top-row { display: grid; grid-template-columns: 200px 1fr 280px; gap: 14px; margin-bottom: 14px; }
 
 /* GAUGE */
 .score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
@@ -54,10 +54,10 @@ body {
 /* DONUT */
 .donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
 .alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 11px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; min-width: 0; }
 .alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.alloc-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; }
+.alloc-pct { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: var(--text); flex-shrink: 0; min-width: 38px; text-align: right; }
 
 /* UNLOCK BAR */
 .unlock-card { padding: 16px 20px; margin-bottom: 14px; }
@@ -216,7 +216,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-red">▲</div>
-      <div class="insight-title">Airdrop Dominates TGE Sell Pressure at 83.6%<span class="insight-summary s-red"> — 150M tokens fully unlocked day one</span></div>
+      <div class="insight-title">Airdrop Dominates TGE Sell Pressure at 83.6%<span class="insight-summary s-red">: 150M tokens fully unlocked day one</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">The Ecosystem Airdrop allocation (150M tokens, 15%) is fully available at TGE with no vesting schedule, which is by design for airdrops. However, with a propensity to sell of 0.82 (reflecting the 72/100 utility score), an estimated 123M tokens worth $7.38M are likely to hit the market on day one from airdrop recipients. Airdrop farming is a well-documented behavior in DeFi: recipients often sell immediately after claiming. At a $60M FDV, $7.38M of selling across the first trading day represents roughly 12.3% of the entire FDV entering as sell-side flow. This is manageable if liquidity depth is sufficient, but the project should expect significant price volatility in the first 48 to 72 hours post-TGE.</div>
@@ -225,7 +225,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-red">▲</div>
-      <div class="insight-title">Investors Hold 28% With 12M Cliff, Then 24M Vest<span class="insight-summary s-red"> — $16.8M unlocking month 13 through 36</span></div>
+      <div class="insight-title">Investors Hold 28% With 12M Cliff, Then 24M Vest<span class="insight-summary s-red">: $16.8M unlocking month 13 through 36</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">Investors control 280M tokens (28%), the single largest insider allocation. The 12-month cliff is encouraging, but the 24-month linear vesting post-cliff means 280M tokens will flow into circulation between months 13 and 36. At the $60M FDV listing price, this represents $16.8M of investor tokens entering the market over roughly two years. The seed round was raised at a $4.25M valuation, implying investors are sitting on approximately 14x paper ROI at the $60M FDV listing price. This is a meaningful profit incentive to sell once the cliff expires. Projects that succeed in growing TVL and protocol revenue during the cliff period can absorb this unlock more comfortably through expanded demand.</div>
@@ -234,7 +234,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-red">▲</div>
-      <div class="insight-title">Community Allocation Lacks Specific Unlock Schedule<span class="insight-summary s-red"> — 295M tokens "event-based" with no defined timeline</span></div>
+      <div class="insight-title">Community Allocation Lacks Specific Unlock Schedule<span class="insight-summary s-red">: 295M tokens "event-based" with no defined timeline</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">The Community bucket (295M tokens, 29.5%) carries a 1-month cliff followed by "event-based distribution." This is intentionally flexible for ecosystem incentives, but it creates a transparency problem: token holders cannot model when or how much Community supply will enter circulation. Event-based distribution can be deployed quickly and in large tranches depending on protocol decisions. For investors conducting due diligence, an unknown unlock velocity on the second-largest allocation (after investors) is a risk. The project should publish a clear Community distribution roadmap with estimated quarterly release targets, even if individual events remain flexible.</div>
@@ -243,7 +243,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">$60M FDV Conservative Relative to Protocol Potential<span class="insight-summary s-orange"> — Reasonable at listing but compresses upside narrative</span></div>
+      <div class="insight-title">$60M FDV Conservative Relative to Protocol Potential<span class="insight-summary s-orange">: Reasonable at listing but compresses upside narrative</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">TermMax's confirmed FDV at listing is $60M (listing price $0.06). For a protocol with a live product, audited smart contracts, institutional backers including Cumberland and HashKey, and integrations with Aave, Ethena, Lido, and Ondo Global Markets, a $60M FDV is conservative. Comparable fixed-rate DeFi protocols such as Pendle launched at higher FDVs and grew from there. The conservative entry valuation benefits early buyers but also signals the team has prioritized sustainable price discovery over inflated expectations. This is a positive tokenomics signal for long-term holders, even if it limits early-stage hype cycles.</div>
@@ -252,7 +252,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">Revenue Share Mechanism Partially Described<span class="insight-summary s-orange"> — "Up to 65%" fee share lacks specific trigger conditions</span></div>
+      <div class="insight-title">Revenue Share Mechanism Partially Described<span class="insight-summary s-orange">: "Up to 65%" fee share lacks specific trigger conditions</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">The whitepaper states sTMX holders receive "staking rewards including TMX and up to 65% revenue from protocol operation." The phrase "up to" is important: it introduces a ceiling without defining a floor, and the conditions that determine the actual percentage are not documented. Until the governance framework publishes binding parameters for fee distribution, this figure remains aspirational rather than contractual. DeFiLlama reports annual fees of $29.4K for TermMax currently, which at 65% would yield approximately $19K annually for stakers at current scale. Protocol revenue must grow significantly for this to be a meaningful value driver, which depends on TVL expansion across the planned multi-chain deployment.</div>
@@ -261,7 +261,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-orange">■</div>
-      <div class="insight-title">15% Initial Float Is Tight for a $60M FDV Launch<span class="insight-summary s-orange"> — Limited liquidity depth may amplify early volatility</span></div>
+      <div class="insight-title">15% Initial Float Is Tight for a $60M FDV Launch<span class="insight-summary s-orange">: Limited liquidity depth may amplify early volatility</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">With 150M tokens in initial circulation (15% of supply), the TGE market cap is $9M at the confirmed $0.06 listing price. A 15% float is within the acceptable range for a DeFi protocol, but at this FDV the actual dollar depth of tradable tokens is thin. The 45M Liquidity Provision allocation (4.5%) is earmarked for DEX pools, which helps, but without confirmed CEX listings alongside DEX liquidity, early price discovery will be volatile. The project's confirmed commitment to PancakeSwap LP staking via sTMX provides a structural token sink that partially offsets float concerns.</div>
@@ -270,7 +270,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-green">✓</div>
-      <div class="insight-title">Strong Vesting Structure for Team, Advisors and Investors<span class="insight-summary s-green"> — 12M cliff across all insider allocations</span></div>
+      <div class="insight-title">Strong Vesting Structure for Team, Advisors and Investors<span class="insight-summary s-green">: 12M cliff across all insider allocations</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">Team (150M, 15%), Advisors (30M, 3%), and Investors (280M, 28%) all share a consistent 12-month cliff with zero tokens at TGE. This is one of the cleanest insider vesting designs seen in recent DeFi launches. Having the same cliff across all three groups eliminates the common "advisor loophole" where advisors with shorter cliffs can front-run team unlocks. Post-cliff vesting extends to 30 months for Team and Advisors, and 24 months for Investors, for total effective vesting periods of 42 and 36 months respectively. These structures meet or exceed institutional investment standards for early-stage DeFi protocols.</div>
@@ -279,7 +279,7 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-green">✓</div>
-      <div class="insight-title">Fixed Supply With Real Revenue Capture Creates Genuine Scarcity<span class="insight-summary s-green"> — 1B hard cap, 65% revenue to stakers, LP staking mechanism</span></div>
+      <div class="insight-title">Fixed Supply With Real Revenue Capture Creates Genuine Scarcity<span class="insight-summary s-green">: 1B hard cap, 65% revenue to stakers, LP staking mechanism</span></div>
       <span class="chevron">▾</span>
     </div>
     <div class="insight-body">TMX has a fixed supply of 1 billion tokens with no inflation mechanism. Combined with the LP staking requirement (users must provide DEX liquidity and stake LP tokens to receive sTMX), the tokenomics create a structural token lockup that reduces sell pressure over time. The 65% revenue share tied to protocol fees means that as TermMax's TVL grows across Ethereum, Arbitrum, BNB Chain, and HyperEVM, actual cash flows accrue to sTMX holders. This is a materially stronger value accrual mechanism than governance-only tokens. The model resembles Curve Finance's ve-tokenomics in its incentive alignment, adapted for a fixed-rate lending protocol.</div>
@@ -288,10 +288,10 @@ body {
   <div class="insight-item" onclick="tog(this)">
     <div class="insight-header">
       <div class="insight-icon icon-green">✓</div>
-      <div class="insight-title">Institutional Backers and Live Product Reduce Execution Risk<span class="insight-summary s-green"> — Cumberland, HashKey, 93% DeFiSafety score, live on 6 chains</span></div>
+      <div class="insight-title">Institutional Backers and Live Product Reduce Execution Risk<span class="insight-summary s-green">: Cumberland, HashKey, 93% DeFiSafety score, live on 6 chains</span></div>
       <span class="chevron">▾</span>
     </div>
-    <div class="insight-body">TermMax raised $4.25M from Cumberland, HashKey Capital, Decima, LongLing, and MZ Web3 in late 2023. Cumberland's involvement is notable given their role as a leading digital asset market maker — they are a natural liquidity provider for the protocol and have direct incentives for its success. The project has achieved a 93% DeFiSafety score (matching Aave V3), multiple Cantina audit competition completions, a live Immunefi bug bounty, and real deployments across Ethereum, Arbitrum, BNB Chain, Berachain, and HyperEVM. This is not a whitepaper project: it is a functioning protocol with audited contracts and real integrations, which significantly reduces the execution risk embedded in a $60M FDV valuation.</div>
+    <div class="insight-body">TermMax raised $4.25M from Cumberland, HashKey Capital, Decima, LongLing, and MZ Web3 in late 2023. Cumberland's involvement is notable given their role as a leading digital asset market maker, and they are a natural liquidity provider for the protocol and have direct incentives for its success. The project has achieved a 93% DeFiSafety score (matching Aave V3), multiple Cantina audit competition completions, a live Immunefi bug bounty, and real deployments across Ethereum, Arbitrum, BNB Chain, Berachain, and HyperEVM. This is not a whitepaper project: it is a functioning protocol with audited contracts and real integrations, which significantly reduces the execution risk embedded in a $60M FDV valuation.</div>
   </div>
 
 </div>
