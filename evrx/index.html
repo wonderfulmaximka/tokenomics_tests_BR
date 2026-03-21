@@ -1,1 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenomics Test: $EVRX</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue:#1a56db; --bg:#f8f9fc; --card:#fff; --border:#e2e8f0;
+  --text:#1a202c; --muted:#718096; --red:#e53e3e; --orange:#dd6b20; --green:#38a169;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  padding: 28px 24px;
+}
+.page { max-width: 980px; margin: 0 auto; }
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title span { color: var(--blue); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-red    { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
+.badge-blue   { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
+.badge-green  { background:#f0fff4; border:1px solid #9ae6b4; color:#276749; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
 
+/* TOP ROW */
+.top-row { display: grid; grid-template-columns: 200px 1fr 280px; gap: 14px; margin-bottom: 14px; }
+.score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
+.gauge-wrap { position: relative; width: 170px; height: 95px; }
+.gauge-score { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.gauge-number { font-family: 'Courier New', monospace; font-size: 32px; font-weight: 500; color: #dd6b20; line-height: 1; display: block; }
+.gauge-number sup { font-size: 14px; }
+.rating-badge { display: inline-block; background: #dd6b20; color: white; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 5px; margin-top: 4px; }
+.gauge-labels { display: flex; justify-content: space-between; width: 170px; margin-top: 4px; font-size: 10px; color: var(--muted); font-family: 'Courier New', monospace; }
+.radar-card { padding: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; min-width: 0; }
+.alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; }
+.alloc-pct { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: var(--text); flex-shrink: 0; min-width: 38px; text-align: right; }
+
+/* UNLOCK BAR */
+.unlock-card { padding: 16px 20px; margin-bottom: 14px; }
+.unlock-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+.unlock-bar-wrap { position: relative; height: 32px; background: #f1f5f9; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.unlock-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.unlock-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.unlock-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.ul-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ul-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SCORE PILLS */
+.scores-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+.score-pill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.score-pill-label { font-size: 9.5px; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.score-pill-value { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 500; }
+.c-red{color:var(--red)} .c-orange{color:var(--orange)} .c-green{color:var(--green)} .c-blue{color:var(--blue)}
+
+/* INSIGHTS */
+.insights-card { padding: 0; overflow: hidden; margin-bottom: 14px; }
+.insight-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.insight-item:last-child { border-bottom: none; }
+.insight-item:hover { background: #f7faff; }
+.insight-header { display: flex; align-items: flex-start; gap: 10px; padding: 13px 18px; user-select: none; }
+.insight-icon { width: 16px; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+.icon-red{color:var(--red)} .icon-orange{color:var(--orange)} .icon-green{color:var(--green)}
+.insight-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.4; }
+.insight-summary { font-size: 12px; font-weight: 400; }
+.s-red{color:var(--red)} .s-orange{color:var(--orange)} .s-green{color:var(--green)}
+.chevron { color: var(--muted); font-size: 11px; transition: transform .2s; flex-shrink: 0; padding-top: 3px; }
+.chevron.open { transform: rotate(180deg); }
+.insight-body { display: none; padding: 0 18px 14px 44px; font-size: 13px; line-height: 1.75; color: #4a5568; }
+.insight-body.open { display: block; }
+
+/* BOTTOM ROW */
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.sp-card { padding: 18px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.sp-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+.sp-stat { flex: 1; background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; min-width: 0; }
+.sp-stat-label { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.sp-stat-value { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.sp-stat-value.danger { color: var(--red); }
+.sp-bar-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.sp-bar-wrap { height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 12px; }
+.sp-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; transition: opacity .15s; cursor: default; }
+.sp-seg:hover { opacity: .8; }
+.sp-legend { display: flex; flex-direction: column; gap: 5px; }
+.sp-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.sp-leg-label { flex: 1; color: var(--muted); }
+.sp-leg-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); min-width: 32px; text-align: right; }
+.sp-leg-usd { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); min-width: 60px; text-align: right; }
+.sp-note { margin-top: 12px; font-size: 10px; color: var(--muted); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 10px; }
+.flow-card { padding: 18px; display: flex; flex-direction: column; }
+.flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.flow-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.assumptions { margin-top: 14px; padding: 12px 16px; background: #fffbeb; border: 1px solid #f6e05e; border-radius: 8px; font-size: 12px; color: #744210; line-height: 1.65; }
+.assumptions strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1 class="page-title">Tokenomics Test: <span>$EVRX</span></h1>
+<div class="badge-row">
+  <span class="badge badge-red">⚠ 2.75B Max Supply Inflation Risk</span>
+  <span class="badge badge-orange">⚠ Rewards 22.3% Over 60 Months</span>
+  <span class="badge badge-blue">Ethereum · FDV $40M · TGE Q4 2025</span>
+  <span class="badge badge-green">✓ Low Investor ROI Multiples (Max 2.9x)</span>
+</div>
+<p class="page-subtitle">Everreach Labs · Web3 Gaming / CrowdPlay FPS · REVENGE flagship title · Ethereum + Immutable · Official Twitch Partnership · Team from Ubisoft, Nintendo, Rainbow Six Siege · Audit Date: March 2026</p>
+
+<div class="top-row">
+  <!-- Gauge: score=54, dashoffset=251.2*(1-0.54)=115.6, orange -->
+  <div class="card score-card">
+    <div class="score-title">Tokenomics Rating</div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 170 95" width="170" height="95">
+        <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#e07b39"/>
+          <stop offset="100%" style="stop-color:#f0a060"/>
+        </linearGradient></defs>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="251.2" stroke-dashoffset="115.6"/>
+      </svg>
+      <div class="gauge-score">
+        <span class="gauge-number">54<sup>.0</sup></span>
+        <div class="rating-badge">BBB</div>
+      </div>
+    </div>
+    <div class="gauge-labels"><span>0</span><span>100</span></div>
+  </div>
+
+  <!-- Radar -->
+  <div class="card radar-card">
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
+  </div>
+
+  <!-- Donut -->
+  <div class="card donut-card">
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
+    <div class="alloc-legend">
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f59e0b"></div><div class="alloc-label">Rewards</div><div class="alloc-pct">22.3%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#7c3aed"></div><div class="alloc-label">Team</div><div class="alloc-pct">15.1%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#1a56db"></div><div class="alloc-label">Eco Dev</div><div class="alloc-pct">7.6%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38bdf8"></div><div class="alloc-label">Liquidity</div><div class="alloc-pct">5.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#a78bfa"></div><div class="alloc-label">Comm Rd1</div><div class="alloc-pct">6.3%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#34d399"></div><div class="alloc-label">Marketing</div><div class="alloc-pct">7.3%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#6366f1"></div><div class="alloc-label">Advisors</div><div class="alloc-pct">5.5%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f43f5e"></div><div class="alloc-label">Other</div><div class="alloc-pct">30.9%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock bar -->
+<div class="card unlock-card">
+  <div class="unlock-title">Cumulative Unlock Schedule (TGE through Month 60), Max Supply 2.75B</div>
+  <div id="unlockBar" class="unlock-bar-wrap"></div>
+  <div class="unlock-bar-labels">
+    <span>TGE (16.3%)</span><span>Year 1 (40.8%)</span><span>Year 2 (68.9%)</span><span>Year 3 (86.8%)</span><span>Year 4 (95.9%)</span><span>Year 5 (100%)</span>
+  </div>
+  <div class="unlock-legend">
+    <div class="ul-item"><div class="ul-dot" style="background:#f59e0b"></div>Rewards 22.3%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#7c3aed"></div>Team 15.1%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#38bdf8"></div>Liquidity 5%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#6366f1"></div>Seed 5.4%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#8b5cf6"></div>Pre-Seed 4.2%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#a78bfa"></div>Private 5.3%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#22d3ee"></div>Comm Rd1 6.3%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#34d399"></div>Marketing 7.3%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#1a56db"></div>Eco Dev 7.6%</div>
+  </div>
+</div>
+
+<!-- Score pills -->
+<div class="scores-row">
+  <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-orange">55.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-red">38.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-green">72.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-orange">60.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-orange">55.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-orange">62.0</div></div>
+</div>
+
+<!-- BLOCK 2: INSIGHTS -->
+<div class="section-label">INSIGHTS</div>
+<div class="card insights-card">
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">2.75 Billion Max Supply Creates Extreme Long-Term Inflation<span class="insight-summary s-red">: only 285M in circulation at TGE</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The maximum token supply of 2,777,777,777 EVRX is the single biggest structural concern in this tokenomics design. At TGE, only 285.3M tokens are in circulation, 10.3% of max supply. Over the following 60 months, the full supply enters the market through linear emissions across all buckets. The Rewards bucket alone (618M tokens, 22.3% of max supply) unlocks gradually at ~9.3M tokens per month for 5 years. Combined with Team (36-month linear), Marketing (36-month linear), and Ecosystem Development (24-month linear), the cumulative circulating supply reaches 68.9% of max supply by Year 2 and 95.9% by Year 4. This sustained emission profile requires proportional demand growth simply to maintain price stability, let alone appreciate. At the $0.0144 listing price, year-5 FDV implied by full supply would be $39.9M, meaning the market cap ceiling is essentially the listing FDV today.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Rewards Allocation Dominates TGE Sell Pressure at 39.8%<span class="insight-summary s-red">: 57M tokens with 9.3% at TGE, no cliff</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Rewards bucket (618M tokens total) releases 57.24M tokens at TGE, 9.3% of the allocation, with no cliff. This is by design for a gaming reward system, but it represents the largest single source of day-one sell pressure: 48.37M tokens estimated to be sold, worth approximately $696K at listing. Combined with Initial Community Distribution (18.6M at TGE) and KOL (7.47M at TGE), community-facing allocations account for over 50% of total estimated TGE sell pressure. For a gaming ecosystem, reward tokens are frequently sold by players immediately after earning them. The project needs meaningful in-game token sinks, premium items, upgrades, entry fees, to absorb ongoing reward emissions and prevent continuous downward price pressure from players cashing out.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">TGE Date Slipped from Q4 2025 to Unknown<span class="insight-summary s-red">: model references Dec 2025 but game not yet launched</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The tokenomics spreadsheet targeted TGE for December 2025, aligned with REVENGE's Early Access launch. As of March 2026, the game is still in pre-alpha technical testing phase and the TGE has not occurred. The project raised $5.5M confirmed from 7 investors at a pre-valuation of $25M, meaning early investors received tokens at an effective valuation below the listing FDV of $40M. The project explicitly reserves the right to modify tokenomics figures pre-TGE. Key milestones still pending: Early Access launch on Steam and Epic, TGE, and CEX listings (MEXC, Gate.io, Bitget and Binance Alpha all made offers per Telegram updates). Each delay extends the holding period for Community Round participants and risks community fatigue. The formal Twitch partnership (May 2025) and DICE 2026 attendance signal the project is still actively building, but execution timeline discipline is a visible weak point.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Token Utility Relies Heavily on Game Traction<span class="insight-summary s-orange">: no game live means no organic token demand yet</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">$EVRX utility is explicitly tied to in-game activity: premium currency conversions, skin and gear purchases, XP boosts, spectator interactions, staking, and governance. All of these demand drivers activate only once REVENGE has a live, active player base. While the project has demonstrated genuine pre-launch traction (600K wishlists on Epic and Steam, Top 10 on Epic wishlist charts, 60K prototype testers, 13K monthly active users), wishlists do not convert 1:1 into paying players. GameFi tokens that launch before achieving critical active user mass consistently face sell pressure from community round participants who rotate into the next project. The NETS dual-currency model (off-chain premium currency bridging Web2 players) is a smart design to buffer Web3 mechanics from casual players, but the $EVRX value accrual depends entirely on conversion of active players into token users.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Team Allocation 15% With 12-Month Cliff, No Disclosed Vesting Rationale<span class="insight-summary s-orange">: 416M tokens begin unlocking month 13</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Team allocation is 416.7M tokens (15.1% of max supply) with a 12-month cliff and 36-month linear vesting, a total of 48 months from TGE. At 11.57M tokens per month post-cliff, the Team unlock adds sustained sell-side supply from month 13 onwards. For context, 11.57M tokens per month equals approximately $166K at the listing price, manageable at current valuation, but meaningful relative to the thin initial market cap of $4.1M. The structure is adequate by industry standards, but given the TGE has already slipped, the cliff period is already partially consumed. If TGE occurs in Q2 2026, the cliff expires Q2 2027, just as the protocol is attempting to grow its player base. The timing is workable but tight.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">$40M FDV Tight for an AAA Gaming Studio Ambition<span class="insight-summary s-orange">: comparable Web3 gaming tokens launched at 2x to 5x this level</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">At a $0.0144 listing price against a 2.75B max supply, the FDV is $39.9M. While conservative valuations are generally positive for entry buyers, $40M FDV is significantly below comparable Web3 gaming launches: Immutable (IMX) listed at $1B+ FDV, Pixels launched at $200M FDV, and even smaller gaming projects like Shrapnel launched above $100M. Given Everreach's team credentials (Far Cry 3, Rainbow Six Siege, Fortnite veterans), $5M+ in raised capital, Immutable partnership, and 600K wishlists, the $40M FDV leaves significant upside potential if the game achieves meaningful traction. However, the $40M ceiling applies to the full 2.75B supply, if only the initial 285M is circulating at TGE, the effective market cap is $4.1M, which limits DEX depth and makes the token vulnerable to manipulation by larger holders.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Investor ROI Multiples Among the Lowest Seen<span class="insight-summary s-green">: Pre-Seed at 2.9x, Seed at 1.9x, minimal dump incentive</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">This is the strongest element in the EVRX tokenomics. Round prices range from $0.005 (Pre-Seed) to $0.0144 (Public). At a listing price of $0.0144, the maximum investor ROI multiple is 2.9x for Pre-Seed investors, a fraction of the 10x to 50x multiples common in GameFi launches. Seed investors are at 1.9x, Private Round at 1.6x, and Community Round 1 at 1.9x. These compressed ROI multiples dramatically reduce the financial incentive for early investors to dump at TGE. When insiders are not in significant profit at listing, the coordinated exit behavior that kills most token launches becomes structurally less likely. This is a deliberate, community-aligned design choice that deserves explicit credit.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Strong Game Traction and AAA Team Reduce Execution Risk<span class="insight-summary s-green">: 600K wishlists, Immutable backing, TwitchCon presence</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Everreach Labs has demonstrated real game development progress rather than just token mechanics. REVENGE reached the Top 10 on Epic Games global wishlists, completed a prototype phase with 60K testers and 13K monthly active users, and presented at TwitchCon Europe with an official Twitch partnership (formally announced May 2025) for CROWDPLAY integration. The studio attended DICE 2026, a traditional AAA gaming industry conference that very few Web3 projects access. Confirmed investors include BasedVC, BCA Investments, Castrum Capital, Immutable, and Magic Media and Entertainment Group across 7 total backers for a combined $5.5M raised. Magic Media invested $1M directly into the studio for development acceleration. Immutable's inclusion as both investor and launch platform is particularly meaningful, they have direct commercial incentive for REVENGE to succeed on their Web3 gaming infrastructure. These are verifiable institutional signals that meaningfully de-risk the $40M FDV.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">AI Agent Integration Creates Differentiated Token Utility<span class="insight-summary s-green">: 3-phase AI roadmap ties agent behavior to $EVRX demand</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The AI Agents roadmap introduces a genuinely novel utility layer for $EVRX. Phase 1 deploys AI agents for social media community engagement. Phase 2 activates agent-to-agent and agent-to-game mechanics where AI characters (MARA and D.E.V.O.N.) influence narrative and game mechanics in real time. Phase 3 evolves MARA into a 24/7 Twitch live-streamer who interacts directly with spectators, creating an always-on demand channel for the CrowdPlay mechanics that require $EVRX. If executed, this creates a compounding flywheel: more AI-driven spectator interactions drive more $EVRX demand for premium spectator inputs, which funds more rewards for participants. The CrowdPlay concept itself is genuinely novel in gaming and has demonstrable audience interest from TwitchCon. This is a plausible demand driver that most GameFi tokens lack.</div>
+  </div>
+
+</div>
+
+<!-- BLOCK 3: SELL PRESSURE + TOKEN FLOW -->
+<div class="section-label">TGE SELL PRESSURE &amp; TOKEN ECONOMY</div>
+<div class="bottom-row">
+
+  <!-- Sell Pressure -->
+  <div class="card sp-card">
+    <div class="sp-title">TGE Day Sell Pressure Estimate</div>
+    <div class="sp-sub">Propensity to Sell model · Listing $0.0144 · FDV $40M · Utility score 62/100</div>
+    <div class="sp-stats">
+      <div class="sp-stat">
+        <div class="sp-stat-label">TGE Circulating</div>
+        <div class="sp-stat-value">285.3M</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Est. Sell Volume</div>
+        <div class="sp-stat-value danger">121.4M (43%)</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Sell Pressure USD</div>
+        <div class="sp-stat-value danger">$1.75M</div>
+      </div>
+    </div>
+    <div class="sp-bar-label">USD Contribution by Allocation</div>
+    <div class="sp-bar-wrap" id="spBar"></div>
+    <div class="sp-legend" id="spLegend"></div>
+    <div class="sp-note">
+      <strong>Method:</strong> propensity = max &minus; (utility/100) &times; (max &minus; min) per bucket. Liquidity excluded (propensity = 0). Team and Advisors have 0 TGE tokens. Low investor ROI multiples (max 2.9x) reduce private round propensity versus typical GameFi launches.
+    </div>
+  </div>
+
+  <!-- Token Economy Flow -->
+  <div class="card flow-card">
+    <div class="flow-title">Token Economy Flow</div>
+    <div class="flow-sub">How $EVRX circulates through the REVENGE / Everreach ecosystem</div>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
+  </div>
+
+</div>
+
+<div class="assumptions">
+  <strong>Audit Notes:</strong> Max supply confirmed at <strong>2,777,777,777 EVRX</strong> (spreadsheet). Listing price <strong>$0.0144</strong>, FDV $40M, TGE market cap $4.1M. TGE target was Q4 2025 but has not yet occurred as of audit date. Total confirmed raised: <strong>$5.5M</strong> (PitchBook) from 7 investors including BasedVC, BCA Investments, Castrum Capital, Immutable, Magic Media and Entertainment Group. Pre-valuation at last round: $25M (ICO Drops). Round prices: Pre-Seed $0.005, Seed $0.0075, Private $0.009, Community Rd1 $0.0075, Strategic $0.009, Public $0.0144. Token ticker changed from $EVER to $EVRX in 2025. Formal Twitch partnership announced May 27, 2025. AI Agents roadmap sourced from BlockchainGamer.biz CEO interview. Deck content confirmed via supplemental research. Confidence: <strong>Medium-High</strong> (full vesting schedule available; game Early Access and TGE date unconfirmed).
+</div>
+</div>
+
+<script>
+// ── Radar ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('radarSvg');
+  const ns = 'http://www.w3.org/2000/svg';
+  const cx = 170, cy = 138, maxR = 90, n = 5;
+  const labels = ['Inflation /\nEmissions', 'Supply\nShock Risk', 'Dilution &\nInvestor', 'Distribution\nFairness', 'Liquidity\n& Utility'];
+  const scores = [38, 45, 72, 55, 58];
+
+  function pt(i, r) {
+    const a = (Math.PI * 2 * i / n) - Math.PI / 2;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  }
+
+  [25, 50, 75, 100].forEach(p => {
+    const el = document.createElementNS(ns, 'polygon');
+    el.setAttribute('points', Array.from({length:n}, (_, i) => pt(i, maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill', 'none'); el.setAttribute('stroke', 'rgba(0,0,0,0.07)'); el.setAttribute('stroke-width', '1');
+    svg.appendChild(el);
+  });
+  for (let i = 0; i < n; i++) {
+    const [x2, y2] = pt(i, maxR);
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1', cx); l.setAttribute('y1', cy); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', 'rgba(0,0,0,0.08)'); l.setAttribute('stroke-width', '1');
+    svg.appendChild(l);
+  }
+  const dp = document.createElementNS(ns, 'polygon');
+  dp.setAttribute('points', scores.map((s,i) => pt(i, maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill', 'rgba(221,107,32,0.16)');
+  dp.setAttribute('stroke', 'rgba(221,107,32,0.65)');
+  dp.setAttribute('stroke-width', '2');
+  svg.appendChild(dp);
+  scores.forEach((s, i) => {
+    const [px, py] = pt(i, maxR*s/100);
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', px); c.setAttribute('cy', py); c.setAttribute('r', '4');
+    c.setAttribute('fill', 'rgba(221,107,32,0.9)');
+    svg.appendChild(c);
+  });
+  labels.forEach((lbl, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const lx = cx + (maxR + 32) * Math.cos(angle);
+    const ly = cy + (maxR + 32) * Math.sin(angle);
+    const lines = lbl.split('\n');
+    const anchor = Math.cos(angle) > 0.3 ? 'start' : Math.cos(angle) < -0.3 ? 'end' : 'middle';
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', lx); t.setAttribute('y', ly);
+    t.setAttribute('text-anchor', anchor); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', '10'); t.setAttribute('font-family', '-apple-system,sans-serif');
+    t.setAttribute('font-weight', '500'); t.setAttribute('fill', '#4a5568');
+    lines.forEach((line, li) => {
+      const ts = document.createElementNS(ns, 'tspan');
+      ts.setAttribute('x', lx);
+      ts.setAttribute('dy', li === 0 ? (lines.length > 1 ? '-0.6em' : '0') : '1.3em');
+      ts.textContent = line;
+      t.appendChild(ts);
+    });
+    svg.appendChild(t);
+    const [sx, sy] = pt(i, maxR * scores[i] / 100);
+    const st = document.createElementNS(ns, 'text');
+    st.setAttribute('x', sx + Math.cos(angle) * 13);
+    st.setAttribute('y', sy + Math.sin(angle) * 13);
+    st.setAttribute('text-anchor', anchor); st.setAttribute('dominant-baseline', 'middle');
+    st.setAttribute('font-size', '9'); st.setAttribute('font-family', 'Courier New,monospace');
+    st.setAttribute('font-weight', '700'); st.setAttribute('fill', '#dd6b20');
+    st.textContent = scores[i];
+    svg.appendChild(st);
+  });
+})();
+
+// ── Donut ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('donutSvg'), ns = 'http://www.w3.org/2000/svg';
+  const cx = 55, cy = 55, R = 46, r = 30;
+  const slices = [
+    {p:.223, c:'#f59e0b'}, {p:.151, c:'#7c3aed'}, {p:.076, c:'#1a56db'},
+    {p:.050, c:'#38bdf8'}, {p:.063, c:'#a78bfa'}, {p:.073, c:'#34d399'},
+    {p:.055, c:'#6366f1'}, {p:.309, c:'#f43f5e'}
+  ];
+  let a = -Math.PI / 2;
+  slices.forEach(s => {
+    const ea = a + s.p * 2 * Math.PI;
+    const x1=cx+R*Math.cos(a), y1=cy+R*Math.sin(a), x2=cx+R*Math.cos(ea), y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea), yi1=cy+r*Math.sin(ea), xi2=cx+r*Math.cos(a), yi2=cy+r*Math.sin(a);
+    const lg = s.p > 0.5 ? 1 : 0;
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', `M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill', s.c); path.setAttribute('stroke', '#fff'); path.setAttribute('stroke-width', '1.5');
+    svg.appendChild(path); a = ea;
+  });
+  [['2.75B', '11', 'Courier New,monospace', '700', '#1a202c', cy-5],
+   ['SUPPLY', '8', '-apple-system,sans-serif', '400', '#718096', cy+8]
+  ].forEach(([txt, fs, ff, fw, fill, y]) => {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', cx); t.setAttribute('y', y);
+    t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', fs); t.setAttribute('font-family', ff);
+    t.setAttribute('font-weight', fw); t.setAttribute('fill', fill);
+    t.textContent = txt; svg.appendChild(t);
+  });
+})();
+
+// ── Unlock bar ─────────────────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('unlockBar');
+  // TGE snapshot: show which buckets are unlocked (bright) vs locked (dim)
+  // Width proportional to % of max supply
+  const segs = [
+    {name:'Rewards',  total:22.3, tge:2.06, col:'#f59e0b'},
+    {name:'Team',     total:15.1, tge:0,    col:'#7c3aed'},
+    {name:'Eco Dev',  total:7.6,  tge:0,    col:'#1a56db'},
+    {name:'Liq',      total:5.0,  tge:5.0,  col:'#38bdf8'},
+    {name:'Comm Rd1', total:6.3,  tge:0.53, col:'#a78bfa'},
+    {name:'Marketing',total:7.3,  tge:0,    col:'#34d399'},
+    {name:'Advisors', total:5.5,  tge:0,    col:'#6366f1'},
+    {name:'Other',    total:30.9, tge:2.49, col:'#f43f5e'},
+  ];
+  let left = 0;
+  segs.forEach(s => {
+    const locked = s.total - s.tge;
+    if (s.tge > 0) {
+      const seg = document.createElement('div');
+      seg.className = 'unlock-segment';
+      seg.style.cssText = `left:${left}%;width:${s.tge}%;background:${s.col}`;
+      seg.title = `${s.name} TGE unlocked: ${s.tge.toFixed(1)}%`;
+      if (s.tge >= 2) seg.textContent = s.tge.toFixed(0) + '%';
+      container.appendChild(seg);
+    }
+    if (locked > 0) {
+      const seg = document.createElement('div');
+      seg.className = 'unlock-segment';
+      seg.style.cssText = `left:${left + s.tge}%;width:${locked}%;background:${s.col};opacity:0.2`;
+      seg.title = `${s.name} locked at TGE: ${locked.toFixed(1)}%`;
+      container.appendChild(seg);
+    }
+    left += s.total;
+  });
+})();
+
+// ── Sell Pressure ─────────────────────────────────────────────────────────────
+(function(){
+  const data = [
+    {name:'Rewards',    usd:696496, pct:39.8, col:'#f59e0b', prop:'0.845'},
+    {name:'Init Comm',  usd:226325, pct:12.9, col:'#22d3ee', prop:'0.845'},
+    {name:'Comm Rd1',   usd:185936, pct:10.6, col:'#a78bfa', prop:'0.876'},
+    {name:'Seed',       usd:136984, pct:7.8,  col:'#6366f1', prop:'0.752'},
+    {name:'Private',    usd:135252, pct:7.7,  col:'#8b5cf6', prop:'0.752'},
+    {name:'Public',     usd:131442, pct:7.5,  col:'#34d399', prop:'0.876'},
+    {name:'KOL',        usd:97564,  pct:5.6,  col:'#f43f5e', prop:'0.907'},
+    {name:'Strategic',  usd:75152,  pct:4.3,  col:'#38bdf8', prop:'0.752'},
+    {name:'Pre-Seed',   usd:63457,  pct:3.6,  col:'#fbbf24', prop:'0.752'},
+  ];
+  const bar = document.getElementById('spBar');
+  const legend = document.getElementById('spLegend');
+  data.forEach(d => {
+    const seg = document.createElement('div');
+    seg.className = 'sp-seg';
+    seg.style.cssText = `width:${d.pct}%;background:${d.col}`;
+    seg.title = `${d.name}: $${(d.usd/1000).toFixed(0)}K (${d.pct}%) · propensity ${d.prop}`;
+    if (d.pct >= 7) seg.textContent = d.pct.toFixed(0) + '%';
+    bar.appendChild(seg);
+    const item = document.createElement('div');
+    item.className = 'sp-leg-item';
+    item.innerHTML = `
+      <div class="sp-leg-dot" style="background:${d.col}"></div>
+      <span class="sp-leg-label">${d.name}</span>
+      <span class="sp-leg-pct">${d.pct}%</span>
+      <span class="sp-leg-usd">$${(d.usd/1000).toFixed(0)}K</span>`;
+    legend.appendChild(item);
+  });
+})();
+
+// ── Token Economy Flow ────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('flowSvg');
+  const ns = 'http://www.w3.org/2000/svg';
+  const R = 36;
+  const defs = document.createElementNS(ns, 'defs');
+  const marker = document.createElementNS(ns, 'marker');
+  marker.setAttribute('id', 'arr'); marker.setAttribute('markerWidth', '7'); marker.setAttribute('markerHeight', '7');
+  marker.setAttribute('refX', '6'); marker.setAttribute('refY', '3'); marker.setAttribute('orient', 'auto');
+  const mp = document.createElementNS(ns, 'path');
+  mp.setAttribute('d', 'M0,0 L0,6 L7,3 z'); mp.setAttribute('fill', '#b0bec5');
+  marker.appendChild(mp); defs.appendChild(marker); svg.appendChild(defs);
+
+  const nodes = [
+    {id:'player',  x:100, y:46,  label:['Player'],        sub:'buys $EVRX',        col:'#1a56db', bg:'#eff6ff'},
+    {id:'spec',    x:310, y:46,  label:['Spectator'],      sub:'CrowdPlay oracle',  col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'game',    x:210, y:148, label:['REVENGE'],        sub:'in-game actions',   col:'#dd6b20', bg:'#fff7ed'},
+    {id:'nets',    x:80,  y:248, label:['NETS'],           sub:'Web2 bridge',       col:'#38a169', bg:'#f0fff4'},
+    {id:'stake',   x:210, y:334, label:['Staking'],        sub:'earn EVRX rewards', col:'#38a169', bg:'#f0fff4'},
+    {id:'treasury',x:340, y:248, label:['Treasury'],       sub:'ecosystem fund',    col:'#e53e3e', bg:'#fff5f5'},
+    {id:'ai',      x:340, y:148, label:['AI Agents'],      sub:'MARA + D.E.V.O.N.', col:'#6366f1', bg:'#eef2ff'},
+  ];
+
+  const edges = [
+    {from:'player', to:'game',     lbl:'spends'},
+    {from:'player', to:'stake',    lbl:'stakes'},
+    {from:'spec',   to:'game',     lbl:'CrowdPlay'},
+    {from:'spec',   to:'ai',       lbl:'triggers'},
+    {from:'game',   to:'nets',     lbl:'earns NETS'},
+    {from:'game',   to:'treasury', lbl:'platform fee'},
+    {from:'nets',   to:'game',     lbl:'converts'},
+    {from:'ai',     to:'game',     lbl:'modifies'},
+    {from:'treasury',to:'stake',   lbl:'rewards'},
+    {from:'stake',  to:'player',   lbl:'yield'},
+  ];
+
+  function nodeById(id) { return nodes.find(n => n.id === id); }
+  edges.forEach(e => {
+    const s = nodeById(e.from), t = nodeById(e.to);
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const sx = s.x + dx/len*(R+2), sy = s.y + dy/len*(R+2);
+    const tx = t.x - dx/len*(R+4), ty = t.y - dy/len*(R+4);
+    const mx = (sx+tx)/2, my = (sy+ty)/2;
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', sx); line.setAttribute('y1', sy);
+    line.setAttribute('x2', tx); line.setAttribute('y2', ty);
+    line.setAttribute('stroke', '#b0bec5'); line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('marker-end', 'url(#arr)');
+    svg.appendChild(line);
+    const tw = e.lbl.length * 5.5 + 8;
+    const rect = document.createElementNS(ns, 'rect');
+    rect.setAttribute('x', mx - tw/2); rect.setAttribute('y', my - 8);
+    rect.setAttribute('width', tw); rect.setAttribute('height', 13);
+    rect.setAttribute('rx', '3'); rect.setAttribute('fill', 'white'); rect.setAttribute('opacity', '0.85');
+    svg.appendChild(rect);
+    const lt = document.createElementNS(ns, 'text');
+    lt.setAttribute('x', mx); lt.setAttribute('y', my + 1);
+    lt.setAttribute('text-anchor', 'middle'); lt.setAttribute('dominant-baseline', 'middle');
+    lt.setAttribute('font-size', '8'); lt.setAttribute('font-family', '-apple-system,sans-serif');
+    lt.setAttribute('fill', '#90a4ae');
+    lt.textContent = e.lbl;
+    svg.appendChild(lt);
+  });
+
+  nodes.forEach(n => {
+    const g = document.createElementNS(ns, 'g');
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y); circle.setAttribute('r', R);
+    circle.setAttribute('fill', n.bg); circle.setAttribute('stroke', n.col); circle.setAttribute('stroke-width', '1.5');
+    g.appendChild(circle);
+    const lineH = 11, totalH = n.label.length * lineH;
+    const startY = n.y - totalH/2 + lineH/2 - (n.sub ? 4 : 0);
+    n.label.forEach((line, li) => {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', n.x); t.setAttribute('y', startY + li * lineH);
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+      t.setAttribute('font-size', '9'); t.setAttribute('font-family', '-apple-system,sans-serif');
+      t.setAttribute('font-weight', '700'); t.setAttribute('fill', n.col);
+      t.textContent = line;
+      g.appendChild(t);
+    });
+    const subY = startY + n.label.length * lineH + 3;
+    if (subY < n.y + R - 6) {
+      const ts = document.createElementNS(ns, 'text');
+      ts.setAttribute('x', n.x); ts.setAttribute('y', subY);
+      ts.setAttribute('text-anchor', 'middle'); ts.setAttribute('dominant-baseline', 'middle');
+      ts.setAttribute('font-size', '7.5'); ts.setAttribute('font-family', '-apple-system,sans-serif');
+      ts.setAttribute('fill', '#718096');
+      ts.textContent = n.sub;
+      g.appendChild(ts);
+    }
+    svg.appendChild(g);
+  });
+})();
+
+function tog(el){
+  el.querySelector('.insight-body').classList.toggle('open');
+  el.querySelector('.chevron').classList.toggle('open');
+}
+</script>
+</body>
+</html>
