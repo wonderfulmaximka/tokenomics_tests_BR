@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenomics Test: $TMX</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue:#1a56db; --bg:#f8f9fc; --card:#fff; --border:#e2e8f0;
+  --text:#1a202c; --muted:#718096; --red:#e53e3e; --orange:#dd6b20; --green:#38a169;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  padding: 28px 24px;
+}
+.page { max-width: 980px; margin: 0 auto; }
+
+/* HEADER */
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title span { color: var(--blue); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
+.badge-blue   { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
+.badge-green  { background:#f0fff4; border:1px solid #9ae6b4; color:#276749; }
+.badge-red    { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+
+/* CARDS */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
+
+/* TOP ROW */
+.top-row { display: grid; grid-template-columns: 200px 1fr 220px; gap: 14px; margin-bottom: 14px; }
+
+/* GAUGE */
+.score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
+.gauge-wrap { position: relative; width: 170px; height: 95px; }
+.gauge-score { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.gauge-number { font-family: 'Courier New', monospace; font-size: 32px; font-weight: 500; color: #1a56db; line-height: 1; display: block; }
+.gauge-number sup { font-size: 14px; }
+.rating-badge-g { display: inline-block; background: #1a56db; color: white; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 5px; margin-top: 4px; }
+.gauge-labels { display: flex; justify-content: space-between; width: 170px; margin-top: 4px; font-size: 10px; color: var(--muted); font-family: 'Courier New', monospace; }
+
+/* RADAR */
+.radar-card { padding: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* DONUT */
+.donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 11px; min-width: 0; }
+.alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alloc-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); flex-shrink: 0; }
+
+/* UNLOCK BAR */
+.unlock-card { padding: 16px 20px; margin-bottom: 14px; }
+.unlock-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+.unlock-bar-wrap { position: relative; height: 32px; background: #f1f5f9; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.unlock-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.unlock-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.unlock-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.ul-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ul-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SCORE PILLS */
+.scores-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+.score-pill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.score-pill-label { font-size: 9.5px; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.score-pill-value { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 500; }
+.c-red { color: var(--red); } .c-orange { color: var(--orange); } .c-green { color: var(--green); } .c-blue { color: var(--blue); }
+
+/* INSIGHTS */
+.insights-card { padding: 0; overflow: hidden; margin-bottom: 14px; }
+.insight-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.insight-item:last-child { border-bottom: none; }
+.insight-item:hover { background: #f7faff; }
+.insight-header { display: flex; align-items: flex-start; gap: 10px; padding: 13px 18px; user-select: none; }
+.insight-icon { width: 16px; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+.icon-red { color: var(--red); } .icon-orange { color: var(--orange); } .icon-green { color: var(--green); }
+.insight-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.4; }
+.insight-summary { font-size: 12px; font-weight: 400; }
+.s-red { color: var(--red); } .s-orange { color: var(--orange); } .s-green { color: var(--green); }
+.chevron { color: var(--muted); font-size: 11px; transition: transform .2s; flex-shrink: 0; padding-top: 3px; }
+.chevron.open { transform: rotate(180deg); }
+.insight-body { display: none; padding: 0 18px 14px 44px; font-size: 13px; line-height: 1.75; color: #4a5568; }
+.insight-body.open { display: block; }
+
+/* BOTTOM ROW */
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+/* SELL PRESSURE */
+.sp-card { padding: 18px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.sp-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+.sp-stat { flex: 1; background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; min-width: 0; }
+.sp-stat-label { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-stat-value { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-stat-value.danger { color: var(--red); }
+.sp-bar-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.sp-bar-wrap { height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 12px; }
+.sp-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; transition: opacity .15s; cursor: default; }
+.sp-seg:hover { opacity: .8; }
+.sp-legend { display: flex; flex-direction: column; gap: 5px; }
+.sp-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.sp-leg-label { flex: 1; color: var(--muted); }
+.sp-leg-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); min-width: 32px; text-align: right; }
+.sp-leg-usd { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); min-width: 60px; text-align: right; }
+.sp-note { margin-top: 12px; font-size: 10px; color: var(--muted); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 10px; }
+
+/* TOKEN FLOW */
+.flow-card { padding: 18px; display: flex; flex-direction: column; }
+.flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.flow-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+
+/* ASSUMPTIONS */
+.assumptions { margin-top: 14px; padding: 12px 16px; background: #fffbeb; border: 1px solid #f6e05e; border-radius: 8px; font-size: 12px; color: #744210; line-height: 1.65; }
+.assumptions strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- BLOCK 1: HEADER -->
+<h1 class="page-title">Tokenomics Test: <span>$TMX</span></h1>
+<div class="badge-row">
+  <span class="badge badge-orange">⚠ 83.6% Airdrop Sell Concentration</span>
+  <span class="badge badge-red">⚠ 43.5% Investor Allocation</span>
+  <span class="badge badge-blue">Multichain ERC20 · 1B Supply · Fixed Cap</span>
+  <span class="badge badge-green">✓ 12M Cliff on Team, Advisors, Investors</span>
+</div>
+<p class="page-subtitle">TermMax · Fixed-Rate DeFi Borrowing &amp; Lending · Multichain (Ethereum, Arbitrum, BNB Chain) · Audit Date: March 2026</p>
+
+<div class="top-row">
+  <!-- Gauge: score=68, dashoffset=251.2*(1-0.68)=80.4, blue gradient for decent score -->
+  <div class="card score-card">
+    <div class="score-title">Tokenomics Rating</div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 170 95" width="170" height="95">
+        <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#2563eb"/>
+          <stop offset="100%" style="stop-color:#60a5fa"/>
+        </linearGradient></defs>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="251.2" stroke-dashoffset="80.4"/>
+      </svg>
+      <div class="gauge-score">
+        <span class="gauge-number">68<sup>.0</sup></span>
+        <div class="rating-badge-g">A</div>
+      </div>
+    </div>
+    <div class="gauge-labels"><span>0</span><span>100</span></div>
+  </div>
+
+  <!-- Radar -->
+  <div class="card radar-card">
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
+  </div>
+
+  <!-- Donut -->
+  <div class="card donut-card">
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
+    <div class="alloc-legend">
+      <div class="alloc-item"><div class="alloc-dot" style="background:#34d399"></div><div class="alloc-label">Airdrop</div><div class="alloc-pct">15%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#22d3ee"></div><div class="alloc-label">Community</div><div class="alloc-pct">29.5%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38bdf8"></div><div class="alloc-label">Liquidity</div><div class="alloc-pct">4.5%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#1a56db"></div><div class="alloc-label">Foundation</div><div class="alloc-pct">5%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#a78bfa"></div><div class="alloc-label">Advisors</div><div class="alloc-pct">3%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#7c3aed"></div><div class="alloc-label">Team</div><div class="alloc-pct">15%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f59e0b"></div><div class="alloc-label">Investors</div><div class="alloc-pct">28%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock bar -->
+<div class="card unlock-card">
+  <div class="unlock-title">Cumulative Unlock Schedule (Month 0 to Month 48)</div>
+  <div id="unlockBar" class="unlock-bar-wrap"></div>
+  <div class="unlock-bar-labels">
+    <span>TGE (M0)</span><span>M6</span><span>M12</span><span>M18</span><span>M24</span><span>M36</span><span>Full (M48)</span>
+  </div>
+  <div class="unlock-legend">
+    <div class="ul-item"><div class="ul-dot" style="background:#34d399"></div>Airdrop 15%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#22d3ee"></div>Community 29.5%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#38bdf8"></div>Liquidity 4.5%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#1a56db"></div>Foundation 5%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#a78bfa"></div>Advisors 3%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#7c3aed"></div>Team 15%</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#f59e0b"></div>Investors 28%</div>
+  </div>
+</div>
+
+<!-- Score pills -->
+<div class="scores-row">
+  <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-orange">58.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-blue">78.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-orange">62.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-green">72.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-blue">74.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-green">76.0</div></div>
+</div>
+
+<!-- BLOCK 2: INSIGHTS -->
+<div class="section-label">INSIGHTS</div>
+<div class="card insights-card">
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Airdrop Dominates TGE Sell Pressure at 83.6%<span class="insight-summary s-red"> — 150M tokens fully unlocked day one</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Ecosystem Airdrop allocation (150M tokens, 15%) is fully available at TGE with no vesting schedule, which is by design for airdrops. However, with a propensity to sell of 0.82 (reflecting the 72/100 utility score), an estimated 123M tokens worth $7.38M are likely to hit the market on day one from airdrop recipients. Airdrop farming is a well-documented behavior in DeFi: recipients often sell immediately after claiming. At a $60M FDV, $7.38M of selling across the first trading day represents roughly 12.3% of the entire FDV entering as sell-side flow. This is manageable if liquidity depth is sufficient, but the project should expect significant price volatility in the first 48 to 72 hours post-TGE.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Investors Hold 28% With 12M Cliff, Then 24M Vest<span class="insight-summary s-red"> — $16.8M unlocking month 13 through 36</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Investors control 280M tokens (28%), the single largest insider allocation. The 12-month cliff is encouraging, but the 24-month linear vesting post-cliff means 280M tokens will flow into circulation between months 13 and 36. At the $60M FDV listing price, this represents $16.8M of investor tokens entering the market over roughly two years. The seed round was raised at a $4.25M valuation, implying investors are sitting on approximately 14x paper ROI at the $60M FDV listing price. This is a meaningful profit incentive to sell once the cliff expires. Projects that succeed in growing TVL and protocol revenue during the cliff period can absorb this unlock more comfortably through expanded demand.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Community Allocation Lacks Specific Unlock Schedule<span class="insight-summary s-red"> — 295M tokens "event-based" with no defined timeline</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Community bucket (295M tokens, 29.5%) carries a 1-month cliff followed by "event-based distribution." This is intentionally flexible for ecosystem incentives, but it creates a transparency problem: token holders cannot model when or how much Community supply will enter circulation. Event-based distribution can be deployed quickly and in large tranches depending on protocol decisions. For investors conducting due diligence, an unknown unlock velocity on the second-largest allocation (after investors) is a risk. The project should publish a clear Community distribution roadmap with estimated quarterly release targets, even if individual events remain flexible.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">$60M FDV Conservative Relative to Protocol Potential<span class="insight-summary s-orange"> — Reasonable at listing but compresses upside narrative</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">TermMax's confirmed FDV at listing is $60M (listing price $0.06). For a protocol with a live product, audited smart contracts, institutional backers including Cumberland and HashKey, and integrations with Aave, Ethena, Lido, and Ondo Global Markets, a $60M FDV is conservative. Comparable fixed-rate DeFi protocols such as Pendle launched at higher FDVs and grew from there. The conservative entry valuation benefits early buyers but also signals the team has prioritized sustainable price discovery over inflated expectations. This is a positive tokenomics signal for long-term holders, even if it limits early-stage hype cycles.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Revenue Share Mechanism Partially Described<span class="insight-summary s-orange"> — "Up to 65%" fee share lacks specific trigger conditions</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The whitepaper states sTMX holders receive "staking rewards including TMX and up to 65% revenue from protocol operation." The phrase "up to" is important: it introduces a ceiling without defining a floor, and the conditions that determine the actual percentage are not documented. Until the governance framework publishes binding parameters for fee distribution, this figure remains aspirational rather than contractual. DeFiLlama reports annual fees of $29.4K for TermMax currently, which at 65% would yield approximately $19K annually for stakers at current scale. Protocol revenue must grow significantly for this to be a meaningful value driver, which depends on TVL expansion across the planned multi-chain deployment.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">15% Initial Float Is Tight for a $60M FDV Launch<span class="insight-summary s-orange"> — Limited liquidity depth may amplify early volatility</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">With 150M tokens in initial circulation (15% of supply), the TGE market cap is $9M at the confirmed $0.06 listing price. A 15% float is within the acceptable range for a DeFi protocol, but at this FDV the actual dollar depth of tradable tokens is thin. The 45M Liquidity Provision allocation (4.5%) is earmarked for DEX pools, which helps, but without confirmed CEX listings alongside DEX liquidity, early price discovery will be volatile. The project's confirmed commitment to PancakeSwap LP staking via sTMX provides a structural token sink that partially offsets float concerns.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Strong Vesting Structure for Team, Advisors and Investors<span class="insight-summary s-green"> — 12M cliff across all insider allocations</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Team (150M, 15%), Advisors (30M, 3%), and Investors (280M, 28%) all share a consistent 12-month cliff with zero tokens at TGE. This is one of the cleanest insider vesting designs seen in recent DeFi launches. Having the same cliff across all three groups eliminates the common "advisor loophole" where advisors with shorter cliffs can front-run team unlocks. Post-cliff vesting extends to 30 months for Team and Advisors, and 24 months for Investors, for total effective vesting periods of 42 and 36 months respectively. These structures meet or exceed institutional investment standards for early-stage DeFi protocols.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Fixed Supply With Real Revenue Capture Creates Genuine Scarcity<span class="insight-summary s-green"> — 1B hard cap, 65% revenue to stakers, LP staking mechanism</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">TMX has a fixed supply of 1 billion tokens with no inflation mechanism. Combined with the LP staking requirement (users must provide DEX liquidity and stake LP tokens to receive sTMX), the tokenomics create a structural token lockup that reduces sell pressure over time. The 65% revenue share tied to protocol fees means that as TermMax's TVL grows across Ethereum, Arbitrum, BNB Chain, and HyperEVM, actual cash flows accrue to sTMX holders. This is a materially stronger value accrual mechanism than governance-only tokens. The model resembles Curve Finance's ve-tokenomics in its incentive alignment, adapted for a fixed-rate lending protocol.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Institutional Backers and Live Product Reduce Execution Risk<span class="insight-summary s-green"> — Cumberland, HashKey, 93% DeFiSafety score, live on 6 chains</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">TermMax raised $4.25M from Cumberland, HashKey Capital, Decima, LongLing, and MZ Web3 in late 2023. Cumberland's involvement is notable given their role as a leading digital asset market maker — they are a natural liquidity provider for the protocol and have direct incentives for its success. The project has achieved a 93% DeFiSafety score (matching Aave V3), multiple Cantina audit competition completions, a live Immunefi bug bounty, and real deployments across Ethereum, Arbitrum, BNB Chain, Berachain, and HyperEVM. This is not a whitepaper project: it is a functioning protocol with audited contracts and real integrations, which significantly reduces the execution risk embedded in a $60M FDV valuation.</div>
+  </div>
+
+</div>
+
+<!-- BLOCK 3: SELL PRESSURE + TOKEN FLOW -->
+<div class="section-label">TGE SELL PRESSURE &amp; TOKEN ECONOMY</div>
+<div class="bottom-row">
+
+  <!-- Sell Pressure -->
+  <div class="card sp-card">
+    <div class="sp-title">TGE Day Sell Pressure Estimate</div>
+    <div class="sp-sub">Propensity to Sell model · Listing $0.06 · FDV $60M · Utility score 72/100</div>
+    <div class="sp-stats">
+      <div class="sp-stat">
+        <div class="sp-stat-label">TGE Circulating</div>
+        <div class="sp-stat-value">224.5M</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Est. Sell Volume</div>
+        <div class="sp-stat-value danger">147.2M (66%)</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Sell Pressure USD</div>
+        <div class="sp-stat-value danger">$8.83M</div>
+      </div>
+    </div>
+    <div class="sp-bar-label">USD Contribution by Allocation</div>
+    <div class="sp-bar-wrap" id="spBar"></div>
+    <div class="sp-legend" id="spLegend"></div>
+    <div class="sp-note">
+      <strong>Method:</strong> propensity = max &minus; (utility/100) &times; (max &minus; min) per bucket. Higher utility score lowers propensity to sell. Liquidity excluded (propensity = 0). Foundation, Advisors, Team, Investors have 0 TGE tokens (12M cliff). Community estimate assumes ~10% released at first event.
+    </div>
+  </div>
+
+  <!-- Token Economy Flow -->
+  <div class="card flow-card">
+    <div class="flow-title">Token Economy Flow</div>
+    <div class="flow-sub">How $TMX circulates through the TermMax ecosystem</div>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
+  </div>
+
+</div>
+
+<div class="assumptions">
+  <strong>Audit Notes:</strong> Supply confirmed at <strong>1,000,000,000 TMX (fixed cap)</strong>. FDV at listing: <strong>$60M confirmed</strong> (listing price $0.06, per pre-mine APY documentation). TGE initial circulation: 150M tokens (15%) per whitepaper. Seed round: $4.25M at implied ~$15M valuation (pre-token), giving investors ~14x paper ROI at $60M FDV listing. Community distribution schedule: "event-based" after 1M cliff; exact unlock velocity unmodelled. Revenue share: "up to 65%" fee distribution to sTMX holders, no minimum confirmed. Confidence level: <strong>High</strong> (live protocol, confirmed FDV, full allocation and vesting data available).
+</div>
+</div>
+
+<script>
+// ── Radar ────────────────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('radarSvg');
+  const ns = 'http://www.w3.org/2000/svg';
+  const cx = 170, cy = 138, maxR = 90, n = 5;
+  const labels = ['Inflation /\nEmissions', 'Supply\nShock Risk', 'Dilution &\nInvestor', 'Distribution\nFairness', 'Liquidity\n& Utility'];
+  const scores = [78, 65, 62, 58, 75];
+
+  function pt(i, r) {
+    const a = (Math.PI * 2 * i / n) - Math.PI / 2;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  }
+
+  [25, 50, 75, 100].forEach(p => {
+    const el = document.createElementNS(ns, 'polygon');
+    el.setAttribute('points', Array.from({length:n}, (_, i) => pt(i, maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill', 'none'); el.setAttribute('stroke', 'rgba(0,0,0,0.07)'); el.setAttribute('stroke-width', '1');
+    svg.appendChild(el);
+  });
+
+  for (let i = 0; i < n; i++) {
+    const [x2, y2] = pt(i, maxR);
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1', cx); l.setAttribute('y1', cy); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', 'rgba(0,0,0,0.08)'); l.setAttribute('stroke-width', '1');
+    svg.appendChild(l);
+  }
+
+  const dp = document.createElementNS(ns, 'polygon');
+  dp.setAttribute('points', scores.map((s,i) => pt(i, maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill', 'rgba(26,86,219,0.14)');
+  dp.setAttribute('stroke', 'rgba(26,86,219,0.6)');
+  dp.setAttribute('stroke-width', '2');
+  svg.appendChild(dp);
+
+  scores.forEach((s, i) => {
+    const [px, py] = pt(i, maxR*s/100);
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', px); c.setAttribute('cy', py); c.setAttribute('r', '4');
+    c.setAttribute('fill', 'rgba(26,86,219,0.85)');
+    svg.appendChild(c);
+  });
+
+  labels.forEach((lbl, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const lx = cx + (maxR + 32) * Math.cos(angle);
+    const ly = cy + (maxR + 32) * Math.sin(angle);
+    const lines = lbl.split('\n');
+    const anchor = Math.cos(angle) > 0.3 ? 'start' : Math.cos(angle) < -0.3 ? 'end' : 'middle';
+
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', lx); t.setAttribute('y', ly);
+    t.setAttribute('text-anchor', anchor); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', '10'); t.setAttribute('font-family', '-apple-system,sans-serif');
+    t.setAttribute('font-weight', '500'); t.setAttribute('fill', '#4a5568');
+    lines.forEach((line, li) => {
+      const ts = document.createElementNS(ns, 'tspan');
+      ts.setAttribute('x', lx);
+      ts.setAttribute('dy', li === 0 ? (lines.length > 1 ? '-0.6em' : '0') : '1.3em');
+      ts.textContent = line;
+      t.appendChild(ts);
+    });
+    svg.appendChild(t);
+
+    const [sx, sy] = pt(i, maxR * scores[i] / 100);
+    const st = document.createElementNS(ns, 'text');
+    st.setAttribute('x', sx + Math.cos(angle) * 13);
+    st.setAttribute('y', sy + Math.sin(angle) * 13);
+    st.setAttribute('text-anchor', anchor); st.setAttribute('dominant-baseline', 'middle');
+    st.setAttribute('font-size', '9'); st.setAttribute('font-family', 'Courier New,monospace');
+    st.setAttribute('font-weight', '700'); st.setAttribute('fill', '#1a56db');
+    st.textContent = scores[i];
+    svg.appendChild(st);
+  });
+})();
+
+// ── Donut ────────────────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('donutSvg'), ns = 'http://www.w3.org/2000/svg';
+  const cx = 55, cy = 55, R = 46, r = 30;
+  const slices = [
+    {p:.15, c:'#34d399'}, {p:.295, c:'#22d3ee'}, {p:.045, c:'#38bdf8'},
+    {p:.05, c:'#1a56db'}, {p:.03, c:'#a78bfa'},  {p:.15, c:'#7c3aed'},
+    {p:.28, c:'#f59e0b'}
+  ];
+  let a = -Math.PI / 2;
+  slices.forEach(s => {
+    const ea = a + s.p * 2 * Math.PI;
+    const x1=cx+R*Math.cos(a), y1=cy+R*Math.sin(a), x2=cx+R*Math.cos(ea), y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea), yi1=cy+r*Math.sin(ea), xi2=cx+r*Math.cos(a), yi2=cy+r*Math.sin(a);
+    const lg = s.p > 0.5 ? 1 : 0;
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', `M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill', s.c); path.setAttribute('stroke', '#fff'); path.setAttribute('stroke-width', '1.5');
+    svg.appendChild(path); a = ea;
+  });
+  [['1B', '12', 'Courier New,monospace', '700', '#1a202c', cy-5],
+   ['SUPPLY', '8', '-apple-system,sans-serif', '400', '#718096', cy+8]
+  ].forEach(([txt, fs, ff, fw, fill, y]) => {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', cx); t.setAttribute('y', y);
+    t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', fs); t.setAttribute('font-family', ff);
+    t.setAttribute('font-weight', fw); t.setAttribute('fill', fill);
+    t.textContent = txt; svg.appendChild(t);
+  });
+})();
+
+// ── Unlock bar ────────────────────────────────────────────────────────────────
+(function(){
+  // Show month 0 snapshot as stacked bar from left (width proportional to total supply %)
+  // This represents cumulative unlocked by month 48 (100%)
+  // For the BAR we show the TGE snapshot as proportion of full supply
+  const segs = [
+    {name:'Airdrop',    v:15,   col:'#34d399'},
+    {name:'Community',  v:29.5, col:'#22d3ee'},
+    {name:'Liquidity',  v:4.5,  col:'#38bdf8'},
+    {name:'Foundation', v:5,    col:'#1a56db'},
+    {name:'Advisors',   v:3,    col:'#a78bfa'},
+    {name:'Team',       v:15,   col:'#7c3aed'},
+    {name:'Investors',  v:28,   col:'#f59e0b'},
+  ];
+
+  // Build unlock progress bar: show how much of each bucket unlocks by M48
+  // Width = their share of total supply (they all eventually = 100%)
+  // Shade: TGE-unlocked portion = bright, locked portion = dimmed
+  const tge_pct = {
+    'Airdrop': 1.0, 'Community': 0.0, 'Liquidity': 1.0,
+    'Foundation': 0.0, 'Advisors': 0.0, 'Team': 0.0, 'Investors': 0.0
+  };
+
+  const container = document.getElementById('unlockBar');
+  let left = 0;
+  segs.forEach(s => {
+    const totalPct = s.v;
+    const tge = totalPct * tge_pct[s.name];
+    const locked = totalPct - tge;
+
+    if (tge > 0) {
+      const seg = document.createElement('div');
+      seg.className = 'unlock-segment';
+      seg.style.cssText = `left:${left}%;width:${tge}%;background:${s.col}`;
+      seg.title = `${s.name} TGE: ${tge.toFixed(1)}%`;
+      if (tge >= 5) seg.textContent = tge.toFixed(0) + '%';
+      container.appendChild(seg);
+    }
+    if (locked > 0) {
+      const seg = document.createElement('div');
+      seg.className = 'unlock-segment';
+      seg.style.cssText = `left:${left + tge}%;width:${locked}%;background:${s.col};opacity:0.25`;
+      seg.title = `${s.name} locked at TGE: ${locked.toFixed(1)}%`;
+      container.appendChild(seg);
+    }
+    left += totalPct;
+  });
+})();
+
+// ── Sell Pressure ─────────────────────────────────────────────────────────────
+(function(){
+  const data = [
+    {name:'Airdrop',   usd:7380000, pct:83.6, col:'#34d399', prop:'0.820'},
+    {name:'Community', usd:1451400, pct:16.4, col:'#22d3ee', prop:'0.820'},
+  ];
+  const bar = document.getElementById('spBar');
+  const legend = document.getElementById('spLegend');
+  data.forEach(d => {
+    const seg = document.createElement('div');
+    seg.className = 'sp-seg';
+    seg.style.cssText = `width:${d.pct}%;background:${d.col}`;
+    seg.title = `${d.name}: $${(d.usd/1e6).toFixed(2)}M (${d.pct}%) · propensity ${d.prop}`;
+    if (d.pct >= 10) seg.textContent = d.pct.toFixed(0) + '%';
+    bar.appendChild(seg);
+
+    const item = document.createElement('div');
+    item.className = 'sp-leg-item';
+    item.innerHTML = `
+      <div class="sp-leg-dot" style="background:${d.col}"></div>
+      <span class="sp-leg-label">${d.name}</span>
+      <span class="sp-leg-pct">${d.pct}%</span>
+      <span class="sp-leg-usd">$${(d.usd/1e6).toFixed(2)}M</span>`;
+    legend.appendChild(item);
+  });
+})();
+
+// ── Token Economy Flow ────────────────────────────────────────────────────────
+(function(){
+  const svg = document.getElementById('flowSvg');
+  const ns = 'http://www.w3.org/2000/svg';
+  const R = 36;
+
+  const defs = document.createElementNS(ns, 'defs');
+  const marker = document.createElementNS(ns, 'marker');
+  marker.setAttribute('id', 'arr'); marker.setAttribute('markerWidth', '7'); marker.setAttribute('markerHeight', '7');
+  marker.setAttribute('refX', '6'); marker.setAttribute('refY', '3'); marker.setAttribute('orient', 'auto');
+  const mp = document.createElementNS(ns, 'path');
+  mp.setAttribute('d', 'M0,0 L0,6 L7,3 z'); mp.setAttribute('fill', '#b0bec5');
+  marker.appendChild(mp); defs.appendChild(marker); svg.appendChild(defs);
+
+  const nodes = [
+    {id:'user',    x:210, y:46,  label:['User'],           sub:'holds $TMX',       col:'#1a56db', bg:'#eff6ff'},
+    {id:'borrow',  x:70,  y:148, label:['Borrowing'],      sub:'fixed-rate loans',  col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'lend',    x:210, y:148, label:['Lending'],        sub:'fixed-rate yield',  col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'vault',   x:350, y:148, label:['Vaults'],         sub:'curator strategies',col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'fee',     x:210, y:248, label:['Protocol','Fee'], sub:'collected on-chain',col:'#dd6b20', bg:'#fff7ed'},
+    {id:'lp',      x:70,  y:334, label:['DEX LP','Pool'],  sub:'TMX liquidity',     col:'#38a169', bg:'#f0fff4'},
+    {id:'stmx',    x:210, y:334, label:['sTMX','Staking'], sub:'LP stake reward',   col:'#1a56db', bg:'#eff6ff'},
+    {id:'rewards', x:350, y:334, label:['Fee','Rewards'],  sub:'65% rev share',     col:'#38a169', bg:'#f0fff4'},
+  ];
+
+  const edges = [
+    {from:'user',   to:'borrow', lbl:'pays TMX'},
+    {from:'user',   to:'lend',   lbl:'pays TMX'},
+    {from:'user',   to:'vault',  lbl:'deposits'},
+    {from:'user',   to:'lp',     lbl:'provides LP'},
+    {from:'borrow', to:'fee',    lbl:'protocol fee'},
+    {from:'lend',   to:'fee',    lbl:'protocol fee'},
+    {from:'vault',  to:'fee',    lbl:'mgmt fee'},
+    {from:'lp',     to:'stmx',   lbl:'stake LP'},
+    {from:'fee',    to:'rewards',lbl:'65% dist.'},
+    {from:'stmx',   to:'rewards',lbl:'earns'},
+  ];
+
+  function nodeById(id) { return nodes.find(n => n.id === id); }
+
+  edges.forEach(e => {
+    const s = nodeById(e.from), t = nodeById(e.to);
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const sx = s.x + dx/len*(R+2), sy = s.y + dy/len*(R+2);
+    const tx = t.x - dx/len*(R+4), ty = t.y - dy/len*(R+4);
+    const mx = (sx+tx)/2, my = (sy+ty)/2;
+
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', sx); line.setAttribute('y1', sy);
+    line.setAttribute('x2', tx); line.setAttribute('y2', ty);
+    line.setAttribute('stroke', '#b0bec5'); line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('marker-end', 'url(#arr)');
+    svg.appendChild(line);
+
+    const tw = e.lbl.length * 5.5 + 8;
+    const rect = document.createElementNS(ns, 'rect');
+    rect.setAttribute('x', mx - tw/2); rect.setAttribute('y', my - 8);
+    rect.setAttribute('width', tw); rect.setAttribute('height', 13);
+    rect.setAttribute('rx', '3'); rect.setAttribute('fill', 'white'); rect.setAttribute('opacity', '0.85');
+    svg.appendChild(rect);
+
+    const lt = document.createElementNS(ns, 'text');
+    lt.setAttribute('x', mx); lt.setAttribute('y', my + 1);
+    lt.setAttribute('text-anchor', 'middle'); lt.setAttribute('dominant-baseline', 'middle');
+    lt.setAttribute('font-size', '8'); lt.setAttribute('font-family', '-apple-system,sans-serif');
+    lt.setAttribute('fill', '#90a4ae');
+    lt.textContent = e.lbl;
+    svg.appendChild(lt);
+  });
+
+  nodes.forEach(n => {
+    const g = document.createElementNS(ns, 'g');
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y); circle.setAttribute('r', R);
+    circle.setAttribute('fill', n.bg); circle.setAttribute('stroke', n.col); circle.setAttribute('stroke-width', '1.5');
+    g.appendChild(circle);
+
+    const lineH = 11, totalH = n.label.length * lineH;
+    const startY = n.y - totalH/2 + lineH/2 - (n.sub ? 4 : 0);
+    n.label.forEach((line, li) => {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', n.x); t.setAttribute('y', startY + li * lineH);
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+      t.setAttribute('font-size', '9'); t.setAttribute('font-family', '-apple-system,sans-serif');
+      t.setAttribute('font-weight', '700'); t.setAttribute('fill', n.col);
+      t.textContent = line;
+      g.appendChild(t);
+    });
+
+    const subY = startY + n.label.length * lineH + 3;
+    if (subY < n.y + R - 6) {
+      const ts = document.createElementNS(ns, 'text');
+      ts.setAttribute('x', n.x); ts.setAttribute('y', subY);
+      ts.setAttribute('text-anchor', 'middle'); ts.setAttribute('dominant-baseline', 'middle');
+      ts.setAttribute('font-size', '7.5'); ts.setAttribute('font-family', '-apple-system,sans-serif');
+      ts.setAttribute('fill', '#718096');
+      ts.textContent = n.sub;
+      g.appendChild(ts);
+    }
+    svg.appendChild(g);
+  });
+})();
+
+function tog(el){
+  el.querySelector('.insight-body').classList.toggle('open');
+  el.querySelector('.chevron').classList.toggle('open');
+}
+</script>
+</body>
+</html>
