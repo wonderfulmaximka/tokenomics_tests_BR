@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenomics Test: $IGSC | TapTap Messenger</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue:#1a56db; --bg:#f8f9fc; --card:#fff; --border:#e2e8f0;
+  --text:#1a202c; --muted:#718096; --red:#e53e3e; --orange:#dd6b20; --green:#38a169;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  padding: 28px 24px;
+}
+.page { max-width: 980px; margin: 0 auto; }
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title span { color: var(--red); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-red    { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
+.badge-blue   { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
+.badge-green  { background:#f0fff4; border:1px solid #9ae6b4; color:#276749; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
+
+/* TOP ROW */
+.top-row { display: grid; grid-template-columns: 200px 1fr 280px; gap: 14px; margin-bottom: 14px; }
+.score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
+.gauge-wrap { position: relative; width: 170px; height: 95px; }
+.gauge-score { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.gauge-number { font-family: 'Courier New', monospace; font-size: 32px; font-weight: 500; color: #c53030; line-height: 1; display: block; }
+.gauge-number sup { font-size: 14px; }
+.rating-badge { display: inline-block; background: #c53030; color: white; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 5px; margin-top: 4px; }
+.gauge-labels { display: flex; justify-content: space-between; width: 170px; margin-top: 4px; font-size: 10px; color: var(--muted); font-family: 'Courier New', monospace; }
+.radar-card { padding: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; min-width: 0; }
+.alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; }
+.alloc-pct { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: var(--text); flex-shrink: 0; min-width: 38px; text-align: right; }
+
+/* UNLOCK BAR */
+.unlock-card { padding: 16px 20px; margin-bottom: 14px; }
+.unlock-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+.unlock-bar-wrap { position: relative; height: 32px; background: #f1f5f9; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.unlock-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.unlock-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.unlock-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.ul-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ul-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SCORE PILLS */
+.scores-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+.score-pill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.score-pill-label { font-size: 9.5px; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.score-pill-value { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 500; }
+.c-red{color:var(--red)} .c-orange{color:var(--orange)} .c-green{color:var(--green)} .c-blue{color:var(--blue)}
+
+/* INSIGHTS */
+.insights-card { padding: 0; overflow: hidden; margin-bottom: 14px; }
+.insight-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.insight-item:last-child { border-bottom: none; }
+.insight-item:hover { background: #fef7f7; }
+.insight-header { display: flex; align-items: flex-start; gap: 10px; padding: 13px 18px; user-select: none; }
+.insight-icon { width: 16px; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+.icon-red{color:var(--red)} .icon-orange{color:var(--orange)} .icon-green{color:var(--green)}
+.insight-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.4; }
+.insight-summary { font-size: 12px; font-weight: 400; }
+.s-red{color:var(--red)} .s-orange{color:var(--orange)} .s-green{color:var(--green)}
+.chevron { color: var(--muted); font-size: 11px; transition: transform .2s; flex-shrink: 0; padding-top: 3px; }
+.chevron.open { transform: rotate(180deg); }
+.insight-body { display: none; padding: 0 18px 14px 44px; font-size: 13px; line-height: 1.75; color: #4a5568; }
+.insight-body.open { display: block; }
+
+/* BOTTOM ROW */
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.sp-card { padding: 18px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.sp-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+.sp-stat { flex: 1; background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; min-width: 0; }
+.sp-stat-label { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.sp-stat-value { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.sp-stat-value.danger { color: var(--red); }
+.sp-bar-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.sp-bar-wrap { height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 12px; }
+.sp-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; transition: opacity .15s; cursor: default; }
+.sp-seg:hover { opacity: .8; }
+.sp-legend { display: flex; flex-direction: column; gap: 5px; }
+.sp-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.sp-leg-label { flex: 1; color: var(--muted); }
+.sp-leg-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); min-width: 32px; text-align: right; }
+.sp-leg-note { font-size: 10px; color: var(--muted); min-width: 80px; text-align: right; }
+.sp-note { margin-top: 12px; font-size: 10px; color: var(--muted); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 10px; }
+.flow-card { padding: 18px; display: flex; flex-direction: column; }
+.flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.flow-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.assumptions { margin-top: 14px; padding: 12px 16px; background: #fff5f5; border: 1px solid #feb2b2; border-radius: 8px; font-size: 12px; color: #742a2a; line-height: 1.65; }
+.assumptions strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1 class="page-title">Tokenomics Test: <span>$IGSC</span> | TapTap Messenger</h1>
+<div class="badge-row">
+  <span class="badge badge-red">⚠ 56.6% Supply Already Circulating at TGE</span>
+  <span class="badge badge-red">⚠ VR/AR Casino to Messaging Pivot, No Traction</span>
+  <span class="badge badge-red">⚠ No Listing Price or FDV Disclosed</span>
+  <span class="badge badge-orange">⚠ Blockchain Contradiction: Ethereum vs BSC</span>
+  <span class="badge badge-blue">BNB Smart Chain (BEP-20) · 100M Supply · Sep 2024</span>
+</div>
+<p class="page-subtitle">IGSC (IGS Coin) · TapTap Messenger (Web3 messaging platform) · Strategic pivot from VR/AR casino gaming · HQ: Berlin, Germany · Token issuer: unspecified · Audit Date: March 2026</p>
+
+<div class="top-row">
+  <!-- Gauge: score=26, red, dashoffset=251.2*(1-0.26)=185.9 -->
+  <div class="card score-card">
+    <div class="score-title">Tokenomics Rating</div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 170 95" width="170" height="95">
+        <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#c53030"/>
+          <stop offset="100%" style="stop-color:#e53e3e"/>
+        </linearGradient></defs>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="251.2" stroke-dashoffset="185.9"/>
+      </svg>
+      <div class="gauge-score">
+        <span class="gauge-number">26<sup>.0</sup></span>
+        <div class="rating-badge">B-</div>
+      </div>
+    </div>
+    <div class="gauge-labels"><span>0</span><span>100</span></div>
+  </div>
+
+  <!-- Radar -->
+  <div class="card radar-card">
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
+  </div>
+
+  <!-- Donut -->
+  <div class="card donut-card">
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
+    <div class="alloc-legend">
+      <div class="alloc-item"><div class="alloc-dot" style="background:#e53e3e"></div><div class="alloc-label">Public/Community</div><div class="alloc-pct">56.6%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#7c3aed"></div><div class="alloc-label">Team & Advisors</div><div class="alloc-pct">20.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#1a56db"></div><div class="alloc-label">Development</div><div class="alloc-pct">15.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f59e0b"></div><div class="alloc-label">Strategic</div><div class="alloc-pct">5.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38bdf8"></div><div class="alloc-label">Reserve</div><div class="alloc-pct">3.4%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock bar -->
+<div class="card unlock-card">
+  <div class="unlock-title">Cumulative Unlock Schedule, Total Supply 100M $IGSC · Already 56.6% Circulating at TGE</div>
+  <div id="unlockBar" class="unlock-bar-wrap"></div>
+  <div class="unlock-bar-labels">
+    <span>TGE (56.6%)</span><span>Year 1 (60.9%)</span><span>Year 2 (73.4%)</span><span>Year 3 (84.7%)</span><span>Year 5 (98.6%)</span><span>Year 7 (100%)</span>
+  </div>
+  <div class="unlock-legend">
+    <div class="ul-item"><div class="ul-dot" style="background:#e53e3e"></div>Public/Community 56.56% (100% at TGE, already on exchanges)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#7c3aed"></div>Team 20% (12m cliff, 48m linear, starts M13)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#1a56db"></div>Development 15% (6m cliff, 36m quarterly)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#f59e0b"></div>Strategic 5% (3m cliff, 24m linear)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#38bdf8"></div>Reserve 3.44% (24m cliff, 60m linear)</div>
+  </div>
+</div>
+
+<!-- Score pills -->
+<div class="scores-row">
+  <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-red">22.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-red">30.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-red">18.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-red">25.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-red">28.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-orange">42.0</div></div>
+</div>
+
+<!-- BLOCK 2: INSIGHTS -->
+<div class="section-label">INSIGHTS</div>
+<div class="card insights-card">
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">56.56% of Total Supply Already Circulating on Exchanges at TGE<span class="insight-summary s-red">: no cliff, no vesting, no lock, the largest single allocation is instantly liquid</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The "Public &amp; Community Distribution" allocation of 56,560,000 IGSC (56.56% of total supply) is described explicitly as "already circulating on exchanges." This means there is no token generation event in the traditional sense, more than half of the entire supply is already tradeable with zero vesting, zero cliff, and zero lock-up. This is the single most severe structural flaw in the tokenomics. It means any holder of the public allocation can sell at any time with no restriction. Combined with a low-utility, pre-launch platform with no disclosed traction metrics, the sell propensity for this tranche is extremely high. For context, comparable Web3 messaging projects at launch have initial floats of 5-20%. A 56.6% float is not a launch, it is a token that was distributed before the product existed, seeking a post-hoc narrative. This structure makes sustained price appreciation dependent entirely on new buyer demand absorbing constant sell pressure from 56.5M unrestricted tokens.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">No Listing Price, No FDV, No Raise Amount Disclosed<span class="insight-summary s-red">: critical financial parameters missing from the whitepaper entirely</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The whitepaper contains no listing price, no FDV, no total capital raised, and no round prices for any investor allocation. This is a fundamental disclosure failure. Without these figures it is impossible to calculate: investor ROI multiples at listing, the actual market capitalization at launch, how much capital the project has to fund development, or whether insiders are in significant profit at any given price point. The whitepaper also obscures the total supply, the PDF renders it as ",," with decimals listed as "3", suggesting either a redaction of a large supply number or a typesetting error that was never corrected before publication. In either case, publishing a whitepaper with core financial parameters missing or illegible is a material transparency failure. Investors cannot price risk without these numbers.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Strategic Pivot From VR/AR Casino Gaming Destroys Token Continuity<span class="insight-summary s-red">: IGSC was designed for gambling; TapTap Messenger repurposes it as a messaging currency</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">IGSC was originally designed as a VR/AR casino gaming token. The whitepaper openly acknowledges this pivot to Web3 messaging, framing it as "recognizing growing demand for decentralized communication." However, this pivot raises serious legitimacy questions. Token holders who purchased IGSC under the original gaming thesis now hold a token for an entirely different use case. The original tokenomics, smart contract design, and utility mechanisms were built for gambling, not messaging. There is no disclosure of whether existing token holders consented to this pivot, whether the smart contracts were redeployed, or what happened to the original gaming platform and its investors. Furthermore, pivoting from a casino gaming token, a sector with well-known regulatory exposure, to a "privacy-focused messaging platform" suggests the gaming model may have encountered regulatory or market difficulties rather than being a proactive strategic choice.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Insider Allocation 43.44% With Discretionary Development Vesting<span class="insight-summary s-red">: Development tokens vest "based on roadmap progress" giving team unilateral release control</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The insider allocation totals 43,440,000 IGSC (43.44%): Team &amp; Advisors 20%, Development &amp; Operations 15%, Strategic Partnerships 5%, Reserve 3.44%. This is a high insider concentration, but the more serious concern is the Development allocation's vesting trigger. The whitepaper states Development tokens vest "quarterly releases based on roadmap progress", meaning the team can determine what constitutes "roadmap progress" and release tokens accordingly. This is not a trustless, on-chain schedule. It is a discretionary mechanism that allows insiders to self-certify milestones and accelerate token releases. Combined with the Reserve (3.44%, 24m cliff, 60m linear) which is described as available for "emergency fund" and "market stabilization" without defined parameters, there are at least two insider allocations totalling 18.44% that have subjective, team-controlled release conditions.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Whitepaper Contains Direct Contradictions on Blockchain Infrastructure<span class="insight-summary s-red">: simultaneously claims Ethereum as primary chain and BEP-20 / BSC deployment</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The whitepaper states under Technical Architecture: "Primary Blockchain: Ethereum" and "Smart Contracts: BEP-20 token with additional functionality." Under Token Overview it states "Blockchain: Binance Smart Chain (BEP-)" and describes "BEP-20 standard implementation." These are contradictory claims, a BEP-20 token is a BSC token, not an Ethereum token. The whitepaper then describes Layer 2 solutions including "Polygon Integration" and "Optimistic Rollups" which are Ethereum ecosystem features, not BSC features. Additionally, Paragraph 11 reads "Core Contracts: IGSC Token Contract, BEP- standard implementation", the standard number is truncated, suggesting BEP-20 was not fully formatted. For a technical whitepaper from a team claiming to include a CTO with blockchain architecture expertise, these contradictions suggest the document was assembled hastily or from template without thorough technical review. Investors cannot determine which blockchain actually hosts the token from reading the whitepaper.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Unverifiable Partnership Claims With Major Institutions<span class="insight-summary s-red">: claims MIT, Stanford, Binance listing "in progress," CertiK audit, Chainlink, Stripe, MoonPay</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The whitepaper lists an extensive roster of partnerships across three pages that includes MIT Digital Currency Initiative, Stanford Blockchain Research Center, CertiK (security auditing), Chainlink (oracle services), Stripe (fiat on-ramp), MoonPay ("integration completed Q4 2024"), Binance ("listing negotiations in progress"), Coinbase ("technical integration discussions"), Kraken ("partnership agreement signed"), and a Twitch Streamers Alliance. None of these partnerships are independently verifiable from the whitepaper, there are no contract references, no press releases cited, no on-chain evidence. The CertiK audit is described as "ongoing" without a published audit report link. The Binance listing claim is particularly notable: Binance has a rigorous listing process and claiming negotiations are "in progress" without evidence is a common practice in low-quality projects to create false legitimacy. The breadth and prestige of these claimed partnerships, combined with the complete absence of supporting evidence, significantly increases the credibility risk of this project.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Year-2 Inflation 20.5%: Manageable But Concentrated in Team Unlock<span class="insight-summary s-orange">: 20M team tokens begin releasing from month 13, adding 416K tokens/month</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Given the 56.6% float already in circulation, the year-1 inflation is only 7.7% (4.375M new tokens from Strategic and Development vesting). This is low in absolute terms. However, year 2 brings 20.5% inflation as Team tokens begin their 48-month linear vesting from month 13 (416,667 tokens/month), and Development accelerates to quarterly releases. The combined supply grows from 60.9M to 73.4M tokens in year 2. The year-2 inflation is where the structural problem compounds: Team tokens unlock when the project is still in early growth phase (roadmap targets only 100,000 users by Q2 2025 and 1M users by Q4 2025, aggressive targets for an unproven pivot project). If TapTap Messenger has not achieved meaningful user traction by month 13, Team token unlocks arrive when sell pressure from the public float is already elevated. Inflation stabilises by year 5-6 at around 6% annually, and the total supply is fixed at 100M, which at minimum prevents hyperinflationary emission.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Token Utility Exists on Paper But Is Undeployed<span class="insight-summary s-orange">: 9 utility vectors described, but TapTap Messenger has no confirmed active user base</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The whitepaper describes 9 $IGSC utility vectors: P2P payments, creator tips and subscriptions, revenue sharing, governance voting, staking rewards, liquidity mining, referral bonuses, activity rewards, and merchant payments. These are legitimate and well-designed utility categories for a messaging platform. The burn mechanism (0.1% of all platform transactions + 2% of creator earnings quarterly) would create genuine deflationary pressure at scale. However, all of these utilities are contingent on a live, active user base, and the whitepaper provides no traction data whatsoever: no active user count, no message volume, no creator count, no transaction volume. The roadmap marks Phase 1 as "In Progress" as of September 2024 with a target of 10,000 beta users, and the CEO's listed achievement of "driving user growth to over 100,000 active users" is unverifiable from the document. Until the platform demonstrates real usage, all utility vectors are theoretical and the token has no organic demand driver beyond speculation.</div>
+  </div>
+
+</div>
+
+<!-- BLOCK 3: SELL PRESSURE + TOKEN FLOW -->
+<div class="section-label">TGE SELL PRESSURE &amp; TOKEN ECONOMY</div>
+<div class="bottom-row">
+
+  <!-- Sell Pressure -->
+  <div class="card sp-card">
+    <div class="sp-title">TGE Sell Pressure Estimate</div>
+    <div class="sp-sub">Propensity model · Listing price undisclosed · Utility score 42/100 · No comparable FDV available</div>
+    <div class="sp-stats">
+      <div class="sp-stat">
+        <div class="sp-stat-label">TGE Float</div>
+        <div class="sp-stat-value danger">56.6M (56.6%)</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Est. Sell %</div>
+        <div class="sp-stat-value danger">91% of float</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Insider Supply</div>
+        <div class="sp-stat-value danger">43.44% locked</div>
+      </div>
+    </div>
+    <div class="sp-bar-label">TGE Float Composition</div>
+    <div class="sp-bar-wrap" id="spBar"></div>
+    <div class="sp-legend" id="spLegend"></div>
+    <div class="sp-note">
+      <strong>Note:</strong> Listing price not disclosed, USD sell pressure cannot be computed. All 56.56M tokens in the Public/Community allocation are unrestricted and can be sold at any time. With a utility score of 42 and no confirmed user base, propensity to sell is estimated at 91% of the float (51.5M tokens). This represents severe day-one sell overhang relative to any realistic DEX liquidity.
+    </div>
+  </div>
+
+  <!-- Token Economy Flow -->
+  <div class="card flow-card">
+    <div class="flow-title">Token Economy Flow</div>
+    <div class="flow-sub">How $IGSC is intended to circulate through the TapTap Messenger ecosystem</div>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
+  </div>
+
+</div>
+
+<div class="assumptions">
+  <strong>Audit Notes &amp; Disclosures:</strong> Total supply inferred as <strong>100,000,000 IGSC</strong> from allocation percentages (PDF supply field was illegible/redacted). Listing price and FDV are <strong>not disclosed</strong> in the whitepaper, USD sell pressure calculations omitted. Blockchain confirmed as <strong>BNB Smart Chain (BEP-20)</strong> based on token overview section, despite contradictory Ethereum reference. "Public &amp; Community" allocation described explicitly as "already circulating on exchanges", no cliff or vesting applies. Development vesting described as "quarterly releases based on roadmap progress" (discretionary). Strategic pivot from VR/AR casino gaming to Web3 messaging, original token utility and investor terms not disclosed. All listed partnerships (MIT, Stanford, CertiK, Binance, Stripe, MoonPay) are unverified as of audit date. Whitepaper version 2.0, dated September 2024. Confidence: <strong>Low</strong> (multiple disclosure failures; supply, price, FDV, raise amounts, and audit reports all absent or illegible).
+</div>
+</div>
+
+<script>
+// ── Radar ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('radarSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=170,cy=138,maxR=90,n=5;
+  const labels=['Inflation /\nEmissions','Supply\nShock Risk','Dilution &\nInsider','Distribution\nFairness','Liquidity &\nUtility'];
+  const scores=[30,18,18,22,35];
+  function pt(i,r){const a=(Math.PI*2*i/n)-Math.PI/2;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  [25,50,75,100].forEach(p=>{
+    const el=document.createElementNS(ns,'polygon');
+    el.setAttribute('points',Array.from({length:n},(_,i)=>pt(i,maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill','none');el.setAttribute('stroke','rgba(0,0,0,0.07)');el.setAttribute('stroke-width','1');
+    svg.appendChild(el);
+  });
+  for(let i=0;i<n;i++){
+    const[x2,y2]=pt(i,maxR);
+    const l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+    l.setAttribute('stroke','rgba(0,0,0,0.08)');l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
+  }
+  const dp=document.createElementNS(ns,'polygon');
+  dp.setAttribute('points',scores.map((s,i)=>pt(i,maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill','rgba(197,48,48,0.16)');dp.setAttribute('stroke','rgba(197,48,48,0.65)');dp.setAttribute('stroke-width','2');
+  svg.appendChild(dp);
+  scores.forEach((s,i)=>{
+    const[px,py]=pt(i,maxR*s/100);
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',px);c.setAttribute('cy',py);c.setAttribute('r','4');
+    c.setAttribute('fill','rgba(197,48,48,0.9)');svg.appendChild(c);
+  });
+  labels.forEach((lbl,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const lx=cx+(maxR+32)*Math.cos(angle),ly=cy+(maxR+32)*Math.sin(angle);
+    const lines=lbl.split('\n');
+    const anchor=Math.cos(angle)>0.3?'start':Math.cos(angle)<-0.3?'end':'middle';
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',lx);t.setAttribute('y',ly);
+    t.setAttribute('text-anchor',anchor);t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size','10');t.setAttribute('font-family','-apple-system,sans-serif');
+    t.setAttribute('font-weight','500');t.setAttribute('fill','#4a5568');
+    lines.forEach((line,li)=>{
+      const ts=document.createElementNS(ns,'tspan');
+      ts.setAttribute('x',lx);ts.setAttribute('dy',li===0?(lines.length>1?'-0.6em':'0'):'1.3em');
+      ts.textContent=line;t.appendChild(ts);
+    });
+    svg.appendChild(t);
+    const[sx,sy]=pt(i,maxR*scores[i]/100);
+    const st=document.createElementNS(ns,'text');
+    st.setAttribute('x',sx+Math.cos(angle)*13);st.setAttribute('y',sy+Math.sin(angle)*13);
+    st.setAttribute('text-anchor',anchor);st.setAttribute('dominant-baseline','middle');
+    st.setAttribute('font-size','9');st.setAttribute('font-family','Courier New,monospace');
+    st.setAttribute('font-weight','700');st.setAttribute('fill','#c53030');
+    st.textContent=scores[i];svg.appendChild(st);
+  });
+})();
+
+// ── Donut ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('donutSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=55,cy=55,R=46,r=30;
+  const slices=[
+    {p:.5656,c:'#e53e3e'},{p:.200,c:'#7c3aed'},{p:.150,c:'#1a56db'},
+    {p:.050,c:'#f59e0b'},{p:.0344,c:'#38bdf8'}
+  ];
+  let a=-Math.PI/2;
+  slices.forEach(s=>{
+    const ea=a+s.p*2*Math.PI;
+    const x1=cx+R*Math.cos(a),y1=cy+R*Math.sin(a),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea),yi1=cy+r*Math.sin(ea),xi2=cx+r*Math.cos(a),yi2=cy+r*Math.sin(a);
+    const lg=s.p>0.5?1:0;
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d',`M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill',s.c);path.setAttribute('stroke','#fff');path.setAttribute('stroke-width','1.5');
+    svg.appendChild(path);a=ea;
+  });
+  [['100M','11','Courier New,monospace','700','#1a202c',cy-5],
+   ['IGSC','8','-apple-system,sans-serif','400','#718096',cy+8]
+  ].forEach(([txt,fs,ff,fw,fill,y])=>{
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',cx);t.setAttribute('y',y);
+    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size',fs);t.setAttribute('font-family',ff);
+    t.setAttribute('font-weight',fw);t.setAttribute('fill',fill);
+    t.textContent=txt;svg.appendChild(t);
+  });
+})();
+
+// ── Unlock bar ─────────────────────────────────────────────────────────────────
+(function(){
+  const container=document.getElementById('unlockBar');
+  // Show TGE unlocked (bright) vs locked (dim), all public is unlocked
+  const segs=[
+    {name:'Public/Comm', total:56.56, tge:56.56, col:'#e53e3e'},
+    {name:'Team',        total:20.0,  tge:0,     col:'#7c3aed'},
+    {name:'Dev',         total:15.0,  tge:0,     col:'#1a56db'},
+    {name:'Strategic',   total:5.0,   tge:0,     col:'#f59e0b'},
+    {name:'Reserve',     total:3.44,  tge:0,     col:'#38bdf8'},
+  ];
+  let left=0;
+  segs.forEach(s=>{
+    if(s.tge>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left}%;width:${s.tge}%;background:${s.col}`;
+      seg.title=`${s.name} TGE: ${s.tge}%`;
+      if(s.tge>=10)seg.textContent=s.tge.toFixed(0)+'%';
+      container.appendChild(seg);
+    }
+    const locked=s.total-s.tge;
+    if(locked>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left+s.tge}%;width:${locked}%;background:${s.col};opacity:0.2`;
+      seg.title=`${s.name} locked: ${locked.toFixed(1)}%`;
+      container.appendChild(seg);
+    }
+    left+=s.total;
+  });
+})();
+
+// ── Sell Pressure ─────────────────────────────────────────────────────────────
+(function(){
+  const data=[
+    {name:'Public/Community', pct:100, col:'#e53e3e', note:'56.56M tokens, no lock'},
+  ];
+  const bar=document.getElementById('spBar');
+  const legend=document.getElementById('spLegend');
+  // Full bar = public/community
+  const seg=document.createElement('div');
+  seg.className='sp-seg';
+  seg.style.cssText=`width:100%;background:linear-gradient(90deg,#e53e3e,#feb2b2)`;
+  seg.textContent='56.56M IGSC (100% of TGE float), NO RESTRICTIONS';
+  bar.appendChild(seg);
+  // Legend
+  [
+    {name:'Public/Community', pct:'56.56M', note:'100% at TGE, no cliff, no vesting', col:'#e53e3e'},
+    {name:'Team & Advisors',  pct:'0 at TGE', note:'12m cliff, 48m vest (safe)', col:'#7c3aed'},
+    {name:'Development',      pct:'0 at TGE', note:'6m cliff, 36m quarterly (discretionary)', col:'#1a56db'},
+    {name:'Strategic',        pct:'0 at TGE', note:'3m cliff, 24m linear', col:'#f59e0b'},
+    {name:'Reserve',          pct:'0 at TGE', note:'24m cliff, 60m linear', col:'#38bdf8'},
+  ].forEach(d=>{
+    const item=document.createElement('div');
+    item.className='sp-leg-item';
+    item.innerHTML=`<div class="sp-leg-dot" style="background:${d.col}"></div><span class="sp-leg-label">${d.name}</span><span class="sp-leg-pct">${d.pct}</span><span class="sp-leg-note">${d.note}</span>`;
+    legend.appendChild(item);
+  });
+})();
+
+// ── Token Economy Flow ────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('flowSvg'),ns='http://www.w3.org/2000/svg';
+  const R=36;
+  const defs=document.createElementNS(ns,'defs');
+  const marker=document.createElementNS(ns,'marker');
+  marker.setAttribute('id','arr');marker.setAttribute('markerWidth','7');marker.setAttribute('markerHeight','7');
+  marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
+  const mp=document.createElementNS(ns,'path');
+  mp.setAttribute('d','M0,0 L0,6 L7,3 z');mp.setAttribute('fill','#b0bec5');
+  marker.appendChild(mp);defs.appendChild(marker);svg.appendChild(defs);
+
+  const nodes=[
+    {id:'user',    x:100, y:46,  label:['User'],       sub:'sends IGSC',         col:'#1a56db', bg:'#eff6ff'},
+    {id:'creator', x:310, y:46,  label:['Creator'],    sub:'receives tips',      col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'platform',x:210, y:148, label:['TapTap'],     sub:'5% platform fee',    col:'#e53e3e', bg:'#fff5f5'},
+    {id:'burn',    x:100, y:248, label:['Burn'],       sub:'0.1% tx + 2% earn',  col:'#c53030', bg:'#fff5f5'},
+    {id:'staking', x:310, y:248, label:['Staking'],    sub:'5-12% APY',          col:'#38a169', bg:'#f0fff4'},
+    {id:'govern',  x:210, y:334, label:['Governance'], sub:'IGSC voting',        col:'#dd6b20', bg:'#fff7ed'},
+  ];
+  const edges=[
+    {from:'user',    to:'creator',  lbl:'tip/pay'},
+    {from:'user',    to:'platform', lbl:'msg fee'},
+    {from:'creator', to:'platform', lbl:'5% fee'},
+    {from:'platform',to:'burn',     lbl:'burns'},
+    {from:'platform',to:'staking',  lbl:'rev share'},
+    {from:'staking', to:'user',     lbl:'rewards'},
+    {from:'staking', to:'govern',   lbl:'voting'},
+    {from:'user',    to:'staking',  lbl:'stakes'},
+  ];
+  function nodeById(id){return nodes.find(n=>n.id===id);}
+  edges.forEach(e=>{
+    const s=nodeById(e.from),t=nodeById(e.to);
+    const dx=t.x-s.x,dy=t.y-s.y,len=Math.sqrt(dx*dx+dy*dy);
+    const sx=s.x+dx/len*(R+2),sy=s.y+dy/len*(R+2);
+    const tx=t.x-dx/len*(R+4),ty=t.y-dy/len*(R+4);
+    const mx=(sx+tx)/2,my=(sy+ty)/2;
+    const line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',sx);line.setAttribute('y1',sy);line.setAttribute('x2',tx);line.setAttribute('y2',ty);
+    line.setAttribute('stroke','#b0bec5');line.setAttribute('stroke-width','1.5');
+    line.setAttribute('marker-end','url(#arr)');svg.appendChild(line);
+    const tw=e.lbl.length*5.5+8;
+    const rect=document.createElementNS(ns,'rect');
+    rect.setAttribute('x',mx-tw/2);rect.setAttribute('y',my-8);
+    rect.setAttribute('width',tw);rect.setAttribute('height',13);
+    rect.setAttribute('rx','3');rect.setAttribute('fill','white');rect.setAttribute('opacity','0.85');
+    svg.appendChild(rect);
+    const lt=document.createElementNS(ns,'text');
+    lt.setAttribute('x',mx);lt.setAttribute('y',my+1);
+    lt.setAttribute('text-anchor','middle');lt.setAttribute('dominant-baseline','middle');
+    lt.setAttribute('font-size','8');lt.setAttribute('font-family','-apple-system,sans-serif');
+    lt.setAttribute('fill','#90a4ae');lt.textContent=e.lbl;svg.appendChild(lt);
+  });
+  nodes.forEach(n=>{
+    const g=document.createElementNS(ns,'g');
+    const circle=document.createElementNS(ns,'circle');
+    circle.setAttribute('cx',n.x);circle.setAttribute('cy',n.y);circle.setAttribute('r',R);
+    circle.setAttribute('fill',n.bg);circle.setAttribute('stroke',n.col);circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+    const lineH=11,totalH=n.label.length*lineH;
+    const startY=n.y-totalH/2+lineH/2-(n.sub?4:0);
+    n.label.forEach((line,li)=>{
+      const t=document.createElementNS(ns,'text');
+      t.setAttribute('x',n.x);t.setAttribute('y',startY+li*lineH);
+      t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+      t.setAttribute('font-size','9');t.setAttribute('font-family','-apple-system,sans-serif');
+      t.setAttribute('font-weight','700');t.setAttribute('fill',n.col);
+      t.textContent=line;g.appendChild(t);
+    });
+    const subY=startY+n.label.length*lineH+3;
+    if(subY<n.y+R-6){
+      const ts=document.createElementNS(ns,'text');
+      ts.setAttribute('x',n.x);ts.setAttribute('y',subY);
+      ts.setAttribute('text-anchor','middle');ts.setAttribute('dominant-baseline','middle');
+      ts.setAttribute('font-size','7.5');ts.setAttribute('font-family','-apple-system,sans-serif');
+      ts.setAttribute('fill','#718096');ts.textContent=n.sub;g.appendChild(ts);
+    }
+    svg.appendChild(g);
+  });
+})();
+
+function tog(el){
+  el.querySelector('.insight-body').classList.toggle('open');
+  el.querySelector('.chevron').classList.toggle('open');
+}
+</script>
+</body>
+</html>
