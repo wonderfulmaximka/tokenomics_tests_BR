@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenomics Test: $DRIVE | Drive369</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue:#1a56db; --bg:#f8f9fc; --card:#fff; --border:#e2e8f0;
+  --text:#1a202c; --muted:#718096; --red:#e53e3e; --orange:#dd6b20; --green:#38a169;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  padding: 28px 24px;
+}
+.page { max-width: 980px; margin: 0 auto; }
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title span { color: var(--blue); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-red    { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
+.badge-blue   { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
+.badge-green  { background:#f0fff4; border:1px solid #9ae6b4; color:#276749; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
+
+/* TOP ROW */
+.top-row { display: grid; grid-template-columns: 200px 1fr 280px; gap: 14px; margin-bottom: 14px; }
+.score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
+.gauge-wrap { position: relative; width: 170px; height: 95px; }
+.gauge-score { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.gauge-number { font-family: 'Courier New', monospace; font-size: 32px; font-weight: 500; color: #dd6b20; line-height: 1; display: block; }
+.gauge-number sup { font-size: 14px; }
+.rating-badge { display: inline-block; background: #dd6b20; color: white; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 5px; margin-top: 4px; }
+.gauge-labels { display: flex; justify-content: space-between; width: 170px; margin-top: 4px; font-size: 10px; color: var(--muted); font-family: 'Courier New', monospace; }
+.radar-card { padding: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; min-width: 0; }
+.alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); white-space: nowrap; font-size: 11px; }
+.alloc-pct { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: var(--text); flex-shrink: 0; min-width: 38px; text-align: right; }
+
+/* UNLOCK BAR */
+.unlock-card { padding: 16px 20px; margin-bottom: 14px; }
+.unlock-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+.unlock-bar-wrap { position: relative; height: 32px; background: #f1f5f9; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.unlock-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.unlock-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.unlock-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.ul-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ul-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SCORE PILLS */
+.scores-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+.score-pill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.score-pill-label { font-size: 9.5px; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.score-pill-value { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 500; }
+.c-red{color:var(--red)} .c-orange{color:var(--orange)} .c-green{color:var(--green)} .c-blue{color:var(--blue)}
+
+/* INSIGHTS */
+.insights-card { padding: 0; overflow: hidden; margin-bottom: 14px; }
+.insight-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.insight-item:last-child { border-bottom: none; }
+.insight-item:hover { background: #f7faff; }
+.insight-header { display: flex; align-items: flex-start; gap: 10px; padding: 13px 18px; user-select: none; }
+.insight-icon { width: 16px; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+.icon-red{color:var(--red)} .icon-orange{color:var(--orange)} .icon-green{color:var(--green)}
+.insight-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.4; }
+.insight-summary { font-size: 12px; font-weight: 400; }
+.s-red{color:var(--red)} .s-orange{color:var(--orange)} .s-green{color:var(--green)}
+.chevron { color: var(--muted); font-size: 11px; transition: transform .2s; flex-shrink: 0; padding-top: 3px; }
+.chevron.open { transform: rotate(180deg); }
+.insight-body { display: none; padding: 0 18px 14px 44px; font-size: 13px; line-height: 1.75; color: #4a5568; }
+.insight-body.open { display: block; }
+
+/* BOTTOM ROW */
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.sp-card { padding: 18px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.sp-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+.sp-stat { flex: 1; background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; min-width: 0; }
+.sp-stat-label { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.sp-stat-value { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.sp-stat-value.danger { color: var(--red); }
+.sp-stat-value.warn { color: var(--orange); }
+.sp-stat-value.good { color: var(--green); }
+.sp-bar-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.sp-bar-wrap { height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 12px; }
+.sp-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.sp-legend { display: flex; flex-direction: column; gap: 5px; }
+.sp-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.sp-leg-label { flex: 1; color: var(--muted); }
+.sp-leg-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); min-width: 38px; text-align: right; }
+.sp-leg-tokens { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); min-width: 70px; text-align: right; }
+.sp-note { margin-top: 12px; font-size: 10px; color: var(--muted); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 10px; }
+.flow-card { padding: 18px; display: flex; flex-direction: column; }
+.flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.flow-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.assumptions { margin-top: 14px; padding: 12px 16px; background: #fffbeb; border: 1px solid #f6e05e; border-radius: 8px; font-size: 12px; color: #744210; line-height: 1.65; }
+.assumptions strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1 class="page-title">Tokenomics Test: <span>$DRIVE</span> | Drive369</h1>
+<div class="badge-row">
+  <span class="badge badge-green">✓ 69% Mining Allocation: Best-in-Class Community Distribution</span>
+  <span class="badge badge-green">✓ Team Only 6.9% With 3Y Vesting</span>
+  <span class="badge badge-red">⚠ Mining Emission Schedule Not Disclosed</span>
+  <span class="badge badge-red">⚠ $6M Strategic Round Has No Token Allocation Bucket</span>
+  <span class="badge badge-orange">⚠ No Listing Price or FDV Disclosed</span>
+  <span class="badge badge-blue">Base L2 (ERC-20) · 369M Fixed Supply · DePIN + Edge AI · Agent OS</span>
+</div>
+<p class="page-subtitle">Drive369 DAO · Decentralized AI Operating System · Edge compute, sovereign storage, federated learning, AI agent mesh · Browser-native mining live Q1 2026 · $6M Strategic Round closed March 2026 · Token: DRIVE on Base · Audit Date: March 2026</p>
+
+<div class="top-row">
+  <!-- Gauge: score=51.5, orange, dashoffset=251.2*(1-0.515)=121.8 -->
+  <div class="card score-card">
+    <div class="score-title">Tokenomics Rating</div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 170 95" width="170" height="95">
+        <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#c05621"/>
+          <stop offset="100%" style="stop-color:#dd6b20"/>
+        </linearGradient></defs>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="251.2" stroke-dashoffset="121.8"/>
+      </svg>
+      <div class="gauge-score">
+        <span class="gauge-number">51<sup>.5</sup></span>
+        <div class="rating-badge">BBB</div>
+      </div>
+    </div>
+    <div class="gauge-labels"><span>0</span><span>100</span></div>
+  </div>
+
+  <!-- Radar -->
+  <div class="card radar-card">
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
+  </div>
+
+  <!-- Donut -->
+  <div class="card donut-card">
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
+    <div class="alloc-legend">
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38a169"></div><div class="alloc-label">Mining / Node</div><div class="alloc-pct">69.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38bdf8"></div><div class="alloc-label">Liquidity</div><div class="alloc-pct">11.1%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#1a56db"></div><div class="alloc-label">DAO Treasury</div><div class="alloc-pct">9.3%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#7c3aed"></div><div class="alloc-label">Team (3Y vest)</div><div class="alloc-pct">6.9%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f59e0b"></div><div class="alloc-label">Alpha Miners</div><div class="alloc-pct">3.7%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock bar -->
+<div class="card unlock-card">
+  <div class="unlock-title">Token Distribution, Total Supply 369M $DRIVE · 11.1% Liquidity at TGE · 69% Released Through Mining</div>
+  <div id="unlockBar" class="unlock-bar-wrap"></div>
+  <div class="unlock-bar-labels">
+    <span>TGE: Liquidity (11.1%)</span><span>Alpha Miners (3.7%) at TGE</span><span>Mining emits over time (69%)</span><span>Team unlocks from M13 (6.9%)</span>
+  </div>
+  <div class="unlock-legend">
+    <div class="ul-item"><div class="ul-dot" style="background:#38a169"></div>Mining 69% (254.6M): Proof-of-Utility emission, no schedule disclosed</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#38bdf8"></div>Liquidity 11.1% (41M): 100% at TGE for DEX/CEX</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#1a56db"></div>DAO Treasury 9.3% (34.3M): No vesting schedule disclosed</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#7c3aed"></div>Team 6.9% (25.5M): 3-year linear vesting confirmed</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#f59e0b"></div>Alpha Miners 3.7% (13.6M): Early community rewards, no schedule</div>
+  </div>
+</div>
+
+<!-- Score pills -->
+<div class="scores-row">
+  <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-green">68.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-orange">48.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-red">38.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-orange">42.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-orange">45.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-green">74.0</div></div>
+</div>
+
+<!-- BLOCK 2: INSIGHTS -->
+<div class="section-label">INSIGHTS</div>
+<div class="card insights-card">
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">69% Mining Allocation Is the Most Community-Oriented Distribution in This Audit Series<span class="insight-summary s-green">: 254.6M tokens distributed via Proof-of-Utility to node operators, miners, and contributors</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The allocation of 69% of total supply to mining and node rewards is exceptional by any standard. Industry benchmarks show community/ecosystem allocations averaging 35-40% for DePIN and AI infrastructure projects. Drive369's 69% allocation, 254,610,000 DRIVE, is the single largest community-facing bucket seen across all projects audited in this series. Combined with Alpha Miners (3.69%), total community-accessible supply via participation reaches 72.7%. The team receives only 6.9%, well below the industry average of 17-20%, and with confirmed 3-year linear vesting. This structure creates strong alignment: the vast majority of tokens can only be obtained by doing real work on the network (running nodes, contributing compute, training federated models), not by buying private rounds or holding pre-mined allocations. For node operators and early participants, this design is one of the most favorable seen in a DePIN project.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Mining Emission Schedule Is Undisclosed: 254.6M Tokens With No Release Rate<span class="insight-summary s-red">: without a schedule, year-1 inflation could range from 67% to 155% depending on duration</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The 69% mining allocation is the dominant structural feature, but it creates the project's most significant unresolved risk: there is no disclosed emission schedule. The website states browser mining is live in Q1 2026 and rewards are already being distributed, but no annual emission rate, halving schedule, or total emission timeline is published anywhere. Modeling the impact requires assumptions. If the 254.6M tokens emit over 3 years, year-1 inflation from mining alone is approximately 155% relative to the TGE circulating supply. Over 5 years, it is 93%. Over 7 years, 67%. Each of these scenarios creates materially different price dynamics. A fast emission schedule rewards early participants richly but creates severe sell pressure for token buyers; a slow schedule is more price-supportive but less motivating for node operators. The roadmap target of 1,000+ active mining nodes by Q4 2026 suggests meaningful near-term emission. Until the emission rate is published as a formal schedule, this is the most critical missing data point in the entire tokenomics.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">$6M Strategic Round Has No Corresponding Token Allocation Bucket<span class="insight-summary s-red">: five-bucket allocation table accounts for 100% of supply with no investor line</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The website's allocation table (Mining 69%, Liquidity 11.11%, DAO Treasury 9.3%, Team 6.9%, Alpha Miners 3.69%) accounts for exactly 100% of the 369M supply. There is no investor, strategic, or private round allocation bucket. Yet Drive369 just closed a $6M strategic round. Four interpretations exist. First, the $6M was structured as a pure SAFE or equity instrument with no token warrant, meaning investors hold equity in the legal entity, not tokens. Second, investors will receive tokens from the DAO Treasury allocation (9.3%), which has no disclosed vesting schedule. Third, the allocation table on the website is outdated and will be revised to include an investor bucket when tokenomics are finalized. Fourth, investors purchased $DRIVE through OTC secondary market from existing holders. Option 1 is the most investor-aligned but would be unusual for a $6M crypto round. Option 2 would dilute the DAO Treasury's governance function. Option 3 means the current table cannot be relied upon. The project needs to clarify this explicitly before TGE.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">No Listing Price or FDV Makes Valuation Modeling Impossible<span class="insight-summary s-red">: no public pricing data exists for $DRIVE despite live browser mining and confirmed $6M raise</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Despite browser mining being live (Q1 2026 active per roadmap), a confirmed $6M raise, and an agent staking contract deployed on Base, there is no disclosed listing price, implied FDV, or round price anywhere in any document. Without a listing price, it is impossible to calculate: what the implied market cap is at TGE, whether the 11.1% liquidity allocation is sufficient relative to FDV, what the implied multiple is for the $6M investors, and whether the mining reward rate is economically rational relative to token price. Comparably positioned DePIN AI projects at this stage (Render, Akash, Nosana) listed at FDVs ranging from $30M to $250M. Drive369's positioning between edge AI, agent OS, and DePIN storage is genuinely differentiated, but without price data, no risk-adjusted return modeling is possible for any participant.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">DAO Treasury 9.3% and Alpha Miners 3.7% Have No Disclosed Vesting<span class="insight-summary s-orange">: 47.9M tokens across two buckets with no lock-up or distribution schedule</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The DAO Treasury (34.3M tokens, 9.3%) and Alpha Miners (13.6M tokens, 3.69%) together represent 47.9M tokens, 13% of total supply, for which no cliff, vesting period, or distribution timeline is disclosed. The DAO Treasury is described as governing protocol upgrades, treasury allocation, and strategic partnerships; it presumably requires DAO votes to release, which provides some governance-based lock-up protection. Alpha Miners tokens are described as rewards for early community contributors, but no distribution schedule or lock-up period is specified. If both pools were fully liquid at TGE alongside the Liquidity allocation, the effective circulating supply could be 54.6M to 102.5M tokens on day one, producing a very wide range of possible initial market caps. The Liquidity allocation alone (11.1%, 41M tokens) as the TGE float would be clean. The uncertainty about DAO Treasury and Alpha Miners timing is a key variable.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Browser Mining Is Live But Reward Economics Are Unproven<span class="insight-summary s-orange">: site shows 42 $DRIVE/round with 156 active nodes, but no model for sustainable reward rate</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The website's federated learning section shows live metrics: 2,847 training rounds completed, 156 active nodes, 42 $DRIVE per round in rewards, and 8.2 TF total compute contributed. This confirms the browser mining product is genuinely active. However, 42 DRIVE per round across 156 nodes implies significant per-node daily issuance at current network scale. Without knowing the listing price, it's impossible to assess whether current reward rates are economically sustainable at scale. At $0.01/DRIVE, 42 tokens per round is $0.42, negligible. At $0.10/DRIVE, it's $4.20 per round, which becomes economically meaningful for node operators. The reward rate calibration, which should be tied to the emission schedule, is the key variable that determines whether the mining program creates organic demand or just constant sell pressure from miners immediately liquidating rewards. The roadmap targets 1,000+ mining nodes by Q4 2026, which would require distributing the same reward pool across 6x more participants, halving individual payouts unless the pool expands.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">9 Genuine Token Utility Vectors With Two Live On-Chain Mechanisms<span class="insight-summary s-green">: Agent Staking contract deployed and browser mining active, rare for pre-TGE stage</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Drive369 has nine confirmed utility vectors for $DRIVE: browser mining rewards (live), agent deployment bonding at 369 DRIVE per agent (live on Base, Sourcify-verified), federated learning compute rewards (live, 156 active nodes), GhostDrive encrypted storage payments, agent marketplace trading between AI agents, governance voting via DAO-369, compute credit staking for GPU access, tiered agent staking (Holder/Operator/Department), and auto-settlement in agent-to-agent P2P transactions. Two of these are not just described but actively running. Most projects at this stage have only whitepaper utility descriptions. The architecture is genuinely coherent: WebGPU acceleration in-browser, CRDT for conflict-free AI embedding sync across nodes, binary P2P protocol for 10x smaller payloads versus JSON. The technical specificity of the staking paper and the live node metrics confirm this is an engineering-led project. This utility depth is the main reason the score is BBB rather than lower.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Team Allocation 6.9% With 3-Year Vesting Is Among the Lowest and Best-Structured<span class="insight-summary s-green">: half the industry average, fully vested over 36 months with no large immediate unlock</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Team allocation of 6.9% (25,461,000 DRIVE) with confirmed 3-year vesting is a strong signal of founder alignment. Industry benchmarks show team allocations averaging 17-20% for AI and DePIN projects, with a recent trend toward higher team percentages in bull markets. Drive369's 6.9% is roughly one-third of the industry average. Combined with 3-year linear vesting (no disclosed cliff beyond the vesting label on the website), team tokens vest at approximately 707,000 DRIVE per month, at any plausible listing price, this creates manageable monthly team unlock pressure relative to the total supply. The low team allocation also means that even at a modest listing FDV of $40-50M, team members are not sitting on disproportionate paper wealth that creates an exit incentive early. This is one of the most clearly investor-aligned elements of the tokenomics structure.</div>
+  </div>
+
+</div>
+
+<!-- BLOCK 3: ALLOCATION STATS + TOKEN FLOW -->
+<div class="section-label">ALLOCATION BREAKDOWN &amp; TOKEN ECONOMY</div>
+<div class="bottom-row">
+
+  <!-- Allocation Breakdown -->
+  <div class="card sp-card">
+    <div class="sp-title">Token Allocation Breakdown</div>
+    <div class="sp-sub">Total supply: 369,000,000 DRIVE (fixed) · Confirmed from drive369.ai · No listing price disclosed</div>
+    <div class="sp-stats">
+      <div class="sp-stat">
+        <div class="sp-stat-label">Community</div>
+        <div class="sp-stat-value good">72.7%</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Protocol</div>
+        <div class="sp-stat-value">20.4%</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Team</div>
+        <div class="sp-stat-value good">6.9%</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Investors</div>
+        <div class="sp-stat-value danger">MISSING</div>
+      </div>
+    </div>
+    <div class="sp-bar-label">Supply Distribution</div>
+    <div class="sp-bar-wrap" id="spBar"></div>
+    <div class="sp-legend" id="spLegend"></div>
+    <div class="sp-note">
+      <strong>TGE circulating estimate:</strong> Liquidity 11.1% (41M) confirmed. Alpha Miners (3.7%, 13.6M) likely at TGE. DAO Treasury vesting unknown. Team locked 3Y. Mining emits over time. Effective TGE float: 11.1% minimum to 14.8% if Alpha Miners included.
+    </div>
+  </div>
+
+  <!-- Token Economy Flow -->
+  <div class="card flow-card">
+    <div class="flow-title">Token Economy Flow</div>
+    <div class="flow-sub">How $DRIVE circulates through Drive369's Agent OS ecosystem</div>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
+  </div>
+
+</div>
+
+<div class="assumptions">
+  <strong>Audit Notes:</strong> Token: $DRIVE (ERC-20, Base L2). Address: 0x36963b6eB44f8e94907811CDfAAf5A7098eF8369. Total supply: <strong>369,000,000 DRIVE</strong> (fixed cap confirmed). Allocation confirmed from drive369.ai: Mining 69% (254.61M), Liquidity 11.11% (41M), DAO Treasury 9.3% (34.3M), Team 6.9% (25.5M, 3Y vesting), Alpha Miners 3.69% (13.6M). Agent Staking contract verified on Sourcify (Base 8453): 369 DRIVE per agent, max 369,000 per wallet, non-custodial. $6M Strategic Round closed March 2026, no investor names, no token allocation bucket, no vesting disclosed. <strong>Not disclosed:</strong> mining emission rate/schedule, listing price, FDV, $6M round token terms, DAO Treasury and Alpha Miners unlock timing. Browser mining active Q1 2026 (156 nodes, 42 DRIVE/round). Roadmap: 1,000+ nodes by Q4 2026. Confidence: <strong>Medium</strong> (allocation confirmed; emission schedule, listing price, and investor terms absent).
+</div>
+</div>
+
+<script>
+// ── Radar ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('radarSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=170,cy=138,maxR=90,n=5;
+  const labels=['Monetary\nPolicy','Supply\nDesign','Investor\nConditions','Distribution\nFairness','Utility &\nLiquidity'];
+  const scores=[48,62,38,68,60];
+  function pt(i,r){const a=(Math.PI*2*i/n)-Math.PI/2;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  [25,50,75,100].forEach(p=>{
+    const el=document.createElementNS(ns,'polygon');
+    el.setAttribute('points',Array.from({length:n},(_,i)=>pt(i,maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill','none');el.setAttribute('stroke','rgba(0,0,0,0.07)');el.setAttribute('stroke-width','1');
+    svg.appendChild(el);
+  });
+  for(let i=0;i<n;i++){
+    const[x2,y2]=pt(i,maxR);
+    const l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+    l.setAttribute('stroke','rgba(0,0,0,0.08)');l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
+  }
+  const dp=document.createElementNS(ns,'polygon');
+  dp.setAttribute('points',scores.map((s,i)=>pt(i,maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill','rgba(221,107,32,0.16)');dp.setAttribute('stroke','rgba(221,107,32,0.65)');dp.setAttribute('stroke-width','2');
+  svg.appendChild(dp);
+  scores.forEach((s,i)=>{
+    const[px,py]=pt(i,maxR*s/100);
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',px);c.setAttribute('cy',py);c.setAttribute('r','4');
+    c.setAttribute('fill','rgba(221,107,32,0.9)');svg.appendChild(c);
+  });
+  labels.forEach((lbl,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const lx=cx+(maxR+32)*Math.cos(angle),ly=cy+(maxR+32)*Math.sin(angle);
+    const lines=lbl.split('\n');
+    const anchor=Math.cos(angle)>0.3?'start':Math.cos(angle)<-0.3?'end':'middle';
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',lx);t.setAttribute('y',ly);
+    t.setAttribute('text-anchor',anchor);t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size','10');t.setAttribute('font-family','-apple-system,sans-serif');
+    t.setAttribute('font-weight','500');t.setAttribute('fill','#4a5568');
+    lines.forEach((line,li)=>{
+      const ts=document.createElementNS(ns,'tspan');
+      ts.setAttribute('x',lx);ts.setAttribute('dy',li===0?(lines.length>1?'-0.6em':'0'):'1.3em');
+      ts.textContent=line;t.appendChild(ts);
+    });
+    svg.appendChild(t);
+    const[sx,sy]=pt(i,maxR*scores[i]/100);
+    const st=document.createElementNS(ns,'text');
+    st.setAttribute('x',sx+Math.cos(angle)*13);st.setAttribute('y',sy+Math.sin(angle)*13);
+    st.setAttribute('text-anchor',anchor);st.setAttribute('dominant-baseline','middle');
+    st.setAttribute('font-size','9');st.setAttribute('font-family','Courier New,monospace');
+    st.setAttribute('font-weight','700');st.setAttribute('fill','#dd6b20');
+    st.textContent=scores[i];svg.appendChild(st);
+  });
+})();
+
+// ── Donut ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('donutSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=55,cy=55,R=46,r=30;
+  const slices=[
+    {p:0.690,c:'#38a169'},{p:0.1111,c:'#38bdf8'},{p:0.093,c:'#1a56db'},
+    {p:0.069,c:'#7c3aed'},{p:0.0369,c:'#f59e0b'}
+  ];
+  let a=-Math.PI/2;
+  slices.forEach(s=>{
+    const ea=a+s.p*2*Math.PI;
+    const x1=cx+R*Math.cos(a),y1=cy+R*Math.sin(a);
+    const x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea),yi1=cy+r*Math.sin(ea);
+    const xi2=cx+r*Math.cos(a),yi2=cy+r*Math.sin(a);
+    const lg=s.p>0.5?1:0;
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d',`M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill',s.c);path.setAttribute('stroke','#fff');path.setAttribute('stroke-width','1.5');
+    svg.appendChild(path);a=ea;
+  });
+  [['369M','11','Courier New,monospace','700','#1a202c',cy-5],
+   ['DRIVE','8','-apple-system,sans-serif','400','#718096',cy+8]
+  ].forEach(([txt,fs,ff,fw,fill,y])=>{
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',cx);t.setAttribute('y',y);
+    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size',fs);t.setAttribute('font-family',ff);
+    t.setAttribute('font-weight',fw);t.setAttribute('fill',fill);
+    t.textContent=txt;svg.appendChild(t);
+  });
+})();
+
+// ── Unlock bar ─────────────────────────────────────────────────────────────────
+(function(){
+  const container=document.getElementById('unlockBar');
+  const segs=[
+    {name:'Mining',     total:69.0,  tge:0,    col:'#38a169'},
+    {name:'Liquidity',  total:11.11, tge:11.11,col:'#38bdf8'},
+    {name:'DAO Treas.', total:9.3,   tge:0,    col:'#1a56db'},
+    {name:'Team',       total:6.9,   tge:0,    col:'#7c3aed'},
+    {name:'Alpha Mine', total:3.69,  tge:3.69, col:'#f59e0b'},
+  ];
+  let left=0;
+  segs.forEach(s=>{
+    if(s.tge>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left}%;width:${s.tge}%;background:${s.col}`;
+      seg.title=`${s.name}: ${s.tge}% at TGE`;
+      if(s.tge>=5)seg.textContent=s.tge.toFixed(1)+'%';
+      container.appendChild(seg);
+    }
+    const locked=s.total-s.tge;
+    if(locked>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left+s.tge}%;width:${locked}%;background:${s.col};opacity:0.2`;
+      seg.title=`${s.name}: ${locked.toFixed(1)}% locked/emitted over time`;
+      container.appendChild(seg);
+    }
+    left+=s.total;
+  });
+})();
+
+// ── Allocation Bar + Legend ─────────────────────────────────────────────────────
+(function(){
+  const bar=document.getElementById('spBar');
+  const legend=document.getElementById('spLegend');
+  const data=[
+    {name:'Mining / Node Rewards', pct:69.0, tokens:'254.6M', col:'#38a169'},
+    {name:'Liquidity',             pct:11.1, tokens:'41.0M',  col:'#38bdf8'},
+    {name:'DAO Treasury',          pct:9.3,  tokens:'34.3M',  col:'#1a56db'},
+    {name:'Team (3Y vest)',        pct:6.9,  tokens:'25.5M',  col:'#7c3aed'},
+    {name:'Alpha Miners',          pct:3.7,  tokens:'13.6M',  col:'#f59e0b'},
+  ];
+  data.forEach(d=>{
+    const seg=document.createElement('div');
+    seg.className='sp-seg';
+    seg.style.cssText=`width:${d.pct}%;background:${d.col}`;
+    seg.title=`${d.name}: ${d.pct}%`;
+    if(d.pct>=8)seg.textContent=d.pct.toFixed(0)+'%';
+    bar.appendChild(seg);
+    const item=document.createElement('div');
+    item.className='sp-leg-item';
+    item.innerHTML=`<div class="sp-leg-dot" style="background:${d.col}"></div><span class="sp-leg-label">${d.name}</span><span class="sp-leg-pct">${d.pct}%</span><span class="sp-leg-tokens">${d.tokens}</span>`;
+    legend.appendChild(item);
+  });
+})();
+
+// ── Token Economy Flow ────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('flowSvg'),ns='http://www.w3.org/2000/svg';
+  const R=36;
+  const defs=document.createElementNS(ns,'defs');
+  const marker=document.createElementNS(ns,'marker');
+  marker.setAttribute('id','arr');marker.setAttribute('markerWidth','7');marker.setAttribute('markerHeight','7');
+  marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
+  const mp=document.createElementNS(ns,'path');
+  mp.setAttribute('d','M0,0 L0,6 L7,3 z');mp.setAttribute('fill','#b0bec5');
+  marker.appendChild(mp);defs.appendChild(marker);svg.appendChild(defs);
+
+  const nodes=[
+    {id:'node',    x:100, y:46,  label:['Node'],        sub:'browser mining',     col:'#38a169', bg:'#f0fff4'},
+    {id:'agent',   x:310, y:46,  label:['AI Agent'],    sub:'369 bonded',         col:'#dd6b20', bg:'#fff7ed'},
+    {id:'drive',   x:210, y:148, label:['$DRIVE'],      sub:'utility token',      col:'#1a56db', bg:'#eff6ff'},
+    {id:'ghost',   x:100, y:248, label:['GhostDrive'],  sub:'encrypted storage',  col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'dao',     x:310, y:248, label:['DAO-369'],      sub:'treasury governance',col:'#1a56db', bg:'#eff6ff'},
+    {id:'market',  x:210, y:334, label:['Agent Mkt'],   sub:'AI service trades',  col:'#38a169', bg:'#f0fff4'},
+  ];
+  const edges=[
+    {from:'node',  to:'drive',  lbl:'mines'},
+    {from:'drive', to:'agent',  lbl:'bonds 369'},
+    {from:'agent', to:'market', lbl:'sells tasks'},
+    {from:'market',to:'drive',  lbl:'earns DRIVE'},
+    {from:'drive', to:'ghost',  lbl:'pays storage'},
+    {from:'drive', to:'dao',    lbl:'votes'},
+    {from:'dao',   to:'drive',  lbl:'treasury'},
+    {from:'market',to:'node',   lbl:'rewards'},
+  ];
+  function nodeById(id){return nodes.find(n=>n.id===id);}
+  edges.forEach(e=>{
+    const s=nodeById(e.from),t=nodeById(e.to);
+    const dx=t.x-s.x,dy=t.y-s.y,len=Math.sqrt(dx*dx+dy*dy);
+    const sx=s.x+dx/len*(R+2),sy=s.y+dy/len*(R+2);
+    const tx=t.x-dx/len*(R+4),ty=t.y-dy/len*(R+4);
+    const mx=(sx+tx)/2,my=(sy+ty)/2;
+    const line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',sx);line.setAttribute('y1',sy);line.setAttribute('x2',tx);line.setAttribute('y2',ty);
+    line.setAttribute('stroke','#b0bec5');line.setAttribute('stroke-width','1.5');
+    line.setAttribute('marker-end','url(#arr)');svg.appendChild(line);
+    const tw=e.lbl.length*5.5+8;
+    const rect=document.createElementNS(ns,'rect');
+    rect.setAttribute('x',mx-tw/2);rect.setAttribute('y',my-8);
+    rect.setAttribute('width',tw);rect.setAttribute('height',13);
+    rect.setAttribute('rx','3');rect.setAttribute('fill','white');rect.setAttribute('opacity','0.85');
+    svg.appendChild(rect);
+    const lt=document.createElementNS(ns,'text');
+    lt.setAttribute('x',mx);lt.setAttribute('y',my+1);
+    lt.setAttribute('text-anchor','middle');lt.setAttribute('dominant-baseline','middle');
+    lt.setAttribute('font-size','8');lt.setAttribute('font-family','-apple-system,sans-serif');
+    lt.setAttribute('fill','#90a4ae');lt.textContent=e.lbl;svg.appendChild(lt);
+  });
+  nodes.forEach(n=>{
+    const g=document.createElementNS(ns,'g');
+    const circle=document.createElementNS(ns,'circle');
+    circle.setAttribute('cx',n.x);circle.setAttribute('cy',n.y);circle.setAttribute('r',R);
+    circle.setAttribute('fill',n.bg);circle.setAttribute('stroke',n.col);circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+    const lineH=11,totalH=n.label.length*lineH;
+    const startY=n.y-totalH/2+lineH/2-(n.sub?4:0);
+    n.label.forEach((line,li)=>{
+      const t=document.createElementNS(ns,'text');
+      t.setAttribute('x',n.x);t.setAttribute('y',startY+li*lineH);
+      t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+      t.setAttribute('font-size','9');t.setAttribute('font-family','-apple-system,sans-serif');
+      t.setAttribute('font-weight','700');t.setAttribute('fill',n.col);
+      t.textContent=line;g.appendChild(t);
+    });
+    const subY=startY+n.label.length*lineH+3;
+    if(subY<n.y+R-6){
+      const ts=document.createElementNS(ns,'text');
+      ts.setAttribute('x',n.x);ts.setAttribute('y',subY);
+      ts.setAttribute('text-anchor','middle');ts.setAttribute('dominant-baseline','middle');
+      ts.setAttribute('font-size','7.5');ts.setAttribute('font-family','-apple-system,sans-serif');
+      ts.setAttribute('fill','#718096');ts.textContent=n.sub;g.appendChild(ts);
+    }
+    svg.appendChild(g);
+  });
+})();
+
+function tog(el){
+  el.querySelector('.insight-body').classList.toggle('open');
+  el.querySelector('.chevron').classList.toggle('open');
+}
+</script>
+</body>
+</html>
