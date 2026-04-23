@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenomics Test: $NESXI | Synesxi</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue:#1a56db; --bg:#f8f9fc; --card:#fff; --border:#e2e8f0;
+  --text:#1a202c; --muted:#718096; --red:#e53e3e; --orange:#dd6b20; --green:#38a169;
+  --sol:#9945ff;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(circle, #c5d3e8 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  padding: 28px 24px;
+}
+.page { max-width: 980px; margin: 0 auto; }
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.page-title span { color: var(--sol); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; padding: 4px 11px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-red    { background:#fff5f5; border:1px solid #feb2b2; color:#c53030; }
+.badge-orange { background:#fff3cd; border:1px solid #ffd966; color:#7a5800; }
+.badge-blue   { background:#ebf4ff; border:1px solid #bee3f8; color:#2b6cb0; }
+.badge-green  { background:#f0fff4; border:1px solid #9ae6b4; color:#276749; }
+.badge-purple { background:#faf5ff; border:1px solid #d6bcfa; color:#553c9a; }
+.page-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 10px 0 8px; }
+
+/* TOP ROW */
+.top-row { display: grid; grid-template-columns: 200px 1fr 280px; gap: 14px; margin-bottom: 14px; }
+.score-card { padding: 20px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
+.gauge-wrap { position: relative; width: 170px; height: 95px; }
+.gauge-score { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.gauge-number { font-family: 'Courier New', monospace; font-size: 32px; font-weight: 500; color: #dd6b20; line-height: 1; display: block; }
+.gauge-number sup { font-size: 14px; }
+.rating-badge { display: inline-block; background: #dd6b20; color: white; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 5px; margin-top: 4px; }
+.gauge-labels { display: flex; justify-content: space-between; width: 170px; margin-top: 4px; font-size: 10px; color: var(--muted); font-family: 'Courier New', monospace; }
+.radar-card { padding: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.donut-card { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.alloc-legend { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.alloc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; min-width: 0; }
+.alloc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alloc-label { flex: 1; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.alloc-pct { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: var(--text); flex-shrink: 0; min-width: 38px; text-align: right; }
+
+/* UNLOCK BAR */
+.unlock-card { padding: 16px 20px; margin-bottom: 14px; }
+.unlock-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+.unlock-bar-wrap { position: relative; height: 32px; background: #f1f5f9; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.unlock-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.unlock-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.unlock-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 10px; }
+.ul-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+.ul-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* SCORE PILLS */
+.scores-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+.score-pill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.score-pill-label { font-size: 9.5px; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
+.score-pill-value { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 500; }
+.c-red{color:var(--red)} .c-orange{color:var(--orange)} .c-green{color:var(--green)} .c-blue{color:var(--blue)}
+
+/* INSIGHTS */
+.insights-card { padding: 0; overflow: hidden; margin-bottom: 14px; }
+.insight-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.insight-item:last-child { border-bottom: none; }
+.insight-item:hover { background: #f7f4ff; }
+.insight-header { display: flex; align-items: flex-start; gap: 10px; padding: 13px 18px; user-select: none; }
+.insight-icon { width: 16px; flex-shrink: 0; font-size: 11px; padding-top: 2px; }
+.icon-red{color:var(--red)} .icon-orange{color:var(--orange)} .icon-green{color:var(--green)}
+.insight-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.4; }
+.insight-summary { font-size: 12px; font-weight: 400; }
+.s-red{color:var(--red)} .s-orange{color:var(--orange)} .s-green{color:var(--green)}
+.chevron { color: var(--muted); font-size: 11px; transition: transform .2s; flex-shrink: 0; padding-top: 3px; }
+.chevron.open { transform: rotate(180deg); }
+.insight-body { display: none; padding: 0 18px 14px 44px; font-size: 13px; line-height: 1.75; color: #4a5568; }
+.insight-body.open { display: block; }
+
+/* BOTTOM ROW */
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.sp-card { padding: 18px; }
+.sp-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.sp-stats { display: flex; gap: 8px; margin-bottom: 14px; }
+.sp-stat { flex: 1; background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; min-width: 0; }
+.sp-stat-label { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.sp-stat-value { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.sp-stat-value.danger { color: var(--red); }
+.sp-stat-value.warn { color: var(--orange); }
+.sp-stat-value.good { color: var(--green); }
+.sp-bar-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+.sp-bar-wrap { height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 12px; }
+.sp-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; overflow: hidden; white-space: nowrap; }
+.sp-seg:hover { opacity: .85; }
+.sp-legend { display: flex; flex-direction: column; gap: 5px; }
+.sp-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sp-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.sp-leg-label { flex: 1; color: var(--muted); }
+.sp-leg-pct { font-family: 'Courier New', monospace; font-weight: 600; color: var(--text); min-width: 38px; text-align: right; }
+.sp-leg-usd { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); min-width: 65px; text-align: right; }
+.sp-note { margin-top: 12px; font-size: 10px; color: var(--muted); line-height: 1.55; border-top: 1px solid var(--border); padding-top: 10px; }
+.flow-card { padding: 18px; display: flex; flex-direction: column; }
+.flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.flow-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+.assumptions { margin-top: 14px; padding: 12px 16px; background: #faf5ff; border: 1px solid #d6bcfa; border-radius: 8px; font-size: 12px; color: #44337a; line-height: 1.65; }
+.assumptions strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1 class="page-title">Tokenomics Test: <span>$NESXI</span> | Synesxi</h1>
+<div class="badge-row">
+  <span class="badge badge-red">⚠ 135% Year-1 Inflation (excl. Liquidity)</span>
+  <span class="badge badge-red">⚠ Public Presale 22% Supply, 50% Unlocked at TGE</span>
+  <span class="badge badge-orange">⚠ Pre-Product: Waitlist Only, No Live Platform</span>
+  <span class="badge badge-green">✓ $15M FDV is Conservative for Solana Ecosystem</span>
+  <span class="badge badge-green">✓ Team 12m Cliff + 24m Vest, Treasury 18m Cliff</span>
+  <span class="badge badge-purple">Solana · 2B Supply · TGE Nov-2026 · $3.4M Raise</span>
+</div>
+<p class="page-subtitle">Synesxi · Solana Marketplace, Launchpad &amp; Ecosystem Hub (B2B/B2C) · One-stop platform for developers, traders, investors, service providers and explorers on Solana · Token: $NESXI · TGE: November 2026 · Audit Date: April 2026</p>
+
+<div class="top-row">
+  <!-- Gauge: score=53.5, dashoffset=251.2*(1-0.535)=116.8 -->
+  <div class="card score-card">
+    <div class="score-title">Tokenomics Rating</div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 170 95" width="170" height="95">
+        <defs><linearGradient id="ggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#c05621"/>
+          <stop offset="100%" style="stop-color:#dd6b20"/>
+        </linearGradient></defs>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="#e8efff" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 5 88 A 80 80 0 0 1 165 88" fill="none" stroke="url(#ggrad)" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="251.2" stroke-dashoffset="116.8"/>
+      </svg>
+      <div class="gauge-score">
+        <span class="gauge-number">53<sup>.5</sup></span>
+        <div class="rating-badge">BBB</div>
+      </div>
+    </div>
+    <div class="gauge-labels"><span>0</span><span>100</span></div>
+  </div>
+
+  <!-- Radar -->
+  <div class="card radar-card">
+    <svg id="radarSvg" viewBox="0 0 340 270" width="100%" height="270" style="max-width:340px"></svg>
+  </div>
+
+  <!-- Donut -->
+  <div class="card donut-card">
+    <div style="flex-shrink:0"><svg id="donutSvg" viewBox="0 0 110 110" width="110" height="110"></svg></div>
+    <div class="alloc-legend">
+      <div class="alloc-item"><div class="alloc-dot" style="background:#9945ff"></div><div class="alloc-label">Public Presale</div><div class="alloc-pct">22.1%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#14f195"></div><div class="alloc-label">Marketing</div><div class="alloc-pct">15.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#38bdf8"></div><div class="alloc-label">Liquidity/MM</div><div class="alloc-pct">12.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#7c3aed"></div><div class="alloc-label">Team</div><div class="alloc-pct">12.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#1a56db"></div><div class="alloc-label">Treasury</div><div class="alloc-pct">15.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#f59e0b"></div><div class="alloc-label">Ecosystem</div><div class="alloc-pct">14.0%</div></div>
+      <div class="alloc-item"><div class="alloc-dot" style="background:#e53e3e"></div><div class="alloc-label">Other</div><div class="alloc-pct">9.9%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock bar -->
+<div class="card unlock-card">
+  <div class="unlock-title">Cumulative Unlock Schedule, Total Supply 2,000,000,000 $NESXI · TGE Nov-2026</div>
+  <div id="unlockBar" class="unlock-bar-wrap"></div>
+  <div class="unlock-bar-labels">
+    <span>TGE 26.1%</span><span>M12 45.7%</span><span>M18 55.0%</span><span>M24 66.8%</span><span>M36 90.5%</span><span>M72 100%</span>
+  </div>
+  <div class="unlock-legend">
+    <div class="ul-item"><div class="ul-dot" style="background:#9945ff"></div>Public Presale 22.1% (50% at TGE, 0m cliff, 5m vest)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#38bdf8"></div>Liquidity 12% (100% at TGE)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#14f195"></div>Marketing 15% (0% TGE, 12m cliff, 24m vest)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#7c3aed"></div>Team 12% (0% TGE, 12m cliff, 24m vest)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#1a56db"></div>Treasury 15% (0% TGE, 18m cliff, 24m vest)</div>
+    <div class="ul-item"><div class="ul-dot" style="background:#f59e0b"></div>Ecosystem 14% (5% TGE, 2m cliff, 60m vest)</div>
+  </div>
+</div>
+
+<!-- Score pills -->
+<div class="scores-row">
+  <div class="score-pill"><div class="score-pill-label">Distribution Fairness</div><div class="score-pill-value c-green">55.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Monetary Policy</div><div class="score-pill-value c-orange">42.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Investor Conditions</div><div class="score-pill-value c-green">58.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Valuation &amp; VDV</div><div class="score-pill-value c-green">62.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Listing &amp; Liquidity</div><div class="score-pill-value c-green">55.0</div></div>
+  <div class="score-pill"><div class="score-pill-label">Utility &amp; Value Flow</div><div class="score-pill-value c-orange">48.0</div></div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="section-label">INSIGHTS</div>
+<div class="card insights-card">
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Year-1 Inflation of 135%: Public Presale + Investors Create Heavy Month-1 to Month-7 Sell Pressure<span class="insight-summary s-red">: 282M non-liquidity tokens at TGE grows to 675M by month 12</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Excluding the 240M Liquidity/MM allocation (which is earmarked for market making, not selling), the circulating supply at TGE is approximately 282M tokens. By month 12, that grows to 675M, an increase of 393M tokens, representing 135% year-1 inflation. The primary drivers are: the Public Presale (441M tokens total, 50% at TGE with no cliff, then 5-month linear vest) and Private/Seed rounds (both have only 2-month cliffs before vesting begins). The Public Presale alone unlocks 220.6M tokens at TGE and then continues vesting 44.1M tokens/month from month 0 through month 5. Month 5 is the peak single-month unlock: all three investor tranches are simultaneously mid-vest, adding roughly 52M tokens in a single month. The project's price resilience in this window depends almost entirely on whether the platform launches with meaningful Solana ecosystem traction to absorb this supply expansion. Year 2 remains elevated at 62.5% inflation before normalizing in years 3-4.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Public Presale Dominates the Raise at 88% of Total Funds: Concentrated Retail Sell Risk<span class="insight-summary s-red">: $3M of $3.4M raised from public presale buyers at $0.0068, only 10% discount to listing</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The fundraising structure is unusual: of the $3.4M total raise, $3M (88.2%) comes from the Public Presale. The Seed Round raised only $100K and the Private Round $300K. This means the project's investor base is overwhelmingly public, retail-oriented buyers who paid $0.0068 per token against a listing price of $0.0075 (a 10% discount, implying a 1.10x at listing). These buyers have no cliff, 50% of their tokens are available at TGE and the remainder vests over 5 months. Retail presale investors with a 1.1x listing multiple and no cliff represent the highest dump risk of any allocation in this structure. Even a modest percentage of them deciding to take profit on day one at $0.0075 creates substantial sell pressure against the $1.8M of liquidity provisioned. The 441M presale tokens (22.06% of total supply) with a near-at-market entry price is the most structurally fragile element of the tokenomics.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-red">▲</div>
+      <div class="insight-title">Month-13 Cliff Expiry: Team (240M) + Marketing (300M) Begin Vesting Simultaneously<span class="insight-summary s-red">: 540M tokens begin unlocking from a single month, adding 22.5M tokens/month for 24 months</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">Both the Team allocation (240M tokens, 12%) and the Marketing and Partnerships allocation (300M tokens, 15%) share identical vesting structures: 12-month cliff, 24-month linear vest. This means that at month 13 post-TGE (approximately December 2027 if TGE is November 2026), both allocations begin releasing simultaneously. The combined monthly unlock is 22.5M tokens per month (10M Team + 12.5M Marketing) for the full 24-month vesting window. While the 12-month cliff is appropriate and market-standard, the concurrent release of both the largest insider allocation and the largest operational allocation creates a structurally predictable sell overhang from month 13 onward. Sophisticated traders will likely anticipate this and position accordingly. The 18-month cliff on Treasury (299.5M tokens) adds a third wave beginning at month 19, though Treasury tokens are less likely to be immediately liquidated if properly governed. Staggering these cliffs by even 3 months each would meaningfully reduce the cliff-cliff effect.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">$15M FDV is Conservative and Realistic: Among the Lowest in the Series<span class="insight-summary s-orange">: $3.9M initial MCAP at 26.1% float implies reasonable price discovery runway</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">At $0.0075 per token with 2B total supply, the listing FDV is $15M and the initial market cap is approximately $3.9M (including liquidity) or $2.1M (excluding liquidity). These are exceptionally modest valuations for a Solana ecosystem project, comparable Solana marketplace and launchpad plays at comparable stages have listed at $30-100M FDV. The conservative FDV reduces the risk of post-listing FDV compression (where token price must fall to justify valuation relative to competitors) and provides genuine multiple expansion potential if the platform achieves even modest Solana ecosystem adoption. The Seed Round 3.95x multiple at listing is also modest, well below the 10-20x multiples seen in comparable early-stage crypto rounds. The implied total raise of $3.4M against a $15M FDV gives a 4.4x initial FDV/raise ratio, which is conservative and investor-friendly for the secondary market. The key risk is not overvaluation but whether the platform can launch by November 2026 as targeted.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">2 Billion Token Supply Is Large in Absolute Terms, Creating Long Tail Inflation Through 2031<span class="insight-summary s-orange">: supply only reaches 100% by month 72 (November 2032), with Ecosystem vest running to 2031</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The 2,000,000,000 maximum supply is the largest absolute token count in the audited series, though absolute supply is less important than percentage allocation and vesting design. The Ecosystem bucket (280M tokens, 14%) has the longest vest at 60 months post a 2-month cliff, meaning ecosystem rewards continue distributing until approximately January 2032 at TGE of November 2026. While this is actually a positive design choice for long-term ecosystem health (avoiding a cliff at 24-36 months like most comparable projects), the practical consequence is that there is no "clean" fully-diluted endpoint until 6 years post-TGE. Token price will need to grow against continuous emission for the full 6-year window to produce meaningful returns for TGE buyers. The Treasury's 18-month cliff followed by 24-month vest (ending at month 42, approximately May 2030) is appropriate for a reserve allocation and signals the team is not planning short-term exits.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-orange">■</div>
+      <div class="insight-title">Platform Is Pre-Product With No Live Functionality Beyond a Waitlist<span class="insight-summary s-orange">: TGE target November 2026 gives 7 months to build a functional Solana marketplace and launch</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">As of April 2026, the Synesxi website shows a pre-launch landing page with a waitlist registration form, feature descriptions, and navigation to blog/FAQ pages. There is no live product, no functional marketplace, no token discovery tool, no swap/bridge integration, no launchpad interface, and no developer onboarding portal. The product vision is broad: simultaneously targeting developers, traders, investors, service providers, and explorers on Solana with features including a swap/bridge, launchpad, incubator, talent pool, and rigorous vetting process. Each of these individually represents a significant development undertaking. With TGE targeted for November 2026 (approximately 7 months from audit), the team needs to deliver a minimum viable product across multiple of these features before or concurrent with token launch. The tokenomics are well-structured for this timeline, the 12-month cliffs on Team and Marketing provide a buffer, but execution risk is elevated given the scope of the platform vision and zero demonstrated product traction.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Team and Treasury Vesting Are Well-Designed: 12m and 18m Cliffs Signal Long-Term Commitment<span class="insight-summary s-green">: Team 0% at TGE, 12m cliff, 24m vest. Treasury 0% TGE, 18m cliff, 24m vest</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The Team allocation (240M tokens, 12%) has zero TGE unlock, a 12-month cliff, and 24-month linear vesting, meaning team members receive their first tokens in November 2027 at the earliest and are fully vested by November 2029. This is a strong alignment signal: team members have no incentive to exit before at least a year of platform operation. The Treasury (299.5M tokens, 15%) has an 18-month cliff, meaning no Treasury tokens are available until May 2028, a year and a half after TGE. This is the longest cliff in the structure and provides meaningful protocol protection during the most volatile post-listing period. Together these two allocations represent 27% of total supply (539.5M tokens) that is fully locked for 12-18 months post-TGE. Combined with the Marketing allocation (also 12m cliff, same vest), the total supply locked for a minimum of 12 months post-TGE is 42%, providing structural protection against insider dumps during the initial growth phase.</div>
+  </div>
+
+  <div class="insight-item" onclick="tog(this)">
+    <div class="insight-header">
+      <div class="insight-icon icon-green">✓</div>
+      <div class="insight-title">Investor Multiples Are Compressed and Investor-Friendly for Secondary Buyers<span class="insight-summary s-green">: Seed 3.95x, Private 1.67x, Presale 1.10x, no 10-50x VC multiples that typically destroy retail</span></div>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="insight-body">The fundraising structure avoids the most common tokenomics failure mode: giving insiders 10-50x listing multiples that create overwhelming incentives to dump on retail. The Seed Round at $0.0019 gives a 3.95x at listing, meaningful but not egregious. Private at $0.0045 gives 1.67x, barely above water. Public Presale at $0.0068 gives 1.10x, essentially breakeven. This compression means all three investor groups have limited profit-taking incentive relative to many comparable projects. The two-month cliff on Seed and Private (rather than zero cliff) provides a small but meaningful delay before selling begins. The total raise of $3.4M is also lean: the project raised enough to fund development without overselling tokens to insiders. The main concern is not insider multiples but the sheer volume of presale tokens (441M, 22.06% of supply) and their immediate availability, which creates collective retail sell pressure rather than institutional sell pressure.</div>
+  </div>
+
+</div>
+
+<!-- BOTTOM ROW -->
+<div class="section-label">TGE SELL PRESSURE &amp; TOKEN ECONOMY</div>
+<div class="bottom-row">
+
+  <div class="card sp-card">
+    <div class="sp-title">TGE Day Sell Pressure Estimate</div>
+    <div class="sp-sub">Propensity model · Listing $0.0075 · FDV $15M · Utility score 48/100 · Pre-product</div>
+    <div class="sp-stats">
+      <div class="sp-stat">
+        <div class="sp-stat-label">TGE Float</div>
+        <div class="sp-stat-value warn">522M (26.1%)</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">TGE MCAP</div>
+        <div class="sp-stat-value good">$3.9M</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Est. Sell USD</div>
+        <div class="sp-stat-value danger">$1.76M</div>
+      </div>
+      <div class="sp-stat">
+        <div class="sp-stat-label">Liquidity Pool</div>
+        <div class="sp-stat-value">$1.8M</div>
+      </div>
+    </div>
+    <div class="sp-bar-label">USD Sell Contribution by Allocation</div>
+    <div class="sp-bar-wrap" id="spBar"></div>
+    <div class="sp-legend" id="spLegend"></div>
+    <div class="sp-note">
+      <strong>Method:</strong> propensity = max &minus; (utility/100) &times; (max &minus; min) per bucket. Liquidity excluded. Public Presale at 87% sell propensity dominates at 82% of total estimated sell pressure. Estimated $1.76M sell against $1.8M liquidity is near parity on day one, suggesting fragile price support unless organic buyers absorb supply.
+    </div>
+  </div>
+
+  <div class="card flow-card">
+    <div class="flow-title">Token Economy Flow</div>
+    <div class="flow-sub">How $NESXI circulates through the Synesxi Solana ecosystem platform</div>
+    <svg id="flowSvg" viewBox="0 0 420 370" style="width:100%;height:auto;flex:1"></svg>
+  </div>
+
+</div>
+
+<div class="assumptions">
+  <strong>Audit Notes:</strong> Token: $NESXI. Chain: Solana. Total supply: <strong>2,000,000,000</strong>. Listing price: <strong>$0.0075</strong>. TGE FDV: <strong>$15,000,000</strong>. TGE date: <strong>November 2026</strong>. Total raised: $3.4M (Seed $100K at $0.0019, Private $300K at $0.0045, Public Presale $3M at $0.0068). Initial circulating supply: 522,412,797 (26.12%). TGE MCAP incl. liquidity: $3,918,096. Source: Google Sheets tokenomics model (public, confirmed). Year-1 inflation (excl. liquidity): 134.54% per model, 138.9% per audit model (minor rounding difference). Platform status: pre-launch, waitlist only. No live product traction. Confidence: <strong>High</strong> (full tokenomics model confirmed from spreadsheet).
+</div>
+</div>
+
+<script>
+// ── Radar ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('radarSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=170,cy=138,maxR=90,n=5;
+  const labels=['Monetary\nPolicy','Valuation\n& VDV','Investor\nConditions','Distribution\nFairness','Listing &\nUtility'];
+  const scores=[42,62,58,55,52];
+  function pt(i,r){const a=(Math.PI*2*i/n)-Math.PI/2;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  [25,50,75,100].forEach(p=>{
+    const el=document.createElementNS(ns,'polygon');
+    el.setAttribute('points',Array.from({length:n},(_,i)=>pt(i,maxR*p/100).join(',')).join(' '));
+    el.setAttribute('fill','none');el.setAttribute('stroke','rgba(0,0,0,0.07)');el.setAttribute('stroke-width','1');
+    svg.appendChild(el);
+  });
+  for(let i=0;i<n;i++){
+    const[x2,y2]=pt(i,maxR);
+    const l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+    l.setAttribute('stroke','rgba(0,0,0,0.08)');l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
+  }
+  const dp=document.createElementNS(ns,'polygon');
+  dp.setAttribute('points',scores.map((s,i)=>pt(i,maxR*s/100).join(',')).join(' '));
+  dp.setAttribute('fill','rgba(153,69,255,0.14)');dp.setAttribute('stroke','rgba(153,69,255,0.6)');dp.setAttribute('stroke-width','2');
+  svg.appendChild(dp);
+  scores.forEach((s,i)=>{
+    const[px,py]=pt(i,maxR*s/100);
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',px);c.setAttribute('cy',py);c.setAttribute('r','4');
+    c.setAttribute('fill','rgba(153,69,255,0.9)');svg.appendChild(c);
+  });
+  labels.forEach((lbl,i)=>{
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const lx=cx+(maxR+32)*Math.cos(angle),ly=cy+(maxR+32)*Math.sin(angle);
+    const lines=lbl.split('\n');
+    const anchor=Math.cos(angle)>0.3?'start':Math.cos(angle)<-0.3?'end':'middle';
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',lx);t.setAttribute('y',ly);
+    t.setAttribute('text-anchor',anchor);t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size','10');t.setAttribute('font-family','-apple-system,sans-serif');
+    t.setAttribute('font-weight','500');t.setAttribute('fill','#4a5568');
+    lines.forEach((line,li)=>{
+      const ts=document.createElementNS(ns,'tspan');
+      ts.setAttribute('x',lx);ts.setAttribute('dy',li===0?(lines.length>1?'-0.6em':'0'):'1.3em');
+      ts.textContent=line;t.appendChild(ts);
+    });
+    svg.appendChild(t);
+    const[sx,sy]=pt(i,maxR*scores[i]/100);
+    const st=document.createElementNS(ns,'text');
+    st.setAttribute('x',sx+Math.cos(angle)*13);st.setAttribute('y',sy+Math.sin(angle)*13);
+    st.setAttribute('text-anchor',anchor);st.setAttribute('dominant-baseline','middle');
+    st.setAttribute('font-size','9');st.setAttribute('font-family','Courier New,monospace');
+    st.setAttribute('font-weight','700');st.setAttribute('fill','#9945ff');
+    st.textContent=scores[i];svg.appendChild(st);
+  });
+})();
+
+// ── Donut ─────────────────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('donutSvg'),ns='http://www.w3.org/2000/svg';
+  const cx=55,cy=55,R=46,r=30;
+  const slices=[
+    {p:0.2206,c:'#9945ff'},{p:0.1500,c:'#14f195'},{p:0.1200,c:'#38bdf8'},
+    {p:0.1200,c:'#7c3aed'},{p:0.1498,c:'#1a56db'},{p:0.1400,c:'#f59e0b'},{p:0.0996,c:'#e53e3e'}
+  ];
+  let a=-Math.PI/2;
+  slices.forEach(s=>{
+    const ea=a+s.p*2*Math.PI;
+    const x1=cx+R*Math.cos(a),y1=cy+R*Math.sin(a);
+    const x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea);
+    const xi1=cx+r*Math.cos(ea),yi1=cy+r*Math.sin(ea);
+    const xi2=cx+r*Math.cos(a),yi2=cy+r*Math.sin(a);
+    const lg=s.p>0.5?1:0;
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d',`M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2} L ${xi1} ${yi1} A ${r} ${r} 0 ${lg} 0 ${xi2} ${yi2} Z`);
+    path.setAttribute('fill',s.c);path.setAttribute('stroke','#fff');path.setAttribute('stroke-width','1.5');
+    svg.appendChild(path);a=ea;
+  });
+  [['2B','11','Courier New,monospace','700','#1a202c',cy-5],
+   ['NESXI','8','-apple-system,sans-serif','400','#718096',cy+8]
+  ].forEach(([txt,fs,ff,fw,fill,y])=>{
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',cx);t.setAttribute('y',y);
+    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('font-size',fs);t.setAttribute('font-family',ff);
+    t.setAttribute('font-weight',fw);t.setAttribute('fill',fill);
+    t.textContent=txt;svg.appendChild(t);
+  });
+})();
+
+// ── Unlock bar ─────────────────────────────────────────────────────────────────
+(function(){
+  const container=document.getElementById('unlockBar');
+  const segs=[
+    {name:'Public Presale', total:22.06, tge:11.03, col:'#9945ff'},
+    {name:'Liquidity',      total:12.00, tge:12.00, col:'#38bdf8'},
+    {name:'Marketing',      total:15.00, tge:0,     col:'#14f195'},
+    {name:'Team',           total:12.00, tge:0,     col:'#7c3aed'},
+    {name:'Treasury',       total:14.98, tge:0,     col:'#1a56db'},
+    {name:'Ecosystem',      total:14.00, tge:0.70,  col:'#f59e0b'},
+    {name:'Advisors',       total:4.00,  tge:0.40,  col:'#e53e3e'},
+    {name:'Seed',           total:2.63,  tge:0.66,  col:'#f43f5e'},
+    {name:'Private',        total:3.33,  tge:1.33,  col:'#fb923c'},
+  ];
+  let left=0;
+  segs.forEach(s=>{
+    if(s.tge>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left}%;width:${s.tge}%;background:${s.col}`;
+      seg.title=`${s.name}: ${s.tge.toFixed(1)}% at TGE`;
+      if(s.tge>=5)seg.textContent=s.tge.toFixed(0)+'%';
+      container.appendChild(seg);
+    }
+    const locked=s.total-s.tge;
+    if(locked>0){
+      const seg=document.createElement('div');
+      seg.className='unlock-segment';
+      seg.style.cssText=`left:${left+s.tge}%;width:${locked}%;background:${s.col};opacity:0.2`;
+      seg.title=`${s.name}: ${locked.toFixed(1)}% locked`;
+      container.appendChild(seg);
+    }
+    left+=s.total;
+  });
+})();
+
+// ── Sell Pressure ─────────────────────────────────────────────────────────────
+(function(){
+  const data=[
+    {name:'Public Presale', pct:81.8, usd:1439338, col:'#9945ff'},
+    {name:'Private Round',  pct:9.0,  usd:158400,  col:'#fb923c'},
+    {name:'Seed Round',     pct:4.4,  usd:78158,   col:'#f43f5e'},
+    {name:'Ecosystem',      pct:2.6,  usd:46200,   col:'#f59e0b'},
+    {name:'Advisors',       pct:2.2,  usd:38400,   col:'#e53e3e'},
+  ];
+  const bar=document.getElementById('spBar');
+  const legend=document.getElementById('spLegend');
+  data.forEach(d=>{
+    const seg=document.createElement('div');
+    seg.className='sp-seg';
+    seg.style.cssText=`width:${d.pct}%;background:${d.col}`;
+    seg.title=`${d.name}: $${(d.usd/1000).toFixed(0)}K`;
+    if(d.pct>=8)seg.textContent=d.pct.toFixed(0)+'%';
+    bar.appendChild(seg);
+    const item=document.createElement('div');
+    item.className='sp-leg-item';
+    item.innerHTML=`<div class="sp-leg-dot" style="background:${d.col}"></div><span class="sp-leg-label">${d.name}</span><span class="sp-leg-pct">${d.pct.toFixed(0)}%</span><span class="sp-leg-usd">$${(d.usd/1000).toFixed(0)}K</span>`;
+    legend.appendChild(item);
+  });
+})();
+
+// ── Token Economy Flow ────────────────────────────────────────────────────────
+(function(){
+  const svg=document.getElementById('flowSvg'),ns='http://www.w3.org/2000/svg';
+  const R=36;
+  const defs=document.createElementNS(ns,'defs');
+  const marker=document.createElementNS(ns,'marker');
+  marker.setAttribute('id','arr');marker.setAttribute('markerWidth','7');marker.setAttribute('markerHeight','7');
+  marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
+  const mp=document.createElementNS(ns,'path');
+  mp.setAttribute('d','M0,0 L0,6 L7,3 z');mp.setAttribute('fill','#b0bec5');
+  marker.appendChild(mp);defs.appendChild(marker);svg.appendChild(defs);
+  const nodes=[
+    {id:'user',   x:100,y:46,   label:['User'],      sub:'trades/discovers', col:'#9945ff', bg:'#faf5ff'},
+    {id:'dev',    x:310,y:46,   label:['Developer'], sub:'lists token/dApp', col:'#14f195', bg:'#f0fff4'},
+    {id:'market', x:210,y:148,  label:['Synesxi'],   sub:'marketplace hub',  col:'#1a56db', bg:'#eff6ff'},
+    {id:'lpad',   x:100,y:248,  label:['Launchpad'], sub:'IDO / presale',    col:'#dd6b20', bg:'#fff7ed'},
+    {id:'stake',  x:310,y:248,  label:['Staking'],   sub:'NESXI staked',     col:'#7c3aed', bg:'#f5f3ff'},
+    {id:'dao',    x:210,y:334,  label:['Treasury'],  sub:'DAO governed',     col:'#1a56db', bg:'#eff6ff'},
+  ];
+  const edges=[
+    {from:'user',  to:'market',  lbl:'pays NESXI'},
+    {from:'dev',   to:'market',  lbl:'lists/vets'},
+    {from:'market',to:'lpad',    lbl:'launchpad'},
+    {from:'market',to:'stake',   lbl:'staking'},
+    {from:'stake', to:'user',    lbl:'rewards'},
+    {from:'lpad',  to:'dao',     lbl:'fees'},
+    {from:'dao',   to:'market',  lbl:'treasury'},
+    {from:'market',to:'user',    lbl:'DYOR tools'},
+  ];
+  function nodeById(id){return nodes.find(n=>n.id===id);}
+  edges.forEach(e=>{
+    const s=nodeById(e.from),t=nodeById(e.to);
+    const dx=t.x-s.x,dy=t.y-s.y,len=Math.sqrt(dx*dx+dy*dy);
+    const sx=s.x+dx/len*(R+2),sy=s.y+dy/len*(R+2);
+    const tx=t.x-dx/len*(R+4),ty=t.y-dy/len*(R+4);
+    const mx=(sx+tx)/2,my=(sy+ty)/2;
+    const line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',sx);line.setAttribute('y1',sy);line.setAttribute('x2',tx);line.setAttribute('y2',ty);
+    line.setAttribute('stroke','#b0bec5');line.setAttribute('stroke-width','1.5');
+    line.setAttribute('marker-end','url(#arr)');svg.appendChild(line);
+    const tw=e.lbl.length*5.5+8;
+    const rect=document.createElementNS(ns,'rect');
+    rect.setAttribute('x',mx-tw/2);rect.setAttribute('y',my-8);
+    rect.setAttribute('width',tw);rect.setAttribute('height',13);
+    rect.setAttribute('rx','3');rect.setAttribute('fill','white');rect.setAttribute('opacity','0.85');
+    svg.appendChild(rect);
+    const lt=document.createElementNS(ns,'text');
+    lt.setAttribute('x',mx);lt.setAttribute('y',my+1);
+    lt.setAttribute('text-anchor','middle');lt.setAttribute('dominant-baseline','middle');
+    lt.setAttribute('font-size','8');lt.setAttribute('font-family','-apple-system,sans-serif');
+    lt.setAttribute('fill','#90a4ae');lt.textContent=e.lbl;svg.appendChild(lt);
+  });
+  nodes.forEach(n=>{
+    const g=document.createElementNS(ns,'g');
+    const circle=document.createElementNS(ns,'circle');
+    circle.setAttribute('cx',n.x);circle.setAttribute('cy',n.y);circle.setAttribute('r',R);
+    circle.setAttribute('fill',n.bg);circle.setAttribute('stroke',n.col);circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+    const lineH=11,startY=n.y-(n.sub?8:5);
+    n.label.forEach((line,li)=>{
+      const t=document.createElementNS(ns,'text');
+      t.setAttribute('x',n.x);t.setAttribute('y',startY+li*lineH);
+      t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+      t.setAttribute('font-size','9');t.setAttribute('font-family','-apple-system,sans-serif');
+      t.setAttribute('font-weight','700');t.setAttribute('fill',n.col);
+      t.textContent=line;g.appendChild(t);
+    });
+    const subY=startY+n.label.length*lineH+2;
+    if(subY<n.y+R-6){
+      const ts=document.createElementNS(ns,'text');
+      ts.setAttribute('x',n.x);ts.setAttribute('y',subY);
+      ts.setAttribute('text-anchor','middle');ts.setAttribute('dominant-baseline','middle');
+      ts.setAttribute('font-size','7.5');ts.setAttribute('font-family','-apple-system,sans-serif');
+      ts.setAttribute('fill','#718096');ts.textContent=n.sub;g.appendChild(ts);
+    }
+    svg.appendChild(g);
+  });
+})();
+
+function tog(el){
+  el.querySelector('.insight-body').classList.toggle('open');
+  el.querySelector('.chevron').classList.toggle('open');
+}
+</script>
+</body>
+</html>
